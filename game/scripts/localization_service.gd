@@ -1,12 +1,14 @@
 extends RefCounted
 
 const TABLE_PATH := "res://data/localization.csv"
+const MANIFEST_PATH := "res://data/localization_manifest.json"
 const DEFAULT_LANGUAGE := "en"
 const LANGUAGE_CODES := ["en", "zh_TW", "zh_CN", "ja", "ko", "fr", "de", "it", "ru", "es_ES", "pt_BR"]
 
 var current_language := DEFAULT_LANGUAGE
 var _rows := {}
 var _column_index := {}
+var _manifest_rows := {}
 
 
 func _init(language_code: String = DEFAULT_LANGUAGE) -> void:
@@ -17,6 +19,9 @@ func _init(language_code: String = DEFAULT_LANGUAGE) -> void:
 func load_table() -> void:
 	_rows.clear()
 	_column_index.clear()
+	_manifest_rows.clear()
+	if _load_manifest():
+		return
 	var file := FileAccess.open(TABLE_PATH, FileAccess.READ)
 	if file == null:
 		return
@@ -30,6 +35,20 @@ func load_table() -> void:
 		if row.is_empty() or str(row[0]) == "":
 			continue
 		_rows[str(row[0])] = row
+
+
+func _load_manifest() -> bool:
+	var file := FileAccess.open(MANIFEST_PATH, FileAccess.READ)
+	if file == null:
+		return false
+	var parsed = JSON.parse_string(file.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return false
+	var rows = parsed.get("rows", {})
+	if typeof(rows) != TYPE_DICTIONARY:
+		return false
+	_manifest_rows = rows
+	return not _manifest_rows.is_empty()
 
 
 func set_language(language_code: String) -> void:
@@ -58,6 +77,15 @@ func language_name(language_code: String = "") -> String:
 
 
 func translate(key: String) -> String:
+	if _manifest_rows.has(key):
+		var entry = _manifest_rows[key]
+		if typeof(entry) == TYPE_DICTIONARY:
+			var translated := str(entry.get(current_language, ""))
+			if translated != "":
+				return translated
+			var fallback := str(entry.get(DEFAULT_LANGUAGE, ""))
+			if fallback != "":
+				return fallback
 	if not _rows.has(key):
 		return key
 	var row: PackedStringArray = _rows[key]

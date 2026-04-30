@@ -4,6 +4,7 @@ const ContentUnlockService = preload("res://scripts/content_unlock_service.gd")
 
 const ASSET_ROOT := "res://assets/spine/backgrounds"
 const TARGET_VIEWPORT_SIZE := Vector2(1152, 648)
+const RELEASE_FALLBACK_SCALE := 0.50
 
 var root_2d: Node2D
 var selected_context := {}
@@ -99,14 +100,12 @@ func fit_to_viewport() -> void:
 		viewport_size = TARGET_VIEWPORT_SIZE
 
 	if not spine_sprite.has_method("_edit_get_rect"):
-		spine_sprite.scale = Vector2.ONE * 0.43
-		spine_sprite.position = viewport_size * 0.5
+		_fit_with_release_fallback(viewport_size)
 		return
 
 	var skeleton = spine_sprite.get_skeleton()
 	if skeleton == null:
-		spine_sprite.scale = Vector2.ONE * 0.43
-		spine_sprite.position = viewport_size * 0.5
+		_fit_with_release_fallback(viewport_size)
 		return
 	skeleton.update_world_transform()
 	var bounds: Rect2 = spine_sprite.call("_edit_get_rect")
@@ -116,6 +115,15 @@ func fit_to_viewport() -> void:
 	var scale_factor: float = max(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y) * 1.02
 	spine_sprite.scale = Vector2.ONE * scale_factor
 	spine_sprite.position = viewport_size * 0.5 - (bounds.position + bounds.size * 0.5) * scale_factor
+
+
+func _fit_with_release_fallback(viewport_size: Vector2) -> void:
+	var scale_factor: float = RELEASE_FALLBACK_SCALE * max(
+		viewport_size.x / TARGET_VIEWPORT_SIZE.x,
+		viewport_size.y / TARGET_VIEWPORT_SIZE.y
+	)
+	spine_sprite.scale = Vector2.ONE * scale_factor
+	spine_sprite.position = viewport_size * 0.5
 
 
 func select_variant() -> String:

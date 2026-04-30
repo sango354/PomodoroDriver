@@ -1,6 +1,8 @@
 tools/
+builds/
 game/.godot/
 game/.import/
 game/export.cfg
 game/export_presets.cfg
-
+game/data/music_manifest.json
+game/data/localization_manifest.json

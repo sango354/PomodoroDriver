@@ -10,6 +10,7 @@ const ICON_MUSIC_PAUSE_PATH := "res://assets/icons/musicpause.png"
 const ICON_MUSIC_PLAY_PATH := "res://assets/icons/musicplay.png"
 const ICON_NEXT_PATH := "res://assets/icons/next.png"
 const ICON_PREVIOUS_PATH := "res://assets/icons/previous.png"
+const MUSIC_MANIFEST_PATH := "res://data/music_manifest.json"
 
 var music_player: AudioStreamPlayer
 var music_bar: Control
@@ -168,6 +169,7 @@ func _scan_music_files() -> void:
 			var ext := file_name.get_extension().to_lower()
 			if ext == "ogg" or ext == "mp3" or ext == "wav":
 				music_files.append("%s/%s" % [MUSIC_ROOT, file_name])
+	_load_music_manifest()
 	music_files.sort()
 	_refresh_music_list()
 	if music_files.is_empty():
@@ -178,6 +180,24 @@ func _scan_music_files() -> void:
 			_play_current_music()
 		else:
 			_update_track_label()
+
+
+func _load_music_manifest() -> void:
+	var file := FileAccess.open(MUSIC_MANIFEST_PATH, FileAccess.READ)
+	if file == null:
+		return
+	var parsed = JSON.parse_string(file.get_as_text())
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return
+	var files = parsed.get("files", [])
+	if typeof(files) != TYPE_ARRAY:
+		return
+	for path in files:
+		var music_path := str(path)
+		if music_path == "":
+			continue
+		if not music_files.has(music_path):
+			music_files.append(music_path)
 
 
 func _refresh_music_list() -> void:
