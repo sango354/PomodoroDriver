@@ -1,6 +1,6 @@
 # Manual QA Checklist
 
-Last updated: 2026-04-29
+Last updated: 2026-05-03
 
 Use this checklist after UI, timer, companion, media, localization, or save/load
 changes. Run the headless checks first, then verify the windowed game manually.
@@ -11,6 +11,8 @@ changes. Run the headless checks first, then verify the windowed game manually.
 E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --quit
 E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game res://scenes/spine_background_probe.tscn --quit
 E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --script res://scripts/break_media_probe.gd
+E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --script res://scripts/room_spine_probe.gd
+E:\ProjectPomodoro\build-windows.cmd
 ```
 
 ## Result Panel
@@ -27,6 +29,8 @@ E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless
 - Confirm the Store panel opens centered on screen and above the Pomodoro rail.
 - Confirm each background item shows a placeholder name and Focus Point cost.
 - Confirm default unlocked items are shown as unlocked and cannot be purchased.
+- Confirm Room Background 01 and Room Background 02 are listed as unlocked
+  background content.
 - Click a locked item and confirm the purchase dialog opens.
 - Click outside the purchase dialog and confirm only the confirmation closes.
 - Purchase a locked item with enough Focus Points and confirm Focus Points are
@@ -35,17 +39,30 @@ E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless
 - Confirm locked contextual backgrounds fall back to a normal unlocked
   background.
 
+## Background Selection
+
+- Confirm the `BG` button appears next to the bottom-right time-cycle button.
+- Click `BG` and confirm the menu opens above the music bar.
+- Confirm the menu contains Lo-fi, Background 01, and Background 02.
+- Select Lo-fi and confirm the original context-driven Lo-fi Spine background
+  behavior returns.
+- Select Background 01 and confirm the Room Spine background loads.
+- Select Background 02 and confirm the second Room Spine background loads.
+- Cycle Day, Sunset, Night, and Cloudy while Background 01 and Background 02
+  are selected, and confirm the Room animation changes without layout jumps.
+- Restart the game and confirm the selected background mode persists.
+
 ## Debug UI Controls
 
 - `A` toggles Simple Mode and hides most UI while keeping Tasks and Pomodoro
   visible.
 - `B` toggles Tasks UI.
 - `C` toggles Pomodoro UI.
-- `時間` cycles Day, Sunset, Night, and Cloudy background contexts.
 - `F1` adds 100 Focus Points and updates the top-right Focus Points tooltip.
 - Time button cycles Day, Sunset, Night, and Cloudy background contexts.
-- `A`, `B`, `C`, and Time sit on the music bar background immediately left of
-  the ambience button, without a separate backing panel.
+- `BG` opens the background selection menu.
+- `A`, `B`, `C`, Time, `BG`, and ambience sit on the music bar background
+  without a separate backing panel.
 
 ## Timer
 

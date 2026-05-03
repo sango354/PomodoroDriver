@@ -1,0 +1,13 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://6lxoqjmlowrw"
+path="res://.godot/imported/Room.skel-0c1d741db78be840d9120fe9c56efee8.spskel"
+
+[deps]
+
+source_file="res://assets/spine/backgrounds/Room/Room.skel"
+dest_files=["res://.godot/imported/Room.skel-0c1d741db78be840d9120fe9c56efee8.spskel"]
+
+[params]

@@ -119,6 +119,34 @@
 				"time": "sunfall",
 				"weather": "clear"
 			}
+		},
+		{
+			"content_id": "room_bg_01",
+			"display_name_key": "content.room_bg_01",
+			"spine_variant": "Room",
+			"background_family": "room",
+			"room_background_id": "room_bg_01",
+			"default_unlocked": true,
+			"cost_focus_points": 100,
+			"context_requirement": {
+				"mood": "normal",
+				"time": "day",
+				"weather": "clear"
+			}
+		},
+		{
+			"content_id": "room_bg_02",
+			"display_name_key": "content.room_bg_02",
+			"spine_variant": "Room",
+			"background_family": "room",
+			"room_background_id": "room_bg_02",
+			"default_unlocked": true,
+			"cost_focus_points": 100,
+			"context_requirement": {
+				"mood": "normal",
+				"time": "day",
+				"weather": "clear"
+			}
 		}
 	]
 }

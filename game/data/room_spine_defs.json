@@ -1,0 +1,27 @@
+{
+	"rooms": [
+		{
+			"room_id": "room_01",
+			"display_name_key": "room.room_01.name",
+			"spine_variant": "Room",
+			"skeleton_path": "res://assets/spine/backgrounds/Room/Room.skel",
+			"atlas_path": "res://assets/spine/backgrounds/Room/Room.atlas",
+			"atlas_texture_path": "res://assets/spine/backgrounds/Room/Room.png",
+			"backgrounds": [
+				{
+					"background_id": "room_bg_01",
+					"atlas_region": "BG01",
+					"slots": ["BG_A_01", "BG_A_02", "BG_A_03"],
+					"animations": ["01", "02", "03", "04", "06", "07", "08", "11", "12"]
+				},
+				{
+					"background_id": "room_bg_02",
+					"atlas_region": "BG02",
+					"slots": ["BG_B", "BG_B_01"],
+					"animations": ["05", "09", "10", "13", "14", "15", "16", "17", "18"]
+				}
+			],
+			"empty_or_setup_animations": ["00"]
+		}
+	]
+}

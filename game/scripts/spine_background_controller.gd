@@ -5,6 +5,34 @@ const ContentUnlockService = preload("res://scripts/content_unlock_service.gd")
 const ASSET_ROOT := "res://assets/spine/backgrounds"
 const TARGET_VIEWPORT_SIZE := Vector2(1152, 648)
 const RELEASE_FALLBACK_SCALE := 0.50
+const BACKGROUND_LOFI_AUTO := "lofi_auto"
+
+const ROOM_ANIMATION_RULES := {
+	"room_bg_01": {
+		"normal_day_clear": "01",
+		"normal_sunfall_clear": "02",
+		"normal_night_clear": "03",
+		"normal_day_rain": "04",
+		"good_day_clear": "06",
+		"good_night_clear": "07",
+		"good_sunfall_clear": "08",
+		"troubled_day_clear": "11",
+		"troubled_night_clear": "12",
+		"troubled_sunfall_clear": "12"
+	},
+	"room_bg_02": {
+		"normal_day_clear": "05",
+		"normal_sunfall_clear": "09",
+		"normal_night_clear": "10",
+		"normal_day_rain": "05",
+		"good_day_clear": "13",
+		"good_night_clear": "14",
+		"good_sunfall_clear": "15",
+		"troubled_day_clear": "16",
+		"troubled_night_clear": "17",
+		"troubled_sunfall_clear": "18"
+	}
+}
 
 var root_2d: Node2D
 var selected_context := {}
@@ -12,13 +40,16 @@ var background_defs: Array = []
 var unlocked_content: Array = []
 var spine_sprite: Node = null
 var current_spine_variant := ""
+var current_animation := ""
+var selected_background_id := BACKGROUND_LOFI_AUTO
 
 
-func setup(world_root: Node2D, context: Dictionary, content_defs: Array = [], content_unlocks: Array = []) -> void:
+func setup(world_root: Node2D, context: Dictionary, content_defs: Array = [], content_unlocks: Array = [], background_id: String = BACKGROUND_LOFI_AUTO) -> void:
 	root_2d = world_root
 	selected_context = context
 	background_defs = content_defs
 	unlocked_content = content_unlocks
+	selected_background_id = background_id
 	get_viewport().size_changed.connect(fit_to_viewport)
 
 
@@ -27,14 +58,21 @@ func set_content_state(content_defs: Array, content_unlocks: Array) -> void:
 	unlocked_content = content_unlocks
 
 
+func set_selected_background(background_id: String) -> void:
+	selected_background_id = background_id
+
+
 func load_selected_background() -> void:
-	load_background(select_variant())
+	var target := select_target()
+	load_background(str(target.get("variant", "")), str(target.get("animation", "")))
 
 
-func load_background(variant: String) -> void:
+func load_background(variant: String, animation_name: String = "") -> void:
 	if current_spine_variant == variant and spine_sprite != null:
+		play_animation(spine_sprite, animation_name)
 		return
 	current_spine_variant = variant
+	current_animation = ""
 
 	if spine_sprite != null:
 		spine_sprite.queue_free()
@@ -65,11 +103,11 @@ func load_background(variant: String) -> void:
 	spine_sprite.name = "SpineBackground"
 	spine_sprite.set("skeleton_data_res", data_res)
 	root_2d.add_child(spine_sprite)
-	play_loop(spine_sprite)
+	play_animation(spine_sprite, animation_name)
 	fit_to_viewport()
 
 
-func play_loop(sprite: Node) -> void:
+func play_animation(sprite: Node, requested_animation: String = "") -> void:
 	if not sprite.has_method("get_skeleton") or not sprite.has_method("get_animation_state"):
 		return
 	var skeleton = sprite.get_skeleton()
@@ -82,6 +120,11 @@ func play_loop(sprite: Node) -> void:
 	if animations.is_empty():
 		return
 	var animation_name: String = animations[0].get_name()
+	if requested_animation != "":
+		for animation in animations:
+			if animation.get_name() == requested_animation:
+				animation_name = requested_animation
+				break
 	for animation in animations:
 		if animation.get_name() == "Loop":
 			animation_name = "Loop"
@@ -89,6 +132,9 @@ func play_loop(sprite: Node) -> void:
 	var animation_state = sprite.get_animation_state()
 	if animation_state == null:
 		return
+	if current_animation == animation_name:
+		return
+	current_animation = animation_name
 	animation_state.set_animation(animation_name, true, 0)
 
 
@@ -127,29 +173,60 @@ func _fit_with_release_fallback(viewport_size: Vector2) -> void:
 
 
 func select_variant() -> String:
+	return str(select_target().get("variant", ""))
+
+
+func select_target() -> Dictionary:
+	if selected_background_id != BACKGROUND_LOFI_AUTO:
+		var definition := ContentUnlockService.find_by_content_id(background_defs, selected_background_id)
+		if not definition.is_empty() and ContentUnlockService.is_unlocked(definition, unlocked_content):
+			return {
+				"variant": str(definition.get("spine_variant", "Room")),
+				"animation": _room_animation_for_context(str(definition.get("room_background_id", selected_background_id)))
+			}
+
 	if not background_defs.is_empty():
-		return ContentUnlockService.background_variant_for_context(selected_context, background_defs, unlocked_content)
+		return {
+			"variant": ContentUnlockService.background_variant_for_context(selected_context, background_defs, unlocked_content),
+			"animation": ""
+		}
 
 	var mood := str(selected_context.mood)
 	var time := str(selected_context.time)
 	if mood == "normal":
 		if time == "night":
-			return "LofiBG_01_Nomal_Night"
+			return {"variant": "LofiBG_01_Nomal_Night", "animation": ""}
 		if time == "sunfall":
-			return "LofiBG_01_Nomal_Sunfall"
+			return {"variant": "LofiBG_01_Nomal_Sunfall", "animation": ""}
 		if selected_context.weather == "rain":
-			return "LofiBG_01_Nomal_Cloudy"
-		return "LofiBG_01_Nomal_Day"
+			return {"variant": "LofiBG_01_Nomal_Cloudy", "animation": ""}
+		return {"variant": "LofiBG_01_Nomal_Day", "animation": ""}
 	if mood == "good":
 		if time == "night":
-			return "LofiBG_01_Good_Night"
+			return {"variant": "LofiBG_01_Good_Night", "animation": ""}
 		if time == "sunfall":
-			return "LofiBG_01_Good_Sunfall"
-		return "LofiBG_01_Good_Day"
+			return {"variant": "LofiBG_01_Good_Sunfall", "animation": ""}
+		return {"variant": "LofiBG_01_Good_Day", "animation": ""}
 	if mood == "troubled":
 		if time == "night":
-			return "LofiBG_01_Troubled_Night"
+			return {"variant": "LofiBG_01_Troubled_Night", "animation": ""}
 		if time == "sunfall":
-			return "LofiBG_01_Troubled_Sunfall"
-		return "LofiBG_01_Troubled_Day"
-	return "LofiBG_01_Nomal_Day"
+			return {"variant": "LofiBG_01_Troubled_Sunfall", "animation": ""}
+		return {"variant": "LofiBG_01_Troubled_Day", "animation": ""}
+	return {"variant": "LofiBG_01_Nomal_Day", "animation": ""}
+
+
+func _room_animation_for_context(room_background_id: String) -> String:
+	var rules: Dictionary = ROOM_ANIMATION_RULES.get(room_background_id, {})
+	var key := "%s_%s_%s" % [
+		str(selected_context.get("mood", "normal")),
+		str(selected_context.get("time", "day")),
+		str(selected_context.get("weather", "clear"))
+	]
+	if rules.has(key):
+		return str(rules[key])
+	var clear_key := "%s_%s_clear" % [
+		str(selected_context.get("mood", "normal")),
+		str(selected_context.get("time", "day"))
+	]
+	return str(rules.get(clear_key, rules.get("normal_day_clear", "01")))

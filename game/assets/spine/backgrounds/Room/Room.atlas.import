@@ -1,0 +1,15 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://j1qjiidlf8q5"
+path="res://.godot/imported/Room.atlas-7e61dd34f9482c673d07e21f3b58a09a.spatlas"
+
+[deps]
+
+source_file="res://assets/spine/backgrounds/Room/Room.atlas"
+dest_files=["res://.godot/imported/Room.atlas-7e61dd34f9482c673d07e21f3b58a09a.spatlas"]
+
+[params]
+
+normal_map_prefix="n"

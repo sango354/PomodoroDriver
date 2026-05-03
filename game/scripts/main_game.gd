@@ -38,6 +38,7 @@ const AMBIENT_PROMPT_LOW_IDLE_INTERVAL_SEC := 90
 const AMBIENT_PROMPT_NORMAL_IDLE_INTERVAL_SEC := 3 * 60
 const AMBIENT_PROMPT_FOCUS_INTERVAL_SEC := 8 * 60
 const AMBIENT_PROMPT_VISIBLE_SEC := 8.0
+const BACKGROUND_LOFI_AUTO := "lofi_auto"
 
 var app_state := "idle"
 var session_mode := "focus"
@@ -92,6 +93,7 @@ var app_container: Control
 var message_label: Label
 var top_bar: Control
 var bottom_mode_controls: Control
+var background_menu_panel: PanelContainer
 var fp_label: Button
 var level_label: Button
 var bond_label: Button
@@ -124,6 +126,7 @@ var simple_mode_enabled := false
 var tasks_ui_visible := true
 var timer_ui_visible := true
 var manual_time_state := "day"
+var selected_background_id := BACKGROUND_LOFI_AUTO
 
 
 func _ready() -> void:
@@ -173,7 +176,7 @@ func _build_scene() -> void:
 
 	spine_background = SpineBackgroundController.new()
 	add_child(spine_background)
-	spine_background.setup(root_2d, selected_context, background_defs, unlocked_content)
+	spine_background.setup(root_2d, selected_context, background_defs, unlocked_content, selected_background_id)
 
 	ui_layer = CanvasLayer.new()
 	ui_layer.name = "UI"
@@ -340,7 +343,7 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	panel.anchor_top = 1.0
 	panel.anchor_right = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -330
+	panel.offset_left = -390
 	panel.offset_top = -50
 	panel.offset_right = -64
 	panel.offset_bottom = 0
@@ -373,6 +376,88 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	time_button.custom_minimum_size = Vector2(58, 32)
 	time_button.pressed.connect(_cycle_time_context)
 	row.add_child(time_button)
+
+	var background_button := _new_icon_button("BG", "Background")
+	background_button.custom_minimum_size = Vector2(46, 32)
+	background_button.pressed.connect(_toggle_background_menu)
+	row.add_child(background_button)
+
+	_build_background_menu(parent)
+
+
+func _build_background_menu(parent: Control) -> void:
+	background_menu_panel = _new_panel()
+	background_menu_panel.name = "BackgroundMenu"
+	background_menu_panel.visible = false
+	background_menu_panel.z_index = 170
+	background_menu_panel.anchor_left = 1.0
+	background_menu_panel.anchor_top = 1.0
+	background_menu_panel.anchor_right = 1.0
+	background_menu_panel.anchor_bottom = 1.0
+	background_menu_panel.offset_left = -250
+	background_menu_panel.offset_top = -206
+	background_menu_panel.offset_right = -64
+	background_menu_panel.offset_bottom = -58
+	parent.add_child(background_menu_panel)
+	_refresh_background_menu()
+
+
+func _refresh_background_menu() -> void:
+	if background_menu_panel == null:
+		return
+	var box: VBoxContainer
+	if background_menu_panel.get_child_count() == 0:
+		box = _panel_box(background_menu_panel)
+	else:
+		var margin := background_menu_panel.get_child(0)
+		box = margin.get_child(0) as VBoxContainer
+	for child in box.get_children():
+		child.queue_free()
+
+	var title := _new_title(localizer.translate("background_menu.title") if localizer != null else "Background")
+	title.add_theme_font_size_override("font_size", 16)
+	box.add_child(title)
+	for item in _background_menu_items():
+		var button := Button.new()
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.custom_minimum_size = Vector2(0, 30)
+		button.text = str(item.get("name", ""))
+		button.disabled = bool(item.get("locked", false))
+		button.tooltip_text = str(item.get("tooltip", ""))
+		button.pressed.connect(_select_background.bind(str(item.get("id", BACKGROUND_LOFI_AUTO))))
+		box.add_child(button)
+
+
+func _background_menu_items() -> Array:
+	var items := [
+		{
+			"id": BACKGROUND_LOFI_AUTO,
+			"name": _selected_prefix(BACKGROUND_LOFI_AUTO) + localizer.translate("background_menu.lofi"),
+			"locked": false,
+			"tooltip": localizer.translate("background_menu.lofi")
+		}
+	]
+	for entry in [
+		{"id": "room_bg_01", "key": "background_menu.room_01"},
+		{"id": "room_bg_02", "key": "background_menu.room_02"}
+	]:
+		var content_id: String = str(entry.id)
+		var definition := ContentUnlockService.find_by_content_id(background_defs, content_id)
+		var locked: bool = definition.is_empty() or not ContentUnlockService.is_unlocked(definition, unlocked_content)
+		var label: String = localizer.translate(str(entry.key))
+		if locked:
+			label = "%s  -  %s" % [label, localizer.translate("background_menu.locked")]
+		items.append({
+			"id": content_id,
+			"name": _selected_prefix(content_id) + label,
+			"locked": locked,
+			"tooltip": label
+		})
+	return items
+
+
+func _selected_prefix(background_id: String) -> String:
+	return "✓ " if selected_background_id == background_id else ""
 
 
 func _build_stats_overlay(parent: Control) -> void:
@@ -896,6 +981,7 @@ func _refresh_localized_text() -> void:
 		option_controller.refresh_text()
 	if store_controller != null and store_controller.has_method("set_localizer"):
 		store_controller.set_localizer(localizer)
+	_refresh_background_menu()
 	_refresh_all()
 
 
@@ -986,6 +1072,8 @@ func _apply_ui_visibility() -> void:
 		_hide_ambient_prompt()
 	if break_media_controller != null and simple_mode_enabled:
 		_stop_break_media()
+	if background_menu_panel != null and simple_mode_enabled:
+		background_menu_panel.visible = false
 
 
 func _cycle_time_context() -> void:
@@ -1007,6 +1095,23 @@ func _cycle_time_context() -> void:
 			selected_context.time = "day"
 			selected_context.weather = "clear"
 	spine_background.load_selected_background()
+
+
+func _toggle_background_menu() -> void:
+	if background_menu_panel == null:
+		return
+	_refresh_background_menu()
+	background_menu_panel.visible = not background_menu_panel.visible
+
+
+func _select_background(background_id: String) -> void:
+	selected_background_id = background_id
+	if background_menu_panel != null:
+		background_menu_panel.visible = false
+	if spine_background != null and spine_background.has_method("set_selected_background"):
+		spine_background.set_selected_background(selected_background_id)
+		spine_background.load_selected_background()
+	_save_game()
 
 
 func _toggle_store_panel() -> void:
@@ -1031,6 +1136,7 @@ func _on_store_purchase_requested(content_id: String) -> void:
 		if spine_background != null and spine_background.has_method("set_content_state"):
 			spine_background.set_content_state(background_defs, unlocked_content)
 			spine_background.load_selected_background()
+		_refresh_background_menu()
 		if store_controller != null:
 			store_controller.refresh_items(_store_items())
 			store_controller.show_status(localizer.translate("store.purchase_success"))
@@ -1175,8 +1281,11 @@ func _load_save() -> void:
 		break_media_enabled = bool(app_settings.get("break_media_enabled", break_media_enabled))
 		break_media_path = str(app_settings.get("break_media_path", break_media_path))
 		ambient_prompt_frequency = str(app_settings.get("ambient_prompt_frequency", ambient_prompt_frequency))
+		selected_background_id = str(app_settings.get("selected_background_id", selected_background_id))
 		if ambient_prompt_frequency != AMBIENT_PROMPT_LOW and ambient_prompt_frequency != AMBIENT_PROMPT_NORMAL and ambient_prompt_frequency != AMBIENT_PROMPT_OFF:
 			ambient_prompt_frequency = AMBIENT_PROMPT_NORMAL
+		if selected_background_id == "":
+			selected_background_id = BACKGROUND_LOFI_AUTO
 
 
 func _save_game() -> void:
@@ -1207,7 +1316,8 @@ func _save_game() -> void:
 			"language": language_code,
 			"break_media_enabled": break_media_enabled,
 			"break_media_path": break_media_path,
-			"ambient_prompt_frequency": ambient_prompt_frequency
+			"ambient_prompt_frequency": ambient_prompt_frequency,
+			"selected_background_id": selected_background_id
 		}
 	}
 	SaveDataService.save_payload(SAVE_PATH, payload)
