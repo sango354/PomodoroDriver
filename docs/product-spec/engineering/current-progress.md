@@ -1,6 +1,6 @@
 # Current Development Progress
 
-Last updated: 2026-05-03
+Last updated: 2026-05-05
 
 This document records the current implementation state so work can continue
 from another machine without relying on chat history.
@@ -93,7 +93,12 @@ Implemented:
 - Task title is directly editable in-place.
 - Long task titles are truncated in display form and expose full text via tooltip.
 - Local persistence to `user://save.json` for tasks, sessions, progress, and stats.
-- Top-right icon HUD for Focus Points, Level, Bond, Unlocks, and Stats.
+- Focus Points and Focus Level now use a compact Tasks-adjacent HUD beside the
+  task add button. It shows a diamond + compact Focus Points value, plus a
+  circular level badge and XP progress bar. Tooltips still expose exact Focus
+  Points and XP/level progress.
+- Top-right icon HUD now keeps Bond, Unlocks, Store, Dialogue Gallery, Stats,
+  and Options.
 - Bottom music bar with list, previous, play/pause, next, loop toggle, and volume slider.
 - Bottom music controls use icon-only buttons for list, previous, play/pause,
   next, loop, and ambience.
@@ -170,24 +175,59 @@ Implemented:
     text companion panel without interrupting the timer.
 - Music folder scanning from `res://assets/music`.
 - MP3 fallback loading via `AudioStreamMP3` when imported resources are unavailable.
+- Added a first data-driven AVG dialogue system:
+  - runtime data: `game/data/avg_dialogue_defs.json`
+  - loader/state helper: `game/scripts/avg_dialogue_service.gd`
+  - full-screen dialogue UI: `game/scripts/avg_dialogue_controller.gd`
+  - gallery UI: `game/scripts/avg_gallery_controller.gd`
+  - viewed dialogue state is tracked in `interaction_history` as
+    `avg_dialogue_viewed`.
+  - AVG dialogue lines support per-line `speaker_key`, `text_key`, and
+    `background_path`.
+  - Trigger timing is intentionally not finalized. Runtime exposes
+    `_start_avg_dialogue_for_trigger(trigger_key)` in `main_game.gd` for later
+    binding to session, unlock, story, or mission events.
+- Added a top-right Dialogue Gallery button (`DG`):
+  - Opens a gallery of `type = main` AVG dialogue entries.
+  - Unviewed entries show grayscale thumbnails and are disabled.
+  - Viewed entries show normal thumbnails and can be replayed.
+- Updated current dialogue copy toward the next theme direction: a female
+  succubus night taxi driver. Current timer, break, ambient, and AVG sample
+  lines now use fare/meter/route/rest-stop language while keeping gameplay
+  mechanics unchanged.
+- Localization loading now reads CSV first and uses generated
+  `localization_manifest.json` only as fallback, so local stale manifests do not
+  override freshly edited CSV text during development.
 
 ## Current UI Layout
 
+- Top-left: Tasks.
+  - Title and `+` button are aligned.
+  - Focus Points / Focus Level HUD sits immediately to the right of the task
+    add button.
+  - Focus Points display compact values: `1000` -> `1K`, `1255` -> `1.25K`.
+  - Focus Level display uses a circular badge and XP progress bar.
+  - Focus Points and Focus Level tooltips show exact numeric state.
+  - No global task input field.
+  - Each task has its own checkbox, editable text field, and delete/archive button.
 - Top-right: compact icon HUD.
-  - `FP`: Focus Points tooltip.
-  - `LV`: Focus Level / XP tooltip.
   - `BD`: Bond tooltip.
   - `UL`: Unlocks placeholder.
+  - `SH`: Store.
+  - `DG`: Dialogue Gallery.
   - `ST`: Stats toggle.
   - `OP`: opens Options.
 - Options panel:
   - Currently contains language switching with previous/next arrow buttons.
   - Language switching updates the main UI labels/tooltips immediately.
   - Contains a Break Video switch for Break media playback.
-- Top-left: Tasks.
-  - Title and `+` button are aligned.
-  - No global task input field.
-  - Each task has its own checkbox, editable text field, and delete/archive button.
+- AVG Dialogue:
+  - Full-screen overlay with a per-line background image, speaker name,
+    dialogue text, continuation prompt, Next/Finish, and Close.
+  - Current prototype data uses Spine PNG exports as thumbnail/background
+    placeholders.
+  - Gallery replay is the only user-facing entry point until trigger timing is
+    specified.
 - Right side: narrow Pomodoro timer rail.
   - Focus state.
 - Focus time display. White means running; gray means inactive or paused.
@@ -346,8 +386,14 @@ re-exported from Spine 4.1.x with premultiplied alpha disabled.
   supplied.
 - `UL` unlocks is a placeholder.
 - `ST` only toggles a compact stats text display.
-- No real inventory, unlock, mission, achievement, or companion dialogue system
-  is implemented yet.
+- No final inventory, equipment, mission, or achievement system is implemented
+  yet.
+- AVG trigger timing is not defined yet. The gallery and replay path are
+  functional, but story unlock rules and automatic trigger points still need
+  product decisions.
+- Current female succubus taxi-driver theme is represented in text only. Visual
+  assets, naming, UI labels, and reward terminology are still largely inherited
+  from the Pomodoro prototype.
 - Break media playback has a simple prototype `.ogv` video asset. A final
   production video can replace `game/assets/videos/break/video.mp4` or use a
   supported `.mp4` path if the target Godot build supports it.
@@ -368,7 +414,19 @@ windowed QA pass for the latest UI/debug controls. Headless validation only
 catches script/runtime load errors; the current risk is layout and interaction
 behavior.
 
-1. Manually verify the bottom music bar and debug/background controls:
+1. Manually verify the top-left Tasks-adjacent Focus HUD:
+   - Focus Points sits just right of the task add button.
+   - Compact formatting shows `1K` for exactly 1000 and `1.25K` for 1255.
+   - Focus Level badge and XP bar are vertically aligned with the task header.
+   - Hover tooltips still show exact Focus Points and XP/level state.
+2. Manually verify Dialogue Gallery and AVG replay:
+   - `DG` opens the gallery.
+   - Unviewed dialogue entries are grayscale and disabled.
+   - After an AVG dialogue is viewed through a trigger or debug call, it is
+     stored as `avg_dialogue_viewed` in `interaction_history`.
+   - Viewed entries become normal-color thumbnails and can replay.
+   - AVG line backgrounds switch per line.
+3. Manually verify the bottom music bar and debug/background controls:
    - `A`, `B`, `C`, time-cycle, `BG`, and ambience sit together on the music
      bar background.
    - `A` hides most UI while keeping Tasks and Pomodoro available.
@@ -378,22 +436,22 @@ behavior.
    - `BG` opens the background menu and switches Lo-fi, Background 01, and
      Background 02.
    - `F1` adds 100 Focus Points and updates the top-right Focus Points tooltip.
-2. Manually verify Store modal behavior:
+4. Manually verify Store modal behavior:
    - Store opens centered and above the Pomodoro rail.
    - Store confirmation appears above the Store panel.
    - Clicking outside the confirmation cancels only the confirmation.
    - Purchases deduct Focus Points, persist after restart, and unlock the
      matching background content.
-3. Continue Inventory / Equipment design from the new background menu:
+5. Continue Inventory / Equipment design from the new background menu:
    - current behavior is a small runtime background selector;
    - next likely step is a full inventory/equipment panel with thumbnails,
      clearer locked states, and production unlock balancing.
-4. Add lightweight data integrity probes:
+6. Add lightweight data integrity probes:
    - every `background_defs.json` Spine variant exists under
      `game/assets/spine/backgrounds`;
    - every `display_name_key` exists in `game/data/localization.csv`;
    - every purchasable item has a positive Focus Point cost.
-5. Continue deferred settings/content work:
+7. Continue deferred settings/content work:
    - Break Video path setting
    - music autoplay setting
    - alarm sound selection
@@ -410,6 +468,48 @@ Deferred from the 2026-04-29 planning pass:
 - Music metadata table remains future work.
 
 ## Latest Validation
+
+2026-05-05:
+
+- Changed the active text direction toward a female succubus night taxi driver
+  theme:
+  - timer status messages now use fare/route/meter wording;
+  - Break and ambient companion lines now use cab/rest-stop/night-route wording;
+  - AVG sample dialogue uses `Night Driver` speaker and taxi route language.
+- Added AVG dialogue runtime and gallery:
+  - `game/data/avg_dialogue_defs.json`
+  - `game/scripts/avg_dialogue_service.gd`
+  - `game/scripts/avg_dialogue_controller.gd`
+  - `game/scripts/avg_gallery_controller.gd`
+- Added top-right `DG` button for the Dialogue Gallery.
+- Moved Focus Points and Focus Level out of the top-right HUD and into a
+  compact HUD aligned beside the task add button.
+- Focus Points compact display behavior:
+  - values under 1000 show normally;
+  - exactly 1000 displays as `1K`;
+  - values such as 1255 display as `1.25K`.
+- Focus Level now displays as a circular badge with an XP progress bar, while
+  tooltip text keeps exact XP progress.
+- Localization service now prefers CSV values over generated localization
+  manifests and uses manifests only as fallback.
+- Headless validation passed on `E:\Pomodoro-copy`:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+git diff --check
+```
+
+Remote handoff notes:
+
+- The Godot editor regenerated `game/data/localization.*.translation` resources
+  after localization CSV changes. Keep them with this commit so another machine
+  opens the project with matching imported translations.
+- `game/data/localization_manifest.json` remains a generated ignored build
+  artifact. It may contain old strings locally, but runtime now prefers CSV
+  values during development.
+- AVG trigger timing is still product work. Use
+  `_start_avg_dialogue_for_trigger(trigger_key)` in `main_game.gd` when binding
+  story events later.
 
 2026-05-03:
 
@@ -635,7 +735,11 @@ Files that are expected to exist locally for the current prototype:
 - `game/scripts/break_media_controller.gd`
 - `game/scripts/break_media_probe.gd`
 - `game/scripts/room_spine_probe.gd`
+- `game/scripts/avg_dialogue_service.gd`
+- `game/scripts/avg_dialogue_controller.gd`
+- `game/scripts/avg_gallery_controller.gd`
 - `game/data/dialogue_defs.json`
+- `game/data/avg_dialogue_defs.json`
 - `game/data/localization.csv`
 - `game/data/background_defs.json`
 - `game/data/room_spine_defs.json`

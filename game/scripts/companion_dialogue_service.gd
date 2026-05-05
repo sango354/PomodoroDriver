@@ -4,7 +4,7 @@ const DIALOGUE_PATH := "res://data/dialogue_defs.json"
 const FALLBACK_DIALOGUE := {
 	"dialogue_id": "break_fallback",
 	"text_key": "dialogue.break_fallback",
-	"text": "Take a short break. I will be here for the next round.",
+	"text": "Take a short stop. I will keep the cab ready for the next fare.",
 	"bond_requirement": 0,
 	"context_requirement": "any",
 	"cooldown_minutes": 0,
@@ -14,7 +14,7 @@ const FALLBACK_DIALOGUE := {
 const FALLBACK_AMBIENT_DIALOGUE := {
 	"dialogue_id": "ambient_fallback",
 	"text_key": "dialogue.ambient_fallback",
-	"text": "I am here. Keep an easy rhythm.",
+	"text": "I am at the wheel. Keep the ride smooth.",
 	"bond_requirement": 0,
 	"context_requirement": "any",
 	"cooldown_minutes": 8,

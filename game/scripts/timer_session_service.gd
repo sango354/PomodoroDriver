@@ -37,7 +37,7 @@ static func start_focus(duration_minutes: int, active_task_id: String) -> Dictio
 		"elapsed_sec": 0.0,
 		"session_started_at": Time.get_datetime_string_from_system(false, true),
 		"active_task_id": active_task_id,
-		"message": "Stay with it.",
+		"message": "Keep the fare moving.",
 		"message_key": "timer.message_focus"
 	}
 
@@ -53,7 +53,7 @@ static func pause() -> Dictionary:
 static func resume() -> Dictionary:
 	return {
 		"app_state": STATE_RUNNING,
-		"message": "Back in focus",
+		"message": "Back on route",
 		"message_key": "timer.message_resume"
 	}
 
@@ -78,7 +78,7 @@ static func start_break(break_duration_minutes: int) -> Dictionary:
 		"planned_duration_sec": break_duration_minutes * 60,
 		"elapsed_sec": 0.0,
 		"active_task_id": "",
-		"message": "Take a short break.",
+		"message": "Pulling into a quiet stop.",
 		"message_key": "timer.message_break"
 	}
 

@@ -1,0 +1,61 @@
+{
+	"dialogues": [
+		{
+			"dialogue_id": "avg_intro_001",
+			"type": "main",
+			"display_name_key": "avg.dialogue.intro_001.name",
+			"thumbnail_path": "res://assets/spine/backgrounds/LofiBG_01_Nomal_Day/LofiBG_01_Nomal_Day.png",
+			"trigger_key": "tbd",
+			"lines": [
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.intro_001.line_001",
+					"background_path": "res://assets/spine/backgrounds/LofiBG_01_Nomal_Day/LofiBG_01_Nomal_Day.png"
+				},
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.intro_001.line_002",
+					"background_path": "res://assets/spine/backgrounds/LofiBG_01_Nomal_Sunfall/LofiBG_01_Nomal_Sunfall.png"
+				}
+			]
+		},
+		{
+			"dialogue_id": "avg_break_001",
+			"type": "main",
+			"display_name_key": "avg.dialogue.break_001.name",
+			"thumbnail_path": "res://assets/spine/backgrounds/LofiBG_01_Good_Day/LofiBG_01_Good_Day.png",
+			"trigger_key": "tbd",
+			"lines": [
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.break_001.line_001",
+					"background_path": "res://assets/spine/backgrounds/LofiBG_01_Good_Day/LofiBG_01_Good_Day.png"
+				},
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.break_001.line_002",
+					"background_path": "res://assets/spine/backgrounds/LofiBG_01_Good_Night/LofiBG_01_Good_Night.png"
+				}
+			]
+		},
+		{
+			"dialogue_id": "avg_focus_001",
+			"type": "main",
+			"display_name_key": "avg.dialogue.focus_001.name",
+			"thumbnail_path": "res://assets/spine/backgrounds/Room/Room.png",
+			"trigger_key": "tbd",
+			"lines": [
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.focus_001.line_001",
+					"background_path": "res://assets/spine/backgrounds/Room/Room.png"
+				},
+				{
+					"speaker_key": "avg.speaker.companion",
+					"text_key": "avg.dialogue.focus_001.line_002",
+					"background_path": "res://assets/spine/backgrounds/LofiBG_01_Troubled_Day/LofiBG_01_Troubled_Day.png"
+				}
+			]
+		}
+	]
+}

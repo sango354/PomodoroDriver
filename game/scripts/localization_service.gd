@@ -20,8 +20,7 @@ func load_table() -> void:
 	_rows.clear()
 	_column_index.clear()
 	_manifest_rows.clear()
-	if _load_manifest():
-		return
+	_load_manifest()
 	var file := FileAccess.open(TABLE_PATH, FileAccess.READ)
 	if file == null:
 		return
@@ -77,6 +76,14 @@ func language_name(language_code: String = "") -> String:
 
 
 func translate(key: String) -> String:
+	if _rows.has(key):
+		var row: PackedStringArray = _rows[key]
+		var lang_index := int(_column_index.get(current_language, -1))
+		var fallback_index := int(_column_index.get(DEFAULT_LANGUAGE, -1))
+		if lang_index >= 0 and lang_index < row.size() and str(row[lang_index]) != "":
+			return str(row[lang_index])
+		if fallback_index >= 0 and fallback_index < row.size() and str(row[fallback_index]) != "":
+			return str(row[fallback_index])
 	if _manifest_rows.has(key):
 		var entry = _manifest_rows[key]
 		if typeof(entry) == TYPE_DICTIONARY:
@@ -86,15 +93,6 @@ func translate(key: String) -> String:
 			var fallback := str(entry.get(DEFAULT_LANGUAGE, ""))
 			if fallback != "":
 				return fallback
-	if not _rows.has(key):
-		return key
-	var row: PackedStringArray = _rows[key]
-	var lang_index := int(_column_index.get(current_language, -1))
-	var fallback_index := int(_column_index.get(DEFAULT_LANGUAGE, -1))
-	if lang_index >= 0 and lang_index < row.size() and str(row[lang_index]) != "":
-		return str(row[lang_index])
-	if fallback_index >= 0 and fallback_index < row.size() and str(row[fallback_index]) != "":
-		return str(row[fallback_index])
 	return key
 
 

@@ -16,6 +16,9 @@ const SessionRewardCoordinator = preload("res://scripts/session_reward_coordinat
 const BreakMediaController = preload("res://scripts/break_media_controller.gd")
 const ContentUnlockService = preload("res://scripts/content_unlock_service.gd")
 const StorePanelController = preload("res://scripts/store_panel_controller.gd")
+const AVGDialogueService = preload("res://scripts/avg_dialogue_service.gd")
+const AVGDialogueController = preload("res://scripts/avg_dialogue_controller.gd")
+const AVGGalleryController = preload("res://scripts/avg_gallery_controller.gd")
 
 const SAVE_PATH := "user://save.json"
 const ALARM_SOUND_PATH := "res://assets/sfx/alarm_placeholder.wav"
@@ -86,6 +89,8 @@ var task_controller: Node
 var result_controller: Node
 var break_media_controller: Node
 var store_controller: Node
+var avg_dialogue_controller: Node
+var avg_gallery_controller: Node
 
 var root_2d: Node2D
 var ui_layer: CanvasLayer
@@ -94,8 +99,12 @@ var message_label: Label
 var top_bar: Control
 var bottom_mode_controls: Control
 var background_menu_panel: PanelContainer
-var fp_label: Button
-var level_label: Button
+var focus_progress_hud: Control
+var fp_label: Control
+var focus_points_value_label: Label
+var level_label: Control
+var focus_level_badge_label: Label
+var focus_level_progress: ProgressBar
 var bond_label: Button
 var stats_label: Label
 var duration_minutes := DEFAULT_FOCUS_MINUTES
@@ -121,6 +130,7 @@ var ambient_prompt_visible_sec := 0.0
 var ambient_prompt_has_shown := false
 var unlocks_label: Button
 var store_button: Button
+var avg_gallery_button: Button
 var stats_button: Button
 var simple_mode_enabled := false
 var tasks_ui_visible := true
@@ -223,12 +233,21 @@ func _build_scene() -> void:
 	add_child(store_controller)
 	store_controller.setup(layers, localizer)
 	store_controller.purchase_requested.connect(_on_store_purchase_requested)
+	avg_dialogue_controller = AVGDialogueController.new()
+	add_child(avg_dialogue_controller)
+	avg_dialogue_controller.setup(layers, localizer)
+	avg_dialogue_controller.dialogue_finished.connect(_on_avg_dialogue_finished)
+	avg_gallery_controller = AVGGalleryController.new()
+	add_child(avg_gallery_controller)
+	avg_gallery_controller.setup(layers, localizer)
+	avg_gallery_controller.dialogue_selected.connect(_on_avg_gallery_dialogue_selected)
 	task_controller = TaskPanelController.new()
 	add_child(task_controller)
 	task_controller.setup(layers, tasks, localizer)
 	task_controller.tasks_changed.connect(_on_tasks_changed)
 	task_controller.task_renamed.connect(_on_task_renamed)
 	task_controller.task_completed.connect(_on_task_completed)
+	_build_focus_progress_hud(layers)
 	timer_rail = TimerRailController.new()
 	add_child(timer_rail)
 	timer_rail.setup(layers, localizer)
@@ -285,7 +304,7 @@ func _build_top_bar(parent: Control) -> void:
 	bar.anchor_top = 0.0
 	bar.anchor_right = 1.0
 	bar.anchor_bottom = 0.0
-	bar.offset_left = -380
+	bar.offset_left = -330
 	bar.offset_top = 0
 	bar.offset_right = 0
 	bar.offset_bottom = 46
@@ -303,14 +322,6 @@ func _build_top_bar(parent: Control) -> void:
 	row.add_theme_constant_override("separation", 8)
 	margin.add_child(row)
 
-	var focus_button := _new_icon_button("FP", "Focus Points")
-	fp_label = focus_button
-	row.add_child(focus_button)
-
-	var level_button := _new_icon_button("LV", "Focus Level")
-	level_label = level_button
-	row.add_child(level_button)
-
 	var bond_button := _new_icon_button("BD", "Bond")
 	bond_label = bond_button
 	row.add_child(bond_button)
@@ -323,6 +334,11 @@ func _build_top_bar(parent: Control) -> void:
 	store_button = shop
 	shop.pressed.connect(_toggle_store_panel)
 	row.add_child(shop)
+
+	var gallery := _new_icon_button("DG", "Dialogue Gallery")
+	avg_gallery_button = gallery
+	gallery.pressed.connect(_toggle_avg_gallery)
+	row.add_child(gallery)
 
 	var stats := _new_icon_button("ST", "Stats")
 	stats_button = stats
@@ -383,6 +399,91 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	row.add_child(background_button)
 
 	_build_background_menu(parent)
+
+
+func _build_focus_progress_hud(parent: Control) -> void:
+	var hud := HBoxContainer.new()
+	focus_progress_hud = hud
+	hud.name = "FocusProgressHud"
+	hud.z_index = 40
+	hud.anchor_left = 0.0
+	hud.anchor_top = 0.0
+	hud.anchor_right = 0.0
+	hud.anchor_bottom = 0.0
+	hud.offset_left = 112
+	hud.offset_top = 1
+	hud.offset_right = 316
+	hud.offset_bottom = 35
+	hud.add_theme_constant_override("separation", 6)
+	parent.add_child(hud)
+
+	var points := HBoxContainer.new()
+	fp_label = points
+	points.custom_minimum_size = Vector2(94, 32)
+	points.add_theme_constant_override("separation", 5)
+	hud.add_child(points)
+
+	var diamond := Label.new()
+	diamond.text = "◇"
+	diamond.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	diamond.add_theme_font_size_override("font_size", 19)
+	diamond.add_theme_color_override("font_color", Color(0.96, 0.98, 1.0, 1.0))
+	points.add_child(diamond)
+
+	focus_points_value_label = Label.new()
+	focus_points_value_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	focus_points_value_label.custom_minimum_size = Vector2(64, 0)
+	focus_points_value_label.add_theme_font_size_override("font_size", 22)
+	focus_points_value_label.add_theme_color_override("font_color", Color(0.96, 0.98, 1.0, 1.0))
+	points.add_child(focus_points_value_label)
+
+	var level := Control.new()
+	level_label = level
+	level.custom_minimum_size = Vector2(94, 32)
+	hud.add_child(level)
+
+	var bar := ProgressBar.new()
+	focus_level_progress = bar
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.show_percentage = false
+	bar.min_value = 0
+	bar.max_value = 1
+	bar.value = 0
+	bar.anchor_left = 0.0
+	bar.anchor_top = 0.5
+	bar.anchor_right = 1.0
+	bar.anchor_bottom = 0.5
+	bar.offset_left = 18
+	bar.offset_top = -8
+	bar.offset_right = 0
+	bar.offset_bottom = 8
+	bar.add_theme_stylebox_override("background", _new_progress_background_style())
+	bar.add_theme_stylebox_override("fill", _new_progress_fill_style())
+	level.add_child(bar)
+
+	var badge := PanelContainer.new()
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.custom_minimum_size = Vector2(34, 34)
+	badge.anchor_left = 0.0
+	badge.anchor_top = 0.5
+	badge.anchor_right = 0.0
+	badge.anchor_bottom = 0.5
+	badge.offset_left = 0
+	badge.offset_top = -17
+	badge.offset_right = 34
+	badge.offset_bottom = 17
+	badge.add_theme_stylebox_override("panel", _new_level_badge_style())
+	level.add_child(badge)
+
+	var badge_center := CenterContainer.new()
+	badge_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(badge_center)
+
+	focus_level_badge_label = Label.new()
+	focus_level_badge_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	focus_level_badge_label.add_theme_font_size_override("font_size", 15)
+	focus_level_badge_label.add_theme_color_override("font_color", Color(0.07, 0.29, 0.42, 1.0))
+	badge_center.add_child(focus_level_badge_label)
 
 
 func _build_background_menu(parent: Control) -> void:
@@ -490,6 +591,38 @@ func _new_panel_style(alpha: float) -> StyleBoxFlat:
 	style.corner_radius_top_right = 8
 	style.corner_radius_bottom_left = 8
 	style.corner_radius_bottom_right = 8
+	return style
+
+
+func _new_level_badge_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.28, 0.74, 0.87, 1.0)
+	style.border_color = Color(0.28, 0.74, 0.87, 1.0)
+	style.set_border_width_all(0)
+	style.corner_radius_top_left = 17
+	style.corner_radius_top_right = 17
+	style.corner_radius_bottom_left = 17
+	style.corner_radius_bottom_right = 17
+	return style
+
+
+func _new_progress_background_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.12, 0.22, 0.48, 0.62)
+	style.border_color = Color(0.86, 0.92, 1.0, 0.95)
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 0
+	style.corner_radius_top_right = 0
+	style.corner_radius_bottom_left = 0
+	style.corner_radius_bottom_right = 0
+	return style
+
+
+func _new_progress_fill_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.31, 0.78, 0.9, 0.92)
+	style.border_color = Color(0.31, 0.78, 0.9, 0.0)
+	style.set_border_width_all(0)
 	return style
 
 
@@ -981,6 +1114,10 @@ func _refresh_localized_text() -> void:
 		option_controller.refresh_text()
 	if store_controller != null and store_controller.has_method("set_localizer"):
 		store_controller.set_localizer(localizer)
+	if avg_dialogue_controller != null and avg_dialogue_controller.has_method("set_localizer"):
+		avg_dialogue_controller.set_localizer(localizer)
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("set_localizer"):
+		avg_gallery_controller.set_localizer(localizer)
 	_refresh_background_menu()
 	_refresh_all()
 
@@ -1057,12 +1194,18 @@ func _apply_ui_visibility() -> void:
 		option_controller.hide()
 	if store_controller != null and simple_mode_enabled and store_controller.has_method("hide_store"):
 		store_controller.hide_store()
+	if avg_gallery_controller != null and simple_mode_enabled and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	if avg_dialogue_controller != null and simple_mode_enabled and avg_dialogue_controller.has_method("hide_dialogue"):
+		avg_dialogue_controller.hide_dialogue()
 	if result_controller != null and simple_mode_enabled and result_controller.has_method("hide_result"):
 		result_controller.hide_result()
 	if music_controller != null and music_controller.has_method("set_ui_visible"):
 		music_controller.set_ui_visible(not simple_mode_enabled)
 	if task_controller != null and task_controller.has_method("set_panel_visible"):
 		task_controller.set_panel_visible(tasks_ui_visible)
+	if focus_progress_hud != null:
+		focus_progress_hud.visible = tasks_ui_visible
 	if timer_rail != null and timer_rail.has_method("set_panel_visible"):
 		timer_rail.set_panel_visible(timer_ui_visible)
 	if timer_settings != null and timer_settings.has_method("hide") and (simple_mode_enabled or not timer_ui_visible):
@@ -1123,6 +1266,55 @@ func _toggle_store_panel() -> void:
 	store_controller.show_store(_store_items())
 
 
+func _toggle_avg_gallery() -> void:
+	if avg_gallery_controller == null:
+		return
+	if avg_gallery_controller.has_method("is_gallery_visible") and avg_gallery_controller.is_gallery_visible():
+		avg_gallery_controller.hide_gallery()
+		return
+	avg_gallery_controller.show_gallery(
+		AVGDialogueService.dialogues_by_type("main"),
+		AVGDialogueService.viewed_dialogue_ids(interaction_history)
+	)
+
+
+func _on_avg_gallery_dialogue_selected(dialogue_id: String) -> void:
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	_start_avg_dialogue(dialogue_id)
+
+
+func _start_avg_dialogue(dialogue_id: String) -> bool:
+	if avg_dialogue_controller == null:
+		return false
+	var dialogue := AVGDialogueService.find_dialogue(dialogue_id)
+	if dialogue.is_empty():
+		return false
+	_hide_ambient_prompt()
+	_hide_break_interaction()
+	_stop_break_media()
+	avg_dialogue_controller.show_dialogue(dialogue)
+	return true
+
+
+func _start_avg_dialogue_for_trigger(trigger_key: String) -> bool:
+	var dialogues := AVGDialogueService.dialogues_for_trigger(trigger_key)
+	if dialogues.is_empty():
+		return false
+	var dialogue = dialogues[0]
+	if typeof(dialogue) != TYPE_DICTIONARY:
+		return false
+	return _start_avg_dialogue(str(dialogue.get("dialogue_id", "")))
+
+
+func _on_avg_dialogue_finished(dialogue_id: String) -> void:
+	if dialogue_id == "":
+		return
+	if AVGDialogueService.is_viewed(dialogue_id, interaction_history):
+		return
+	_record_interaction_event(AVGDialogueService.VIEWED_EVENT_TYPE, dialogue_id)
+
+
 func _store_items() -> Array:
 	return ContentUnlockService.store_items(background_defs, unlocked_content, localizer)
 
@@ -1158,10 +1350,18 @@ func _refresh_tasks_ui() -> void:
 
 
 func _refresh_progress_ui() -> void:
-	fp_label.text = "FP"
-	fp_label.tooltip_text = "%s: %d" % [localizer.translate("top.focus_points"), currencies.focus_points]
-	level_label.text = "LV"
-	level_label.tooltip_text = "%s %d  XP %d / %d" % [localizer.translate("top.focus_level"), level_progress.focus_level, level_progress.focus_xp, _xp_required_for_next_level()]
+	if fp_label != null:
+		fp_label.tooltip_text = "%s: %d" % [localizer.translate("top.focus_points"), currencies.focus_points]
+	if focus_points_value_label != null:
+		focus_points_value_label.text = _format_compact_number(int(currencies.get("focus_points", 0)))
+	if level_label != null:
+		level_label.tooltip_text = "%s %d  XP %d / %d" % [localizer.translate("top.focus_level"), level_progress.focus_level, level_progress.focus_xp, _xp_required_for_next_level()]
+	if focus_level_badge_label != null:
+		focus_level_badge_label.text = str(int(level_progress.get("focus_level", 1)))
+	if focus_level_progress != null:
+		var required := _xp_required_for_next_level()
+		focus_level_progress.max_value = max(required, 1)
+		focus_level_progress.value = clamp(int(level_progress.get("focus_xp", 0)), 0, required)
 	bond_label.text = "BD"
 	bond_label.tooltip_text = "%s Lv.%d  %d / %d" % [localizer.translate("top.bond"), bond_progress.bond_level, bond_progress.bond_points_current, _bond_required_for_next_level()]
 	if unlocks_label != null:
@@ -1169,6 +1369,9 @@ func _refresh_progress_ui() -> void:
 	if store_button != null:
 		store_button.text = "SH"
 		store_button.tooltip_text = localizer.translate("store.title")
+	if avg_gallery_button != null:
+		avg_gallery_button.text = "DG"
+		avg_gallery_button.tooltip_text = localizer.translate("avg.gallery.title")
 	if stats_button != null:
 		stats_button.tooltip_text = localizer.translate("top.stats")
 	stats_label.text = "%s: %d\n%s: %d\n%s: %d\n%s: %d" % [
@@ -1181,6 +1384,15 @@ func _refresh_progress_ui() -> void:
 		localizer.translate("stats.tasks_done"),
 		daily_stats.tasks_completed
 	]
+
+
+func _format_compact_number(value: int) -> String:
+	if abs(value) >= 1000:
+		var compact := value / 1000.0
+		if value % 1000 == 0:
+			return "%dK" % int(compact)
+		return "%.2fK" % compact
+	return str(value)
 
 
 func _update_stats(status: String, actual_sec: int) -> void:
