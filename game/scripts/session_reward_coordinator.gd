@@ -48,7 +48,7 @@ static func apply_task_completion_bonus(
 	if not TaskService.set_task_status(tasks, task_id, "done"):
 		return {"changed": false, "summary": ""}
 	currencies.focus_points += focus_points_bonus
-	ProgressionService.add_xp(level_progress, xp_bonus)
+	ProgressionService.add_xp(level_progress, xp_bonus, currencies)
 	daily_stats.tasks_completed += 1
 	return {
 		"changed": true,

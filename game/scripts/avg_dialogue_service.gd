@@ -57,5 +57,16 @@ static func viewed_dialogue_ids(interaction_history: Array) -> Array:
 	return viewed
 
 
+static func gallery_unlocked_dialogue_ids(interaction_history: Array) -> Array:
+	var unlocked := viewed_dialogue_ids(interaction_history)
+	for dialogue in load_dialogues():
+		if typeof(dialogue) != TYPE_DICTIONARY:
+			continue
+		var dialogue_id := str(dialogue.get("dialogue_id", ""))
+		if dialogue_id != "" and bool(dialogue.get("default_unlocked", false)) and not unlocked.has(dialogue_id):
+			unlocked.append(dialogue_id)
+	return unlocked
+
+
 static func is_viewed(dialogue_id: String, interaction_history: Array) -> bool:
 	return viewed_dialogue_ids(interaction_history).has(dialogue_id)

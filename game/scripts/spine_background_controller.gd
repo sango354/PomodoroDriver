@@ -1,5 +1,9 @@
 extends Node
 
+# Backup controller retained for the previous Spine-based main background.
+# The active main scene now uses `taxi_drive_controller.gd` with layered Taxi
+# PNG assets. Keep this file for validation and future rollback/reference.
+
 const ContentUnlockService = preload("res://scripts/content_unlock_service.gd")
 
 const ASSET_ROOT := "res://assets/spine/backgrounds"

@@ -50,6 +50,31 @@ func get_state() -> Dictionary:
 	}
 
 
+func suspend_for_event() -> Dictionary:
+	var state := {
+		"was_playing": false,
+		"was_paused": false
+	}
+	if music_player == null:
+		return state
+	state.was_playing = music_player.playing
+	state.was_paused = music_player.stream_paused
+	if music_player.playing and not music_player.stream_paused:
+		music_player.stream_paused = true
+		_refresh_play_button(false)
+	return state
+
+
+func restore_after_event(state: Dictionary) -> void:
+	if music_player == null:
+		return
+	if bool(state.get("was_playing", false)) and not bool(state.get("was_paused", false)):
+		music_player.stream_paused = false
+		_refresh_play_button(true)
+	else:
+		_refresh_play_button(music_player.playing and not music_player.stream_paused)
+
+
 func set_ui_visible(is_visible: bool) -> void:
 	if music_bar != null:
 		music_bar.visible = is_visible

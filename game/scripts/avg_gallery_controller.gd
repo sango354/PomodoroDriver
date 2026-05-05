@@ -153,6 +153,9 @@ func _new_dialogue_card(dialogue: Dictionary) -> Control:
 
 
 func _dialogue_name(dialogue: Dictionary) -> String:
+	var display_name := str(dialogue.get("display_name", ""))
+	if display_name != "":
+		return display_name
 	var key := str(dialogue.get("display_name_key", ""))
 	if key != "":
 		return _tr(key)

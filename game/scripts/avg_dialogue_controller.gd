@@ -4,6 +4,7 @@ signal dialogue_finished(dialogue_id: String)
 
 var localizer
 var overlay: Control
+var dim_rect: ColorRect
 var background_rect: TextureRect
 var speaker_label: Label
 var dialogue_label: Label
@@ -12,6 +13,8 @@ var next_button: Button
 var close_button: Button
 var current_dialogue := {}
 var current_line_index := 0
+var transition_next_background := false
+var transition_duration := 2.0
 
 
 func setup(parent: Control, localization_service = null) -> void:
@@ -27,11 +30,13 @@ func set_localizer(localization_service) -> void:
 		_show_current_line()
 
 
-func show_dialogue(dialogue: Dictionary) -> void:
+func show_dialogue(dialogue: Dictionary, transition_background: bool = false, duration: float = 2.0) -> void:
 	if dialogue.is_empty() or overlay == null:
 		return
 	current_dialogue = dialogue
 	current_line_index = 0
+	transition_next_background = transition_background
+	transition_duration = duration
 	overlay.visible = true
 	_raise_to_front()
 	_show_current_line()
@@ -53,23 +58,18 @@ func _build_overlay(parent: Control) -> void:
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	parent.add_child(overlay)
 
-	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.84)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(dim)
+	dim_rect = ColorRect.new()
+	dim_rect.color = Color(0, 0, 0, 1.0)
+	dim_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(dim_rect)
 
 	background_rect = TextureRect.new()
 	background_rect.name = "AVGBackground"
 	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	background_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	background_rect.modulate = Color(0.86, 0.86, 0.86, 1.0)
+	background_rect.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	overlay.add_child(background_rect)
-
-	var shade := ColorRect.new()
-	shade.color = Color(0, 0, 0, 0.24)
-	shade.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(shade)
 
 	var box := PanelContainer.new()
 	box.name = "AVGTextBox"
@@ -138,7 +138,8 @@ func _show_current_line() -> void:
 	var speaker_key := str(line.get("speaker_key", ""))
 	var text_key := str(line.get("text_key", ""))
 	var background_path := str(line.get("background_path", current_dialogue.get("background_path", "")))
-	speaker_label.text = _tr(speaker_key) if speaker_key != "" else ""
+	_apply_overlay_backdrop(background_path)
+	speaker_label.text = _tr(speaker_key) if speaker_key != "" else str(line.get("speaker", ""))
 	dialogue_label.text = _tr(text_key) if text_key != "" else str(line.get("text", ""))
 	next_button.text = _tr("avg.finish") if current_line_index >= lines.size() - 1 else _tr("avg.next")
 	_set_background(background_path)
@@ -162,8 +163,31 @@ func _finish_dialogue() -> void:
 
 func _set_background(path: String) -> void:
 	var texture := _load_texture(path)
+	if transition_next_background:
+		transition_next_background = false
+		var half_duration: float = max(transition_duration * 0.5, 0.01)
+		background_rect.visible = true
+		var tween := create_tween()
+		tween.tween_property(background_rect, "modulate:a", 0.0, half_duration)
+		tween.tween_callback(func():
+			background_rect.texture = texture
+			background_rect.visible = texture != null
+		)
+		tween.tween_property(background_rect, "modulate:a", 1.0, half_duration)
+		return
+	transition_next_background = false
 	background_rect.texture = texture
 	background_rect.visible = texture != null
+	background_rect.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+
+func _apply_overlay_backdrop(background_path: String) -> void:
+	if dim_rect == null:
+		return
+	if bool(current_dialogue.get("transparent_overlay", false)) or background_path == "":
+		dim_rect.color = Color(0, 0, 0, 0.0)
+	else:
+		dim_rect.color = Color(0, 0, 0, 1.0)
 
 
 func _load_texture(path: String) -> Texture2D:

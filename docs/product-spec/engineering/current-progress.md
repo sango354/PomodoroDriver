@@ -471,6 +471,70 @@ Deferred from the 2026-04-29 planning pass:
 
 2026-05-05:
 
+- Handoff update for remote work:
+  - Active main background has moved from the previous Spine background
+    controller to `game/scripts/taxi_drive_controller.gd`.
+  - `game/scripts/spine_background_controller.gd` is retained as backup and
+    rollback/reference only.
+  - Added backup note at
+    `game/assets/spine/backgrounds/SPINE_BACKUP_NOTE.md`.
+  - Current Taxi art source folder is `game/assets/Taxi/`.
+  - Current H gallery art folders are:
+    - `game/assets/Arts/HIcon/`
+    - `game/assets/Arts/HCG/`
+- Taxi main-screen prototype:
+  - layered Taxi PNG assets replace the active Spine main background;
+  - front seat layer is fixed;
+  - character/body layers use subtle road hum and occasional random pothole
+    bumps;
+  - pothole bumps trigger every 20-40 seconds and use reduced amplitude;
+  - character layer has a temporary breathing scale motion because no separate
+    chest part exists yet;
+  - speed lines currently simulate side motion, but the next requested exterior
+    scenery task is paused and not implemented in this handoff.
+- AVG / H event update:
+  - `game/data/avg_dialogue_defs.json` now contains 15 gallery dialogue entries
+    mapped from HIcon thumbnails to HCG backgrounds.
+  - First 8 gallery entries are `default_unlocked: true` for QA.
+  - Gallery unlock state now merges viewed dialogue ids with
+    `default_unlocked` entries.
+  - AVG dialogue can use direct `display_name`, `speaker`, and `text` fields
+    for temporary content without requiring localization keys.
+  - Transparent text-only AVG mode is used for the startup welcome line and H
+    event preview line so the main screen remains visible.
+  - CG AVG mode uses a full-screen overlay attached to the top-level
+    `app_container`, with opaque black backing so the main screen cannot show
+    around the CG.
+  - H event flow consumes one gold token, shows a preview dialogue, then plays
+    two randomly selected gallery dialogues with two-second black fade
+    transitions.
+  - Selected H event dialogues are recorded as `avg_dialogue_viewed`, unlocking
+    them in the gallery.
+  - Music playback is suspended during H event playback and restored to the
+    previous playing/paused state when the event returns to the main screen.
+- Progression / currency update:
+  - The former Focus Level badge is now a Gold Token badge.
+  - XP remains as the progress bar; when XP reaches the requirement it grants
+    one gold token and carries overflow XP.
+  - `F2` debug shortcut grants one gold token.
+  - `F1` still grants 100 Focus Points.
+- Current paused request / next task:
+  - User requested exterior scenery like a luxury train ride reference:
+    left/right windows should show infinitely looping scenery, and the rear
+    window should show an infinitely extending road.
+  - This was explicitly paused before implementation.
+  - No generated exterior scenery assets were created in this handoff.
+  - Suggested next implementation: generate project-local looping night scenery
+    and road assets, place them under `game/assets/Taxi/`, then add looping
+    `Sprite2D`/viewport animation in `taxi_drive_controller.gd` behind the taxi
+    interior layers.
+- Validation passed on `E:\Pomodoro-copy` after the current changes:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+git diff --check
+```
+
 - Changed the active text direction toward a female succubus night taxi driver
   theme:
   - timer status messages now use fare/route/meter wording;

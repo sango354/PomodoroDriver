@@ -34,7 +34,7 @@ static func grant_session_rewards(
 
 	currencies.focus_points += focus_points
 	currencies.bond_points_total += bond
-	add_xp(level_progress, xp)
+	add_xp(level_progress, xp, currencies)
 	add_bond(bond_progress, bond)
 
 	return {
@@ -46,13 +46,16 @@ static func grant_session_rewards(
 	}
 
 
-static func add_xp(level_progress: Dictionary, amount: int) -> void:
+static func add_xp(level_progress: Dictionary, amount: int, currencies: Dictionary = {}) -> void:
 	level_progress.focus_xp += amount
 	level_progress.focus_xp_lifetime += amount
 	var required := xp_required_for_next_level(level_progress)
 	while level_progress.focus_xp >= required:
 		level_progress.focus_xp -= required
-		level_progress.focus_level += 1
+		if not currencies.is_empty():
+			currencies.gold_tokens = int(currencies.get("gold_tokens", 0)) + 1
+		else:
+			level_progress.focus_level += 1
 		required = xp_required_for_next_level(level_progress)
 
 
@@ -68,7 +71,7 @@ static func add_bond(bond_progress: Dictionary, amount: int) -> void:
 
 
 static func xp_required_for_next_level(level_progress: Dictionary) -> int:
-	return 80 + (int(level_progress.focus_level) - 1) * 30
+	return 80
 
 
 static func bond_required_for_next_level(bond_progress: Dictionary) -> int:

@@ -59,6 +59,7 @@ E:\ProjectPomodoro\build-windows.cmd
 - `B` toggles Tasks UI.
 - `C` toggles Pomodoro UI.
 - `F1` adds 100 Focus Points and updates the top-right Focus Points tooltip.
+- `F2` adds one Gold Token and updates the top-left Gold Token badge.
 - Time button cycles Day, Sunset, Night, and Cloudy background contexts.
 - `BG` opens the background selection menu.
 - `A`, `B`, `C`, Time, `BG`, and ambience sit on the music bar background
@@ -156,3 +157,28 @@ E:\ProjectPomodoro\build-windows.cmd
 - Loop icon overlay reflects on/off state.
 - Volume slider changes output volume.
 - Last played track, loop state, and volume persist after restart.
+
+## AVG Gallery / H Event
+
+- Startup welcome dialogue appears every game launch.
+- Startup welcome dialogue is text-only and leaves the main screen visible.
+- `DG` opens the gallery and shows 15 dialogue entries from
+  `game/assets/Arts/HIcon/`.
+- First 8 entries are unlocked by default for QA; locked entries are grayscale
+  and disabled.
+- Clicking a Gold Token when count is greater than zero starts the H event.
+- H event first shows the text-only preview line:
+  `嘻嘻，似乎有好事要發生囉！`
+- Preview dialogue leaves the main screen visible.
+- After the preview, the screen fades through black for about 2 seconds into
+  the first CG.
+- CG dialogues cover the full viewport; the main screen must not be visible
+  behind or around the image.
+- Two random gallery dialogues are played per H event.
+- Transition between the first and second H dialogue uses the same 2-second
+  black fade.
+- The selected dialogues become unlocked in the gallery after the H event
+  starts.
+- If music is playing when the H event begins, it pauses during the event and
+  resumes only after returning to the main screen.
+- If music was already paused before the H event, it remains paused afterward.

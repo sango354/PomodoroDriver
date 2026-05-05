@@ -2,7 +2,7 @@ extends Node
 
 const SaveDataService = preload("res://scripts/save_data_service.gd")
 const ProgressionService = preload("res://scripts/progression_service.gd")
-const SpineBackgroundController = preload("res://scripts/spine_background_controller.gd")
+const TaxiDriveController = preload("res://scripts/taxi_drive_controller.gd")
 const MusicPlayerController = preload("res://scripts/music_player_controller.gd")
 const CompanionPanelController = preload("res://scripts/companion_panel_controller.gd")
 const TimerRailController = preload("res://scripts/timer_rail_controller.gd")
@@ -42,6 +42,9 @@ const AMBIENT_PROMPT_NORMAL_IDLE_INTERVAL_SEC := 3 * 60
 const AMBIENT_PROMPT_FOCUS_INTERVAL_SEC := 8 * 60
 const AMBIENT_PROMPT_VISIBLE_SEC := 8.0
 const BACKGROUND_LOFI_AUTO := "lofi_auto"
+const FIRST_ENTRY_DIALOGUE_ID := "first_entry_welcome"
+const H_EVENT_PREVIEW_DIALOGUE_ID := "h_event_preview"
+const H_EVENT_DIALOGUE_COUNT := 2
 
 var app_state := "idle"
 var session_mode := "focus"
@@ -60,7 +63,8 @@ var tasks: Array = []
 var sessions: Array = []
 var currencies := {
 	"focus_points": 0,
-	"bond_points_total": 0
+	"bond_points_total": 0,
+	"gold_tokens": 0
 }
 var level_progress := {
 	"focus_level": 1,
@@ -81,7 +85,7 @@ var daily_stats := {
 	"tasks_completed": 0
 }
 
-var spine_background: Node
+var drive_scene: Node
 var timer_rail: Node
 var localizer
 var option_controller: Node
@@ -137,17 +141,22 @@ var tasks_ui_visible := true
 var timer_ui_visible := true
 var manual_time_state := "day"
 var selected_background_id := BACKGROUND_LOFI_AUTO
+var h_event_active := false
+var h_event_queue: Array = []
+var h_event_music_state := {}
 
 
 func _ready() -> void:
 	_load_save()
+	_ensure_currency_defaults()
 	background_defs = ContentUnlockService.load_background_defs()
 	localizer = LocalizationService.new(language_code)
 	_apply_time_context()
 	manual_time_state = _time_state_from_context()
 	_build_scene()
-	spine_background.load_selected_background()
+	drive_scene.load_selected_background()
 	_refresh_all()
+	call_deferred("_show_first_entry_dialogue_if_needed")
 
 
 func _process(delta: float) -> void:
@@ -172,6 +181,10 @@ func _input(event: InputEvent) -> void:
 		currencies.focus_points = int(currencies.get("focus_points", 0)) + 100
 		_save_game()
 		_refresh_progress_ui()
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F2:
+		currencies.gold_tokens = int(currencies.get("gold_tokens", 0)) + 1
+		_save_game()
+		_refresh_progress_ui()
 
 
 func _notification(what: int) -> void:
@@ -184,9 +197,9 @@ func _build_scene() -> void:
 	root_2d.name = "World"
 	add_child(root_2d)
 
-	spine_background = SpineBackgroundController.new()
-	add_child(spine_background)
-	spine_background.setup(root_2d, selected_context, background_defs, unlocked_content, selected_background_id)
+	drive_scene = TaxiDriveController.new()
+	add_child(drive_scene)
+	drive_scene.setup(root_2d, selected_context, background_defs, unlocked_content, selected_background_id)
 
 	ui_layer = CanvasLayer.new()
 	ui_layer.name = "UI"
@@ -235,7 +248,7 @@ func _build_scene() -> void:
 	store_controller.purchase_requested.connect(_on_store_purchase_requested)
 	avg_dialogue_controller = AVGDialogueController.new()
 	add_child(avg_dialogue_controller)
-	avg_dialogue_controller.setup(layers, localizer)
+	avg_dialogue_controller.setup(app_container, localizer)
 	avg_dialogue_controller.dialogue_finished.connect(_on_avg_dialogue_finished)
 	avg_gallery_controller = AVGGalleryController.new()
 	add_child(avg_gallery_controller)
@@ -440,6 +453,8 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	var level := Control.new()
 	level_label = level
 	level.custom_minimum_size = Vector2(94, 32)
+	level.mouse_filter = Control.MOUSE_FILTER_STOP
+	level.gui_input.connect(_on_gold_token_gui_input)
 	hud.add_child(level)
 
 	var bar := ProgressBar.new()
@@ -596,8 +611,8 @@ func _new_panel_style(alpha: float) -> StyleBoxFlat:
 
 func _new_level_badge_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.28, 0.74, 0.87, 1.0)
-	style.border_color = Color(0.28, 0.74, 0.87, 1.0)
+	style.bg_color = Color(0.96, 0.68, 0.18, 1.0)
+	style.border_color = Color(1.0, 0.91, 0.44, 1.0)
 	style.set_border_width_all(0)
 	style.corner_radius_top_left = 17
 	style.corner_radius_top_right = 17
@@ -620,8 +635,8 @@ func _new_progress_background_style() -> StyleBoxFlat:
 
 func _new_progress_fill_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.31, 0.78, 0.9, 0.92)
-	style.border_color = Color(0.31, 0.78, 0.9, 0.0)
+	style.bg_color = Color(1.0, 0.77, 0.24, 0.94)
+	style.border_color = Color(1.0, 0.77, 0.24, 0.0)
 	style.set_border_width_all(0)
 	return style
 
@@ -710,7 +725,7 @@ func _start_focus_session() -> void:
 	_apply_timer_state(next_state)
 	if active_task_id != "":
 		_set_task_status(active_task_id, "in_progress")
-	spine_background.load_selected_background()
+	drive_scene.load_selected_background()
 	_refresh_all()
 
 
@@ -885,7 +900,7 @@ func _finish_session(status: String, start_break_after: bool = false) -> void:
 	sessions.append(session)
 	_update_stats(status, actual_sec)
 	selected_context.mood = "good" if status == "completed" else "troubled"
-	spine_background.load_selected_background()
+	drive_scene.load_selected_background()
 	_save_game()
 	_play_alarm()
 	_show_result_panel(status, actual_sec, rewards, bond_level_up_text, not start_break_after)
@@ -927,7 +942,7 @@ func _show_result_panel(status: String, actual_sec: int, rewards: Dictionary, bo
 
 
 func _add_xp(amount: int) -> void:
-	ProgressionService.add_xp(level_progress, amount)
+	ProgressionService.add_xp(level_progress, amount, currencies)
 
 
 func _add_bond(amount: int) -> void:
@@ -1237,7 +1252,7 @@ func _cycle_time_context() -> void:
 			manual_time_state = "day"
 			selected_context.time = "day"
 			selected_context.weather = "clear"
-	spine_background.load_selected_background()
+	drive_scene.load_selected_background()
 
 
 func _toggle_background_menu() -> void:
@@ -1251,9 +1266,9 @@ func _select_background(background_id: String) -> void:
 	selected_background_id = background_id
 	if background_menu_panel != null:
 		background_menu_panel.visible = false
-	if spine_background != null and spine_background.has_method("set_selected_background"):
-		spine_background.set_selected_background(selected_background_id)
-		spine_background.load_selected_background()
+	if drive_scene != null and drive_scene.has_method("set_selected_background"):
+		drive_scene.set_selected_background(selected_background_id)
+		drive_scene.load_selected_background()
 	_save_game()
 
 
@@ -1274,7 +1289,7 @@ func _toggle_avg_gallery() -> void:
 		return
 	avg_gallery_controller.show_gallery(
 		AVGDialogueService.dialogues_by_type("main"),
-		AVGDialogueService.viewed_dialogue_ids(interaction_history)
+		AVGDialogueService.gallery_unlocked_dialogue_ids(interaction_history)
 	)
 
 
@@ -1297,6 +1312,113 @@ func _start_avg_dialogue(dialogue_id: String) -> bool:
 	return true
 
 
+func _show_first_entry_dialogue_if_needed() -> void:
+	if avg_dialogue_controller == null:
+		return
+	var dialogue := {
+		"dialogue_id": FIRST_ENTRY_DIALOGUE_ID,
+		"transparent_overlay": true,
+		"lines": [
+			{
+				"speaker": "女司機",
+				"text": "歡迎上車，乘客。今晚的路由我來開，你只要坐穩，讓這趟夜車慢慢發動。"
+			},
+			{
+				"speaker": "女司機",
+				"text": "如果你準備好了，就把目的地交給我。這台車會載你去該去的地方。"
+			}
+		]
+	}
+	avg_dialogue_controller.show_dialogue(dialogue)
+
+
+func _on_gold_token_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_start_h_event_from_gold_token()
+
+
+func _start_h_event_from_gold_token() -> void:
+	if h_event_active or avg_dialogue_controller == null:
+		return
+	var tokens := int(currencies.get("gold_tokens", 0))
+	if tokens <= 0:
+		return
+	var selected := _pick_h_event_dialogues()
+	if selected.is_empty():
+		return
+	currencies.gold_tokens = tokens - 1
+	h_event_active = true
+	h_event_queue = selected
+	_suspend_music_for_h_event()
+	for dialogue in selected:
+		if typeof(dialogue) == TYPE_DICTIONARY:
+			_unlock_avg_dialogue(str(dialogue.get("dialogue_id", "")))
+	_save_game()
+	_refresh_progress_ui()
+	_show_h_event_preview_dialogue()
+
+
+func _show_h_event_preview_dialogue() -> void:
+	var dialogue := {
+		"dialogue_id": H_EVENT_PREVIEW_DIALOGUE_ID,
+		"transparent_overlay": true,
+		"lines": [
+			{
+				"speaker": "女司機",
+				"text": "嘻嘻，似乎有好事要發生囉！"
+			}
+		]
+	}
+	avg_dialogue_controller.show_dialogue(dialogue)
+
+
+func _pick_h_event_dialogues() -> Array:
+	var candidates := AVGDialogueService.dialogues_by_type("main")
+	candidates.shuffle()
+	var selected := []
+	for dialogue in candidates:
+		if typeof(dialogue) != TYPE_DICTIONARY:
+			continue
+		selected.append(dialogue)
+		if selected.size() >= H_EVENT_DIALOGUE_COUNT:
+			break
+	return selected
+
+
+func _play_next_h_event_dialogue(transition_background: bool) -> void:
+	if h_event_queue.is_empty():
+		h_event_active = false
+		_restore_music_after_h_event()
+		_save_game()
+		_refresh_progress_ui()
+		return
+	var dialogue = h_event_queue.pop_front()
+	if typeof(dialogue) != TYPE_DICTIONARY:
+		_play_next_h_event_dialogue(transition_background)
+		return
+	avg_dialogue_controller.show_dialogue(dialogue, transition_background, 2.0)
+
+
+func _suspend_music_for_h_event() -> void:
+	h_event_music_state = {}
+	if music_controller != null and music_controller.has_method("suspend_for_event"):
+		h_event_music_state = music_controller.suspend_for_event()
+
+
+func _restore_music_after_h_event() -> void:
+	if music_controller != null and music_controller.has_method("restore_after_event"):
+		music_controller.restore_after_event(h_event_music_state)
+	h_event_music_state = {}
+
+
+func _unlock_avg_dialogue(dialogue_id: String) -> void:
+	if dialogue_id == "":
+		return
+	if AVGDialogueService.is_viewed(dialogue_id, interaction_history):
+		return
+	_record_interaction_event(AVGDialogueService.VIEWED_EVENT_TYPE, dialogue_id)
+
+
 func _start_avg_dialogue_for_trigger(trigger_key: String) -> bool:
 	var dialogues := AVGDialogueService.dialogues_for_trigger(trigger_key)
 	if dialogues.is_empty():
@@ -1309,6 +1431,12 @@ func _start_avg_dialogue_for_trigger(trigger_key: String) -> bool:
 
 func _on_avg_dialogue_finished(dialogue_id: String) -> void:
 	if dialogue_id == "":
+		return
+	if dialogue_id == H_EVENT_PREVIEW_DIALOGUE_ID and h_event_active:
+		_play_next_h_event_dialogue(true)
+		return
+	if h_event_active:
+		_play_next_h_event_dialogue(true)
 		return
 	if AVGDialogueService.is_viewed(dialogue_id, interaction_history):
 		return
@@ -1325,9 +1453,9 @@ func _on_store_purchase_requested(content_id: String) -> void:
 		_record_interaction_event("background_unlocked", content_id)
 		_save_game()
 		_refresh_progress_ui()
-		if spine_background != null and spine_background.has_method("set_content_state"):
-			spine_background.set_content_state(background_defs, unlocked_content)
-			spine_background.load_selected_background()
+		if drive_scene != null and drive_scene.has_method("set_content_state"):
+			drive_scene.set_content_state(background_defs, unlocked_content)
+			drive_scene.load_selected_background()
 		_refresh_background_menu()
 		if store_controller != null:
 			store_controller.refresh_items(_store_items())
@@ -1355,9 +1483,11 @@ func _refresh_progress_ui() -> void:
 	if focus_points_value_label != null:
 		focus_points_value_label.text = _format_compact_number(int(currencies.get("focus_points", 0)))
 	if level_label != null:
-		level_label.tooltip_text = "%s %d  XP %d / %d" % [localizer.translate("top.focus_level"), level_progress.focus_level, level_progress.focus_xp, _xp_required_for_next_level()]
+		var tokens := int(currencies.get("gold_tokens", 0))
+		level_label.tooltip_text = "%s: %d  XP %d / %d" % [localizer.translate("top.gold_tokens"), tokens, level_progress.focus_xp, _xp_required_for_next_level()]
+		level_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if tokens > 0 else Control.CURSOR_ARROW
 	if focus_level_badge_label != null:
-		focus_level_badge_label.text = str(int(level_progress.get("focus_level", 1)))
+		focus_level_badge_label.text = str(int(currencies.get("gold_tokens", 0)))
 	if focus_level_progress != null:
 		var required := _xp_required_for_next_level()
 		focus_level_progress.max_value = max(required, 1)
@@ -1466,6 +1596,7 @@ func _context_id() -> String:
 func _load_save() -> void:
 	var parsed := SaveDataService.load_payload(SAVE_PATH, {})
 	if parsed.is_empty():
+		_ensure_currency_defaults()
 		return
 	tasks = parsed.get("tasks", tasks)
 	sessions = parsed.get("sessions", sessions)
@@ -1498,6 +1629,15 @@ func _load_save() -> void:
 			ambient_prompt_frequency = AMBIENT_PROMPT_NORMAL
 		if selected_background_id == "":
 			selected_background_id = BACKGROUND_LOFI_AUTO
+
+
+func _ensure_currency_defaults() -> void:
+	if not currencies.has("focus_points"):
+		currencies.focus_points = 0
+	if not currencies.has("bond_points_total"):
+		currencies.bond_points_total = 0
+	if not currencies.has("gold_tokens"):
+		currencies.gold_tokens = 0
 
 
 func _save_game() -> void:
