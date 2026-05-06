@@ -1,16 +1,12 @@
 extends Node
 
+const TaxiStreetWorldController = preload("res://scripts/taxi_street_world_controller.gd")
+
 const ASSET_ROOT := "res://assets/Taxi"
 const SOURCE_SIZE := Vector2(3600, 2000)
 const TARGET_VIEWPORT_SIZE := Vector2(1152, 648)
-const EXTERIOR_SKY_PATH := "res://assets/Taxi/Exterior/exterior_sky_night.png"
-const EXTERIOR_SIDE_PATH := "res://assets/Taxi/Exterior/exterior_side_loop.png"
-const EXTERIOR_ROAD_PATH := "res://assets/Taxi/Exterior/exterior_rear_road.png"
-const SIDE_TILE_WIDTH := 1600.0
 
 const LAYERS := [
-	{"name": "Sky", "path": "", "z": -100, "amp": Vector2.ZERO, "phase": 0.0},
-	{"name": "RoadStreaks", "path": "", "z": -90, "amp": Vector2.ZERO, "phase": 0.0},
 	{"name": "BackSeat", "path": "後景_車後座.png", "z": 0, "amp": Vector2(5.0, 4.0), "phase": 0.0},
 	{"name": "FrontSeat", "path": "中景_前座椅.png", "z": 10, "amp": Vector2(8.0, 6.0), "phase": 0.7},
 	{"name": "Fox", "path": "前景_狐.png", "z": 20, "amp": Vector2(10.0, 8.0), "phase": 1.2},
@@ -26,11 +22,9 @@ var root_2d: Node2D
 var selected_context := {}
 var selected_background_id := ""
 var layer_nodes := []
-var streak_nodes := []
-var exterior_sprite_nodes := []
-var side_scenery_nodes := []
-var rear_road_mark_nodes := []
 var sky_rect: ColorRect
+var street_viewport: SubViewport
+var street_sprite: Sprite2D
 var elapsed := 0.0
 var viewport_size := TARGET_VIEWPORT_SIZE
 var fit_scale := 1.0
@@ -73,14 +67,17 @@ func fit_to_viewport() -> void:
 	fit_origin = viewport_size * 0.5
 	if sky_rect != null:
 		sky_rect.size = viewport_size
-	_fit_exterior_nodes()
+	if street_viewport != null:
+		street_viewport.size = Vector2i(int(ceil(viewport_size.x)), int(ceil(viewport_size.y)))
+	if street_sprite != null:
+		street_sprite.position = viewport_size * 0.5
+		street_sprite.scale = Vector2.ONE
 	for entry in layer_nodes:
 		var sprite: Sprite2D = entry.get("node")
 		if sprite == null:
 			continue
 		sprite.scale = Vector2.ONE * fit_scale
 		sprite.position = fit_origin
-	_update_streak_layout()
 
 
 func _process(delta: float) -> void:
@@ -113,7 +110,6 @@ func _process(delta: float) -> void:
 		if str(entry.get("name", "")) == "CharmCord" or str(entry.get("name", "")) == "CharmDown":
 			sprite.rotation += deg_to_rad(0.8 * sin(elapsed * 2.4 + phase) + bump * 0.08)
 	_update_exterior(delta, road_hum, bump)
-	_update_streaks(delta)
 
 
 func _schedule_next_bump() -> void:
@@ -150,13 +146,12 @@ func _build_scene() -> void:
 	for child in root_2d.get_children():
 		child.queue_free()
 	layer_nodes.clear()
-	streak_nodes.clear()
-	exterior_sprite_nodes.clear()
-	side_scenery_nodes.clear()
-	rear_road_mark_nodes.clear()
+	if street_viewport != null:
+		street_viewport.queue_free()
+		street_viewport = null
+	street_sprite = null
 	_build_sky()
 	_build_exterior()
-	_build_streaks()
 	for definition in LAYERS:
 		var path := str(definition.get("path", ""))
 		if path == "":
@@ -188,177 +183,36 @@ func _build_sky() -> void:
 
 
 func _build_exterior() -> void:
-	_add_exterior_sprite("ExteriorSky", EXTERIOR_SKY_PATH, -99, SOURCE_SIZE * 0.5)
-	_add_exterior_sprite("ExteriorRearRoad", EXTERIOR_ROAD_PATH, -97, SOURCE_SIZE * 0.5)
-	for side in [-1.0, 1.0]:
-		var base_x := 520.0 if side < 0.0 else 3080.0
-		for i in range(3):
-			var sprite := _add_exterior_sprite(
-				"ExteriorSide%d_%d" % [int(side), i],
-				EXTERIOR_SIDE_PATH,
-				-98,
-				Vector2(base_x + (float(i) - 1.0) * SIDE_TILE_WIDTH, 770.0)
-			)
-			side_scenery_nodes.append({
-				"node": sprite,
-				"side": side,
-				"x": base_x + (float(i) - 1.0) * SIDE_TILE_WIDTH,
-				"base_x": base_x,
-				"base_y": 770.0,
-				"phase": float(i) * 0.8
-			})
-	for i in range(18):
-		var line := Line2D.new()
-		line.name = "ExteriorRoadMark%d" % i
-		line.z_index = -96
-		line.width = 3.0
-		line.default_color = Color(1.0, 0.92, 0.58, 0.52)
-		root_2d.add_child(line)
-		rear_road_mark_nodes.append({
-			"node": line,
-			"progress": float(i) / 18.0
-		})
+	street_viewport = SubViewport.new()
+	street_viewport.name = "TaxiStreetViewport"
+	street_viewport.disable_3d = false
+	street_viewport.transparent_bg = false
+	street_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	street_viewport.msaa_3d = Viewport.MSAA_4X
+	street_viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA
+	street_viewport.size = Vector2i(int(TARGET_VIEWPORT_SIZE.x), int(TARGET_VIEWPORT_SIZE.y))
+	add_child(street_viewport)
 
+	var street_world := TaxiStreetWorldController.new()
+	street_world.name = "TaxiStreetWorld"
+	street_viewport.add_child(street_world)
 
-func _add_exterior_sprite(node_name: String, texture_path: String, z_index: int, source_position: Vector2) -> Sprite2D:
-	var sprite := Sprite2D.new()
-	sprite.name = node_name
-	sprite.texture = _load_texture(texture_path)
-	sprite.centered = true
-	sprite.z_index = z_index
-	root_2d.add_child(sprite)
-	exterior_sprite_nodes.append({
-		"node": sprite,
-		"source_position": source_position
-	})
-	return sprite
-
-
-func _fit_exterior_nodes() -> void:
-	for entry in exterior_sprite_nodes:
-		var sprite: Sprite2D = entry.get("node")
-		if sprite == null:
-			continue
-		sprite.scale = Vector2.ONE * fit_scale
-		sprite.position = _source_to_screen(entry.get("source_position", SOURCE_SIZE * 0.5))
-	for entry in rear_road_mark_nodes:
-		_set_rear_road_mark_points(entry)
+	street_sprite = Sprite2D.new()
+	street_sprite.name = "ExteriorStreet3D"
+	street_sprite.texture = street_viewport.get_texture()
+	street_sprite.centered = true
+	street_sprite.z_index = -99
+	root_2d.add_child(street_sprite)
 
 
 func _update_exterior(delta: float, road_hum: Vector2, bump: float) -> void:
-	for entry in exterior_sprite_nodes:
-		var sprite: Sprite2D = entry.get("node")
-		if sprite == null:
-			continue
-		var source_position: Vector2 = entry.get("source_position", SOURCE_SIZE * 0.5)
-		sprite.position = _source_to_screen(source_position) + road_hum * 0.35 + Vector2(0.0, bump * 0.35)
-		sprite.scale = Vector2.ONE * fit_scale
-	for entry in side_scenery_nodes:
-		var side := float(entry.get("side", 1.0))
-		var x := float(entry.get("x", 0.0)) + side * 260.0 * delta
-		var base_x := float(entry.get("base_x", 0.0))
-		var limit := SIDE_TILE_WIDTH * 1.5
-		if side < 0.0 and x < base_x - limit:
-			x += SIDE_TILE_WIDTH * 3.0
-		elif side > 0.0 and x > base_x + limit:
-			x -= SIDE_TILE_WIDTH * 3.0
-		entry.x = x
-		var source_position := Vector2(
-			x,
-			float(entry.get("base_y", 770.0)) + sin(elapsed * 0.9 + float(entry.get("phase", 0.0))) * 6.0
-		)
-		entry.source_position = source_position
-		var sprite: Sprite2D = entry.get("node")
-		if sprite != null:
-			sprite.position = _source_to_screen(source_position) + road_hum * 0.25
-			sprite.scale = Vector2.ONE * fit_scale
-	for entry in rear_road_mark_nodes:
-		entry.progress = fposmod(float(entry.get("progress", 0.0)) + delta * 0.34, 1.0)
-		_set_rear_road_mark_points(entry)
-
-
-func _set_rear_road_mark_points(entry: Dictionary) -> void:
-	var line: Line2D = entry.get("node")
-	if line == null:
+	if street_sprite == null:
 		return
-	var progress := float(entry.get("progress", 0.0))
-	var t0: float = progress
-	var t1: float = min(progress + 0.08, 1.0)
-	var start := _road_center_point(t0)
-	var finish := _road_center_point(t1)
-	line.width = lerp(2.0, 10.0, t0) * fit_scale
-	line.default_color = Color(1.0, 0.92, 0.58, lerp(0.18, 0.68, t0))
-	line.points = PackedVector2Array([
-		_source_to_screen(start),
-		_source_to_screen(finish)
-	])
-
-
-func _road_center_point(t: float) -> Vector2:
-	var eased := t * t
-	return Vector2(
-		1800.0 + sin(t * PI * 2.0 + elapsed * 0.6) * lerp(8.0, 64.0, eased),
-		lerp(650.0, 1980.0, eased)
-	)
+	street_sprite.position = viewport_size * 0.5 + road_hum * 0.35 + Vector2(0.0, bump * 0.25)
 
 
 func _source_to_screen(source_position: Vector2) -> Vector2:
 	return fit_origin + (source_position - SOURCE_SIZE * 0.5) * fit_scale
-
-
-func _build_streaks() -> void:
-	for i in range(16):
-		var line := Line2D.new()
-		line.name = "TaxiRoadStreak%d" % i
-		line.z_index = -90
-		line.width = 1.6 + float(i % 3) * 0.6
-		line.default_color = Color(1.0, 0.88, 0.48, 0.14 + 0.05 * float(i % 2))
-		root_2d.add_child(line)
-		streak_nodes.append({
-			"node": line,
-			"side": -1.0 if i % 2 == 0 else 1.0,
-			"speed": 0.42 + 0.035 * float(i % 6),
-			"progress": 0.0,
-			"lane": float(i / 2),
-			"length": 110.0 + 20.0 * float(i % 4)
-		})
-
-
-func _update_streak_layout() -> void:
-	for i in range(streak_nodes.size()):
-		var entry = streak_nodes[i]
-		entry.progress = fposmod(float(i) * 0.13, 1.0)
-		_set_streak_points(entry)
-
-
-func _update_streaks(delta: float) -> void:
-	for entry in streak_nodes:
-		entry.progress = float(entry.progress) + float(entry.speed) * delta
-		if float(entry.progress) > 1.0:
-			entry.progress = 0.0
-		_set_streak_points(entry)
-
-
-func _set_streak_points(entry: Dictionary) -> void:
-	var line: Line2D = entry.get("node")
-	if line == null:
-		return
-	var side := float(entry.get("side", 1.0))
-	var progress := float(entry.get("progress", 0.0))
-	var lane := float(entry.get("lane", 0.0))
-	var length: float = float(entry.get("length", 120.0)) * fit_scale
-	var eased: float = progress * progress
-	var start_x: float = viewport_size.x * (0.47 + side * (0.08 + 0.015 * fmod(lane, 4.0)))
-	var end_x: float = viewport_size.x * (0.08 if side < 0.0 else 0.92)
-	var start_y: float = viewport_size.y * (0.34 + 0.018 * fmod(lane, 5.0))
-	var end_y: float = viewport_size.y * (0.72 + 0.025 * fmod(lane, 4.0))
-	var x: float = lerp(start_x, end_x, eased)
-	var y: float = lerp(start_y, end_y, eased) + sin(elapsed * 5.0 + lane) * 1.5 * fit_scale
-	var tail := Vector2(side * length * (0.75 + progress), length * 0.22)
-	line.points = PackedVector2Array([
-		Vector2(x, y),
-		Vector2(x + tail.x, y + tail.y)
-	])
 
 
 func _apply_context_tint() -> void:

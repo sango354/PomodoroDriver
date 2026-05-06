@@ -1,6 +1,6 @@
 # Manual QA Checklist
 
-Last updated: 2026-05-03
+Last updated: 2026-05-07
 
 Use this checklist after UI, timer, companion, media, localization, or save/load
 changes. Run the headless checks first, then verify the windowed game manually.
@@ -51,6 +51,22 @@ E:\ProjectPomodoro\build-windows.cmd
 - Cycle Day, Sunset, Night, and Cloudy while Background 01 and Background 02
   are selected, and confirm the Room animation changes without layout jumps.
 - Restart the game and confirm the selected background mode persists.
+
+## Taxi 3D Street Exterior
+
+- Start the game in a window and confirm the taxi interior remains a 2D UI
+  foreground while the outside view is rendered from the 3D street viewport.
+- Confirm the exterior motion reads as forward taxi travel, not reverse travel.
+- Confirm the current exterior speed is slow enough for QA at
+  `DRIVE_SPEED = 2.6`.
+- Watch at least 30 seconds of driving and confirm there are no periodic
+  position snaps while moving straight.
+- Confirm intersections transition smoothly through a curved turn instead of
+  instantly switching direction.
+- Confirm the left/right/rear window openings show street buildings and sky
+  without exposing blank background or obvious model clipping.
+- Resize the window and confirm the 3D viewport still fills the taxi exterior
+  area behind the interior layers.
 
 ## Debug UI Controls
 

@@ -1,5 +1,6 @@
 tools/
 builds/
+tmp/
 game/.godot/
 game/.import/
 game/export.cfg

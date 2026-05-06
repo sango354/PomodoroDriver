@@ -1,6 +1,6 @@
 # Current Development Progress
 
-Last updated: 2026-05-05
+Last updated: 2026-05-07
 
 This document records the current implementation state so work can continue
 from another machine without relying on chat history.
@@ -468,6 +468,58 @@ Deferred from the 2026-04-29 planning pass:
 - Music metadata table remains future work.
 
 ## Latest Validation
+
+2026-05-07:
+
+- Taxi exterior scenery handoff:
+  - Active taxi main screen now renders the exterior through a live 3D
+    `SubViewport` instead of the previous flat 2D sky/side-loop/rear-road
+    sprites.
+  - `game/scripts/taxi_drive_controller.gd` owns the taxi interior layered UI
+    and creates `TaxiStreetViewport`.
+  - `game/scripts/taxi_street_world_controller.gd` owns the 3D city scene,
+    route graph, camera motion, road blocks, perimeter buildings, props, and
+    street lighting.
+  - `game/scripts/glb_static_loader.gd` loads the generated GLB models and
+    applies texture/material remaps for the Japanese street asset subset.
+  - Runtime art used by the 3D street scene is under
+    `game/assets/Generated/JapaneseStreet3D/`.
+  - The raw Unity asset folder `game/assets/Japanese_Street/` is source
+    material only and is not referenced by runtime scripts. Do not include it
+    in normal commits unless source-asset archival is explicitly requested.
+  - The older flat exterior prototype files under `game/assets/Taxi/Exterior/`
+    for `exterior_sky_night`, `exterior_side_loop`, and `exterior_rear_road`
+    were removed from the active runtime path.
+- Current driving behavior:
+  - Vehicle/camera position advances continuously along street graph segments
+    at `DRIVE_SPEED = 2.6`.
+  - The taxi interior and driver remain 2D UI layers in front of the 3D
+    viewport.
+  - Camera facing is intentionally opposite the route segment direction:
+    straight segments use `(segment_start - segment_end).normalized()`.
+  - Turn segments use the reversed Bezier tangent so the apparent exterior
+    motion matches forward taxi travel from the user's view.
+  - Route transitions no longer snap at regular intervals. If the next decision
+    is straight, the controller continues through the full road segment. If a
+    turn is required, it enters the turn curve before the intersection.
+  - When an intersection has no straight path, the controller now forces the
+    turn branch early instead of reaching the node and changing direction
+    instantly.
+- Map layout state:
+  - Default active map id is `downtown_grid`.
+  - Two map definitions currently exist in code: `countdown_grid` and
+    `downtown_grid`.
+  - The current structure is ready for later map switching by adding map
+    definitions and calling `set_active_map(map_id)`.
+- Local validation on `E:\Pomodoro-copy`:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --path E:\Pomodoro-copy\game --quit-after 3
+git diff --check -- game/scripts/taxi_street_world_controller.gd
+```
+
+- Windowed screenshot checks were saved under `tmp/` during development, but
+  `tmp/` is local scratch output and should not be committed.
 
 2026-05-05:
 
