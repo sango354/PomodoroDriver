@@ -153,6 +153,8 @@ var selected_background_id := BACKGROUND_LOFI_AUTO
 var h_event_active := false
 var h_event_queue: Array = []
 var h_event_music_state := {}
+var avg_dialogue_music_state := {}
+var avg_dialogue_music_suspended := false
 var quit_requested := false
 
 
@@ -1454,6 +1456,8 @@ func _apply_ui_visibility() -> void:
 		avg_gallery_controller.hide_gallery()
 	if avg_dialogue_controller != null and simple_mode_enabled and avg_dialogue_controller.has_method("hide_dialogue"):
 		avg_dialogue_controller.hide_dialogue()
+		if not h_event_active:
+			_restore_music_after_avg_dialogue()
 	if result_controller != null and simple_mode_enabled and result_controller.has_method("hide_result"):
 		result_controller.hide_result()
 	if music_controller != null and music_controller.has_method("set_ui_visible"):
@@ -1550,6 +1554,7 @@ func _start_avg_dialogue(dialogue_id: String) -> bool:
 	_hide_ambient_prompt()
 	_hide_break_interaction()
 	_stop_break_media()
+	_suspend_music_for_avg_dialogue()
 	avg_dialogue_controller.show_dialogue(dialogue)
 	return true
 
@@ -1653,6 +1658,24 @@ func _restore_music_after_h_event() -> void:
 	h_event_music_state = {}
 
 
+func _suspend_music_for_avg_dialogue() -> void:
+	if h_event_active or avg_dialogue_music_suspended:
+		return
+	avg_dialogue_music_state = {}
+	if music_controller != null and music_controller.has_method("suspend_for_event"):
+		avg_dialogue_music_state = music_controller.suspend_for_event()
+	avg_dialogue_music_suspended = true
+
+
+func _restore_music_after_avg_dialogue() -> void:
+	if not avg_dialogue_music_suspended:
+		return
+	if music_controller != null and music_controller.has_method("restore_after_event"):
+		music_controller.restore_after_event(avg_dialogue_music_state)
+	avg_dialogue_music_state = {}
+	avg_dialogue_music_suspended = false
+
+
 func _unlock_avg_dialogue(dialogue_id: String) -> void:
 	if dialogue_id == "":
 		return
@@ -1680,6 +1703,7 @@ func _on_avg_dialogue_finished(dialogue_id: String) -> void:
 	if h_event_active:
 		_play_next_h_event_dialogue(true)
 		return
+	_restore_music_after_avg_dialogue()
 	if AVGDialogueService.is_viewed(dialogue_id, interaction_history):
 		return
 	_record_interaction_event(AVGDialogueService.VIEWED_EVENT_TYPE, dialogue_id)

@@ -107,8 +107,8 @@ func _process(delta: float) -> void:
 	elapsed += delta
 	var bump := _update_road_bump(delta)
 	var road_hum := Vector2(
-		(sin(elapsed * 1.7) * 0.27 + sin(elapsed * 2.9) * 0.12) * fit_scale,
-		(sin(elapsed * 1.35) * 0.21 + sin(elapsed * 2.2) * 0.09) * fit_scale
+		(sin(elapsed * 1.7) * 0.38 + sin(elapsed * 2.9) * 0.17) * fit_scale,
+		(sin(elapsed * 1.35) * 0.30 + sin(elapsed * 2.2) * 0.13) * fit_scale
 	)
 	for entry in layer_nodes:
 		var sprite: Sprite2D = entry.get("node")
@@ -116,7 +116,7 @@ func _process(delta: float) -> void:
 			continue
 		var breath: float = _get_breath_amount() if bool(entry.get("breathing", false)) else 0.0
 		sprite.scale = Vector2(
-			fit_scale * (1.0 + breath * 0.28),
+			fit_scale * (1.0 + breath * 0.32),
 			fit_scale * (1.0 + breath)
 		)
 		if bool(entry.get("fixed", false)):
@@ -126,10 +126,10 @@ func _process(delta: float) -> void:
 		var amp: Vector2 = entry.get("amp", Vector2.ZERO) * fit_scale
 		var phase := float(entry.get("phase", 0.0))
 		sprite.position = fit_origin + Vector2(
-			amp.x * 0.08 * sin(elapsed * 1.8 + phase) + road_hum.x,
-			amp.y * 0.06 * sin(elapsed * 2.1 + phase) + road_hum.y + bump
+			amp.x * 0.105 * sin(elapsed * 1.8 + phase) + road_hum.x,
+			amp.y * 0.08 * sin(elapsed * 2.1 + phase) + road_hum.y + bump
 		)
-		sprite.rotation = deg_to_rad(0.035 * sin(elapsed * 1.6 + phase) + bump * 0.012)
+		sprite.rotation = deg_to_rad(0.048 * sin(elapsed * 1.6 + phase) + bump * 0.012)
 		if str(entry.get("name", "")) == "CharmCord" or str(entry.get("name", "")) == "CharmDown":
 			sprite.rotation += deg_to_rad(0.8 * sin(elapsed * 2.4 + phase) + bump * 0.08)
 	_update_exterior(delta, road_hum, bump)
@@ -145,7 +145,7 @@ func _schedule_next_bump() -> void:
 func _get_breath_amount() -> float:
 	var cycle: float = sin(elapsed * 1.45 - PI * 0.5) * 0.5 + 0.5
 	var eased: float = cycle * cycle * (3.0 - 2.0 * cycle)
-	return eased * 0.009
+	return eased * 0.018
 
 
 func _update_road_bump(delta: float) -> float:
@@ -232,7 +232,7 @@ func _build_exterior() -> void:
 func _update_exterior(delta: float, road_hum: Vector2, bump: float) -> void:
 	if street_sprite == null:
 		return
-	street_sprite.position = viewport_size * 0.5 + road_hum * 0.35 + Vector2(0.0, bump * 0.25)
+	street_sprite.position = viewport_size * 0.5 + road_hum * 0.46 + Vector2(0.0, bump * 0.28)
 
 
 func _source_to_screen(source_position: Vector2) -> Vector2:
