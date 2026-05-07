@@ -104,13 +104,21 @@ var message_label: Label
 var top_bar: Control
 var bottom_mode_controls: Control
 var background_menu_panel: PanelContainer
+var tutorial_button: Button
+var tutorial_panel: PanelContainer
+var simple_mode_button: Button
+var tasks_toggle_button: Button
+var timer_toggle_button: Button
+var ambience_toggle_button: Control
 var focus_progress_hud: Control
 var fp_label: Control
 var focus_points_value_label: Label
+var bond_level_label: Label
 var level_label: Control
 var focus_level_badge_label: Label
 var focus_level_progress: ProgressBar
 var bond_label: Button
+var stats_panel: PanelContainer
 var stats_label: Label
 var duration_minutes := DEFAULT_FOCUS_MINUTES
 var break_duration_minutes := DEFAULT_BREAK_MINUTES
@@ -180,6 +188,8 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if _handle_top_bar_popup_pointer(event):
+		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F1:
 		currencies.focus_points = int(currencies.get("focus_points", 0)) + 100
 		_save_game()
@@ -191,6 +201,53 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F3:
 		if drive_scene != null and drive_scene.has_method("trigger_sky_transition"):
 			drive_scene.trigger_sky_transition()
+
+
+func _handle_top_bar_popup_pointer(event: InputEvent) -> bool:
+	if not (event is InputEventMouseButton):
+		return false
+	var mouse_event := event as InputEventMouseButton
+	if not mouse_event.pressed:
+		return false
+	if not _has_top_bar_popup_open():
+		return false
+	if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+		_hide_top_bar_popups()
+		get_viewport().set_input_as_handled()
+		return true
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return false
+	if top_bar != null and top_bar.get_global_rect().has_point(mouse_event.position):
+		return false
+	if not _top_bar_popup_contains_point(mouse_event.position):
+		_hide_top_bar_popups()
+		get_viewport().set_input_as_handled()
+		return true
+	return false
+
+
+func _has_top_bar_popup_open() -> bool:
+	if stats_panel != null and stats_panel.visible:
+		return true
+	if tutorial_panel != null and tutorial_panel.visible:
+		return true
+	if option_controller != null and option_controller.has_method("is_visible") and option_controller.is_visible():
+		return true
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("is_gallery_visible") and avg_gallery_controller.is_gallery_visible():
+		return true
+	return false
+
+
+func _top_bar_popup_contains_point(point: Vector2) -> bool:
+	if stats_panel != null and stats_panel.visible and stats_panel.get_global_rect().has_point(point):
+		return true
+	if tutorial_panel != null and tutorial_panel.visible and tutorial_panel.get_global_rect().has_point(point):
+		return true
+	if option_controller != null and option_controller.has_method("contains_global_point") and option_controller.contains_global_point(point):
+		return true
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("contains_global_point") and avg_gallery_controller.contains_global_point(point):
+		return true
+	return false
 
 
 func _notification(what: int) -> void:
@@ -263,6 +320,7 @@ func _build_scene() -> void:
 	option_controller.language_next_pressed.connect(_on_next_language_pressed)
 	option_controller.break_media_pressed.connect(_on_break_media_toggled)
 	option_controller.ambient_prompt_pressed.connect(_on_ambient_prompt_frequency_pressed)
+	option_controller.panel_opened.connect(_on_option_panel_opened)
 
 	_build_top_bar(layers)
 	store_controller = StorePanelController.new()
@@ -324,6 +382,7 @@ func _build_scene() -> void:
 	break_media_controller.setup(layers, break_media_enabled, break_media_path)
 	break_media_controller.playback_failed.connect(_on_break_media_failed)
 	_build_stats_overlay(layers)
+	_build_tutorial_overlay(layers)
 	music_controller = MusicPlayerController.new()
 	add_child(music_controller)
 	music_controller.state_changed.connect(_save_game)
@@ -336,13 +395,14 @@ func _build_top_bar(parent: Control) -> void:
 	var bar := PanelContainer.new()
 	top_bar = bar
 	bar.name = "TopBar"
-	bar.anchor_left = 1.0
+	bar.z_index = 90
+	bar.anchor_left = 0.0
 	bar.anchor_top = 0.0
-	bar.anchor_right = 1.0
+	bar.anchor_right = 0.0
 	bar.anchor_bottom = 0.0
-	bar.offset_left = -330
+	bar.offset_left = 0
 	bar.offset_top = 0
-	bar.offset_right = 0
+	bar.offset_right = 240
 	bar.offset_bottom = 46
 	bar.add_theme_stylebox_override("panel", _new_panel_style(0.42))
 	parent.add_child(bar)
@@ -358,18 +418,25 @@ func _build_top_bar(parent: Control) -> void:
 	row.add_theme_constant_override("separation", 8)
 	margin.add_child(row)
 
-	var bond_button := _new_icon_button("BD", "Bond")
-	bond_label = bond_button
-	row.add_child(bond_button)
-
 	var unlocks := _new_icon_button("UL", "Unlocks")
 	unlocks_label = unlocks
+	unlocks.text = ""
+	unlocks.tooltip_text = ""
+	unlocks.visible = false
 	row.add_child(unlocks)
 
 	var shop := _new_icon_button("SH", "Store")
 	store_button = shop
+	shop.text = ""
+	shop.tooltip_text = ""
+	shop.visible = false
 	shop.pressed.connect(_toggle_store_panel)
 	row.add_child(shop)
+
+	var tutorial := _new_icon_button("教學", "Tutorial")
+	tutorial_button = tutorial
+	tutorial.pressed.connect(_toggle_tutorial_panel)
+	row.add_child(tutorial)
 
 	var gallery := _new_icon_button("DG", "Dialogue Gallery")
 	avg_gallery_button = gallery
@@ -395,32 +462,38 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	panel.anchor_top = 1.0
 	panel.anchor_right = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -390
+	panel.offset_left = -210
 	panel.offset_top = -50
-	panel.offset_right = -64
+	panel.offset_right = 0
 	panel.offset_bottom = 0
 	parent.add_child(panel)
 
 	var margin := MarginContainer.new()
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	margin.add_theme_constant_override("margin_left", 8)
 	margin.add_theme_constant_override("margin_right", 8)
-	margin.add_theme_constant_override("margin_top", 4)
-	margin.add_theme_constant_override("margin_bottom", 4)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
 	panel.add_child(margin)
 
 	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_END
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("separation", 8)
 	margin.add_child(row)
 
 	var simple_button := _new_icon_button("A", "Simple Mode")
+	simple_mode_button = simple_button
 	simple_button.pressed.connect(_toggle_simple_mode)
 	row.add_child(simple_button)
 
 	var tasks_button := _new_icon_button("B", "Tasks")
+	tasks_toggle_button = tasks_button
 	tasks_button.pressed.connect(_toggle_tasks_ui)
 	row.add_child(tasks_button)
 
 	var timer_button := _new_icon_button("C", "Pomodoro")
+	timer_toggle_button = timer_button
 	timer_button.pressed.connect(_toggle_timer_ui)
 	row.add_child(timer_button)
 
@@ -434,6 +507,17 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	background_button.pressed.connect(_toggle_background_menu)
 	row.add_child(background_button)
 
+	time_button.visible = false
+	background_button.visible = false
+	if music_controller != null and music_controller.has_method("create_ambience_button"):
+		var ambience_button: Control = music_controller.create_ambience_button()
+		ambience_toggle_button = ambience_button
+		row.add_child(ambience_button)
+		row.move_child(ambience_button, 0)
+	row.move_child(tasks_button, 1)
+	row.move_child(timer_button, 2)
+	row.move_child(simple_button, row.get_child_count() - 1)
+
 	_build_background_menu(parent)
 
 
@@ -442,40 +526,64 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	focus_progress_hud = hud
 	hud.name = "FocusProgressHud"
 	hud.z_index = 40
-	hud.anchor_left = 0.0
+	hud.anchor_left = 1.0
 	hud.anchor_top = 0.0
-	hud.anchor_right = 0.0
+	hud.anchor_right = 1.0
 	hud.anchor_bottom = 0.0
-	hud.offset_left = 112
+	hud.offset_left = -430
 	hud.offset_top = 1
-	hud.offset_right = 316
+	hud.offset_right = 0
 	hud.offset_bottom = 35
 	hud.add_theme_constant_override("separation", 6)
 	parent.add_child(hud)
 
 	var points := HBoxContainer.new()
 	fp_label = points
-	points.custom_minimum_size = Vector2(94, 32)
+	points.custom_minimum_size = Vector2(108, 32)
+	points.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	points.add_theme_constant_override("separation", 5)
 	hud.add_child(points)
 
 	var diamond := Label.new()
 	diamond.text = "◇"
 	diamond.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	diamond.custom_minimum_size = Vector2(22, 32)
+	diamond.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	diamond.add_theme_font_size_override("font_size", 19)
 	diamond.add_theme_color_override("font_color", Color(0.96, 0.98, 1.0, 1.0))
+	diamond.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
+	diamond.add_theme_constant_override("shadow_offset_x", 2)
+	diamond.add_theme_constant_override("shadow_offset_y", 2)
 	points.add_child(diamond)
 
 	focus_points_value_label = Label.new()
 	focus_points_value_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	focus_points_value_label.custom_minimum_size = Vector2(64, 0)
+	focus_points_value_label.custom_minimum_size = Vector2(76, 32)
+	focus_points_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	focus_points_value_label.add_theme_font_size_override("font_size", 22)
 	focus_points_value_label.add_theme_color_override("font_color", Color(0.96, 0.98, 1.0, 1.0))
+	focus_points_value_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
+	focus_points_value_label.add_theme_constant_override("shadow_offset_x", 2)
+	focus_points_value_label.add_theme_constant_override("shadow_offset_y", 2)
 	points.add_child(focus_points_value_label)
+
+	bond_level_label = Label.new()
+	bond_level_label.mouse_filter = Control.MOUSE_FILTER_STOP
+	bond_level_label.custom_minimum_size = Vector2(70, 32)
+	bond_level_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bond_level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	bond_level_label.add_theme_font_size_override("font_size", 22)
+	bond_level_label.add_theme_color_override("font_color", Color(1.0, 0.83, 0.38, 1.0))
+	bond_level_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
+	bond_level_label.add_theme_constant_override("shadow_offset_x", 2)
+	bond_level_label.add_theme_constant_override("shadow_offset_y", 2)
+	hud.add_child(bond_level_label)
 
 	var level := Control.new()
 	level_label = level
-	level.custom_minimum_size = Vector2(94, 32)
+	level.custom_minimum_size = Vector2(116, 32)
+	level.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	level.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	level.mouse_filter = Control.MOUSE_FILTER_STOP
 	level.gui_input.connect(_on_gold_token_gui_input)
 	hud.add_child(level)
@@ -520,7 +628,10 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	focus_level_badge_label = Label.new()
 	focus_level_badge_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	focus_level_badge_label.add_theme_font_size_override("font_size", 15)
-	focus_level_badge_label.add_theme_color_override("font_color", Color(0.07, 0.29, 0.42, 1.0))
+	focus_level_badge_label.add_theme_color_override("font_color", Color(1.0, 0.86, 0.36, 1.0))
+	focus_level_badge_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
+	focus_level_badge_label.add_theme_constant_override("shadow_offset_x", 1)
+	focus_level_badge_label.add_theme_constant_override("shadow_offset_y", 1)
 	badge_center.add_child(focus_level_badge_label)
 
 
@@ -600,17 +711,67 @@ func _selected_prefix(background_id: String) -> String:
 
 
 func _build_stats_overlay(parent: Control) -> void:
+	stats_panel = _new_panel()
+	stats_panel.name = "StatsPanel"
+	stats_panel.visible = false
+	stats_panel.z_index = 100
+	stats_panel.anchor_left = 0.0
+	stats_panel.anchor_top = 0.0
+	stats_panel.anchor_right = 0.0
+	stats_panel.anchor_bottom = 0.0
+	stats_panel.offset_left = 342
+	stats_panel.offset_top = 54
+	stats_panel.offset_right = 672
+	stats_panel.offset_bottom = 246
+	parent.add_child(stats_panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 16)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 16)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	stats_panel.add_child(margin)
+
 	stats_label = _new_muted_label("")
-	stats_label.visible = false
-	stats_label.anchor_left = 1.0
-	stats_label.anchor_top = 1.0
-	stats_label.anchor_right = 1.0
-	stats_label.anchor_bottom = 1.0
-	stats_label.offset_left = -250
-	stats_label.offset_top = -156
-	stats_label.offset_right = 0
-	stats_label.offset_bottom = -58
-	parent.add_child(stats_label)
+	margin.add_child(stats_label)
+
+
+func _build_tutorial_overlay(parent: Control) -> void:
+	tutorial_panel = _new_panel()
+	tutorial_panel.name = "TutorialPanel"
+	tutorial_panel.visible = false
+	tutorial_panel.z_index = 100
+	tutorial_panel.anchor_left = 0.0
+	tutorial_panel.anchor_top = 0.0
+	tutorial_panel.anchor_right = 0.0
+	tutorial_panel.anchor_bottom = 0.0
+	tutorial_panel.offset_left = 342
+	tutorial_panel.offset_top = 54
+	tutorial_panel.offset_right = 702
+	tutorial_panel.offset_bottom = 286
+	parent.add_child(tutorial_panel)
+
+	var box := _panel_box(tutorial_panel)
+	var title := _new_title("簡易教學")
+	title.add_theme_font_size_override("font_size", 18)
+	box.add_child(title)
+
+	var body := _new_muted_label(
+		"獲得金代幣的方法\n" +
+		"- 完成專注會累積 XP。\n" +
+		"- XP 滿時會獲得 1 枚金代幣。\n" +
+		"- 擁有金代幣時，可點擊右上金代幣 UI 觸發事件。\n\n" +
+		"完成一次專注的回饋\n" +
+		"- 依完成狀態獲得專注點數與 XP。\n" +
+		"- 完成任務可取得額外獎勵。\n" +
+		"- 專注點數與羈絆等級可在右上角查看。\n\n" +
+		"金手指按鈕\n" +
+		"- F1：增加 100 專注點數。\n" +
+		"- F2：增加 1 枚金代幣。\n" +
+		"- F3：立即切換下一段天色漸變。"
+	)
+	body.add_theme_font_size_override("font_size", 15)
+	box.add_child(body)
 
 
 func _new_panel() -> PanelContainer:
@@ -634,9 +795,9 @@ func _new_panel_style(alpha: float) -> StyleBoxFlat:
 
 func _new_level_badge_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.96, 0.68, 0.18, 1.0)
-	style.border_color = Color(1.0, 0.91, 0.44, 1.0)
-	style.set_border_width_all(0)
+	style.bg_color = Color(0.36, 0.13, 0.48, 1.0)
+	style.border_color = Color(1.0, 0.73, 0.26, 1.0)
+	style.set_border_width_all(2)
 	style.corner_radius_top_left = 17
 	style.corner_radius_top_right = 17
 	style.corner_radius_bottom_left = 17
@@ -646,8 +807,8 @@ func _new_level_badge_style() -> StyleBoxFlat:
 
 func _new_progress_background_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.12, 0.22, 0.48, 0.62)
-	style.border_color = Color(0.86, 0.92, 1.0, 0.95)
+	style.bg_color = Color(0.16, 0.08, 0.24, 0.72)
+	style.border_color = Color(0.95, 0.73, 0.36, 0.96)
 	style.set_border_width_all(2)
 	style.corner_radius_top_left = 0
 	style.corner_radius_top_right = 0
@@ -658,8 +819,8 @@ func _new_progress_background_style() -> StyleBoxFlat:
 
 func _new_progress_fill_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(1.0, 0.77, 0.24, 0.94)
-	style.border_color = Color(1.0, 0.77, 0.24, 0.0)
+	style.bg_color = Color(0.66, 0.28, 0.88, 0.96)
+	style.border_color = Color(1.0, 0.73, 0.26, 0.0)
 	style.set_border_width_all(0)
 	return style
 
@@ -1205,7 +1366,54 @@ func _play_alarm() -> void:
 
 
 func _toggle_stats_message() -> void:
-	stats_label.visible = not stats_label.visible
+	if stats_panel == null:
+		return
+	var should_open := not stats_panel.visible
+	if should_open:
+		_hide_top_bar_popups("stats")
+		_raise_stats_panel()
+	stats_panel.visible = should_open
+
+
+func _toggle_tutorial_panel() -> void:
+	if tutorial_panel == null:
+		return
+	var should_open := not tutorial_panel.visible
+	if should_open:
+		_hide_top_bar_popups("tutorial")
+		_raise_tutorial_panel()
+	tutorial_panel.visible = should_open
+
+
+func _on_option_panel_opened() -> void:
+	_hide_top_bar_popups("option")
+
+
+func _hide_top_bar_popups(except: String = "") -> void:
+	if except != "option" and option_controller != null and option_controller.has_method("hide"):
+		option_controller.hide()
+	if except != "gallery" and avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	if except != "stats" and stats_panel != null:
+		stats_panel.visible = false
+	if except != "tutorial" and tutorial_panel != null:
+		tutorial_panel.visible = false
+
+
+func _raise_stats_panel() -> void:
+	if stats_panel == null:
+		return
+	var parent := stats_panel.get_parent()
+	if parent != null:
+		parent.move_child(stats_panel, parent.get_child_count() - 1)
+
+
+func _raise_tutorial_panel() -> void:
+	if tutorial_panel == null:
+		return
+	var parent := tutorial_panel.get_parent()
+	if parent != null:
+		parent.move_child(tutorial_panel, parent.get_child_count() - 1)
 
 
 func _toggle_simple_mode() -> void:
@@ -1226,8 +1434,18 @@ func _toggle_timer_ui() -> void:
 func _apply_ui_visibility() -> void:
 	if top_bar != null:
 		top_bar.visible = not simple_mode_enabled
-	if stats_label != null:
-		stats_label.visible = false if simple_mode_enabled else stats_label.visible
+	if simple_mode_button != null:
+		simple_mode_button.visible = true
+	if ambience_toggle_button != null:
+		ambience_toggle_button.visible = not simple_mode_enabled
+	if tasks_toggle_button != null:
+		tasks_toggle_button.visible = not simple_mode_enabled
+	if timer_toggle_button != null:
+		timer_toggle_button.visible = not simple_mode_enabled
+	if stats_panel != null:
+		stats_panel.visible = false if simple_mode_enabled else stats_panel.visible
+	if tutorial_panel != null:
+		tutorial_panel.visible = false if simple_mode_enabled else tutorial_panel.visible
 	if option_controller != null and simple_mode_enabled and option_controller.has_method("hide"):
 		option_controller.hide()
 	if store_controller != null and simple_mode_enabled and store_controller.has_method("hide_store"):
@@ -1241,11 +1459,11 @@ func _apply_ui_visibility() -> void:
 	if music_controller != null and music_controller.has_method("set_ui_visible"):
 		music_controller.set_ui_visible(not simple_mode_enabled)
 	if task_controller != null and task_controller.has_method("set_panel_visible"):
-		task_controller.set_panel_visible(tasks_ui_visible)
+		task_controller.set_panel_visible(not simple_mode_enabled and tasks_ui_visible)
 	if focus_progress_hud != null:
-		focus_progress_hud.visible = tasks_ui_visible
+		focus_progress_hud.visible = not simple_mode_enabled and tasks_ui_visible
 	if timer_rail != null and timer_rail.has_method("set_panel_visible"):
-		timer_rail.set_panel_visible(timer_ui_visible)
+		timer_rail.set_panel_visible(not simple_mode_enabled and timer_ui_visible)
 	if timer_settings != null and timer_settings.has_method("hide") and (simple_mode_enabled or not timer_ui_visible):
 		timer_settings.hide()
 	if companion_controller != null and simple_mode_enabled:
@@ -1310,6 +1528,7 @@ func _toggle_avg_gallery() -> void:
 	if avg_gallery_controller.has_method("is_gallery_visible") and avg_gallery_controller.is_gallery_visible():
 		avg_gallery_controller.hide_gallery()
 		return
+	_hide_top_bar_popups("gallery")
 	avg_gallery_controller.show_gallery(
 		AVGDialogueService.dialogues_by_type("main"),
 		AVGDialogueService.gallery_unlocked_dialogue_ids(interaction_history)
@@ -1515,18 +1734,27 @@ func _refresh_progress_ui() -> void:
 		var required := _xp_required_for_next_level()
 		focus_level_progress.max_value = max(required, 1)
 		focus_level_progress.value = clamp(int(level_progress.get("focus_xp", 0)), 0, required)
-	bond_label.text = "BD"
-	bond_label.tooltip_text = "%s Lv.%d  %d / %d" % [localizer.translate("top.bond"), bond_progress.bond_level, bond_progress.bond_points_current, _bond_required_for_next_level()]
+	var bond_tooltip := "%s Lv.%d  %d / %d" % [localizer.translate("top.bond"), bond_progress.bond_level, bond_progress.bond_points_current, _bond_required_for_next_level()]
+	if bond_level_label != null:
+		bond_level_label.text = "LV %d" % int(bond_progress.get("bond_level", 1))
+		bond_level_label.tooltip_text = bond_tooltip
+	if bond_label != null:
+		bond_label.text = ""
+		bond_label.tooltip_text = ""
 	if unlocks_label != null:
-		unlocks_label.tooltip_text = localizer.translate("top.unlocks")
+		unlocks_label.text = ""
+		unlocks_label.tooltip_text = ""
 	if store_button != null:
-		store_button.text = "SH"
-		store_button.tooltip_text = localizer.translate("store.title")
+		store_button.text = ""
+		store_button.tooltip_text = ""
 	if avg_gallery_button != null:
 		avg_gallery_button.text = "DG"
 		avg_gallery_button.tooltip_text = localizer.translate("avg.gallery.title")
 	if stats_button != null:
 		stats_button.tooltip_text = localizer.translate("top.stats")
+	if tutorial_button != null:
+		tutorial_button.text = "教學"
+		tutorial_button.tooltip_text = "簡易教學"
 	stats_label.text = "%s: %d\n%s: %d\n%s: %d\n%s: %d" % [
 		localizer.translate("stats.completed"),
 		daily_stats.completed_sessions,

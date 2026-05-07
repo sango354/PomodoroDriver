@@ -47,6 +47,10 @@ func is_gallery_visible() -> bool:
 	return panel != null and panel.visible
 
 
+func contains_global_point(point: Vector2) -> bool:
+	return panel != null and panel.visible and panel.get_global_rect().has_point(point)
+
+
 func refresh_text() -> void:
 	if title_label != null:
 		title_label.text = _tr("avg.gallery.title")

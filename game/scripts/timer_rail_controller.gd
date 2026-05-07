@@ -7,6 +7,9 @@ signal settings_pressed
 const ICON_RESET_PATH := "res://assets/icons/reset.png"
 const ICON_SETTINGS_PATH := "res://assets/icons/settings.png"
 const TIMER_RAIL_WIDTH := 190
+const TIMER_RAIL_LEFT := 0
+const TIMER_RAIL_TOP := 58
+const TIMER_RAIL_HEIGHT := 222
 const DEFAULT_FOCUS_MINUTES := 5
 const DEFAULT_BREAK_MINUTES := 5
 const TIMER_RUNNING_COLOR := Color(1, 1, 1, 1)
@@ -111,14 +114,14 @@ func _build_timer_rail(parent: Control) -> void:
 	var panel := _new_panel()
 	timer_panel = panel
 	panel.name = "TimerRail"
-	panel.anchor_left = 1.0
+	panel.anchor_left = 0.0
 	panel.anchor_top = 0.0
-	panel.anchor_right = 1.0
+	panel.anchor_right = 0.0
 	panel.anchor_bottom = 0.0
-	panel.offset_left = -TIMER_RAIL_WIDTH
-	panel.offset_top = 64
-	panel.offset_right = 0
-	panel.offset_bottom = 286
+	panel.offset_left = TIMER_RAIL_LEFT
+	panel.offset_top = TIMER_RAIL_TOP
+	panel.offset_right = TIMER_RAIL_LEFT + TIMER_RAIL_WIDTH
+	panel.offset_bottom = TIMER_RAIL_TOP + TIMER_RAIL_HEIGHT
 	panel.custom_minimum_size = Vector2(TIMER_RAIL_WIDTH, 0)
 	parent.add_child(panel)
 	var box := _panel_box(panel)

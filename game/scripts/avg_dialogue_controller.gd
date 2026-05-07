@@ -9,8 +9,6 @@ var background_rect: TextureRect
 var speaker_label: Label
 var dialogue_label: Label
 var prompt_label: Label
-var next_button: Button
-var close_button: Button
 var current_dialogue := {}
 var current_line_index := 0
 var transition_next_background := false
@@ -55,11 +53,14 @@ func _build_overlay(parent: Control) -> void:
 	overlay = Control.new()
 	overlay.name = "AVGDialogueOverlay"
 	overlay.z_index = 320
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.gui_input.connect(_on_overlay_gui_input)
 	parent.add_child(overlay)
 
 	dim_rect = ColorRect.new()
 	dim_rect.color = Color(0, 0, 0, 1.0)
+	dim_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dim_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(dim_rect)
 
@@ -67,12 +68,14 @@ func _build_overlay(parent: Control) -> void:
 	background_rect.name = "AVGBackground"
 	background_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	background_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	background_rect.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	overlay.add_child(background_rect)
 
 	var box := PanelContainer.new()
 	box.name = "AVGTextBox"
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.anchor_left = 0.08
 	box.anchor_top = 1.0
 	box.anchor_right = 0.92
@@ -109,20 +112,9 @@ func _build_overlay(parent: Control) -> void:
 
 	prompt_label = Label.new()
 	prompt_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	prompt_label.add_theme_color_override("font_color", Color(0.86, 0.88, 0.9, 0.82))
 	bottom_row.add_child(prompt_label)
-
-	close_button = Button.new()
-	close_button.custom_minimum_size = Vector2(72, 30)
-	close_button.focus_mode = Control.FOCUS_NONE
-	close_button.pressed.connect(_finish_dialogue)
-	bottom_row.add_child(close_button)
-
-	next_button = Button.new()
-	next_button.custom_minimum_size = Vector2(88, 30)
-	next_button.focus_mode = Control.FOCUS_NONE
-	next_button.pressed.connect(_advance_line)
-	bottom_row.add_child(next_button)
 	_refresh_static_text()
 
 
@@ -141,8 +133,16 @@ func _show_current_line() -> void:
 	_apply_overlay_backdrop(background_path)
 	speaker_label.text = _tr(speaker_key) if speaker_key != "" else str(line.get("speaker", ""))
 	dialogue_label.text = _tr(text_key) if text_key != "" else str(line.get("text", ""))
-	next_button.text = _tr("avg.finish") if current_line_index >= lines.size() - 1 else _tr("avg.next")
 	_set_background(background_path)
+
+
+func _on_overlay_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		advance_or_finish()
+
+
+func advance_or_finish() -> void:
+	_advance_line()
 
 
 func _advance_line() -> void:
@@ -204,11 +204,7 @@ func _load_texture(path: String) -> Texture2D:
 
 func _refresh_static_text() -> void:
 	if prompt_label != null:
-		prompt_label.text = _tr("avg.prompt")
-	if next_button != null:
-		next_button.text = _tr("avg.next")
-	if close_button != null:
-		close_button.text = _tr("avg.close")
+		prompt_label.text = "Click to Continue"
 
 
 func _raise_to_front() -> void:

@@ -6,8 +6,9 @@ signal task_completed(task_id: String)
 
 const TaskService = preload("res://scripts/task_service.gd")
 
-const TASK_PANEL_WIDTH := 430
+const TASK_PANEL_WIDTH := 390
 const TASK_ITEM_WIDTH := 258
+const TASK_PANEL_TOP := 54
 
 var tasks: Array = []
 var task_panel: Control
@@ -53,6 +54,7 @@ func refresh_tasks() -> void:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 6)
 		row.custom_minimum_size = Vector2(TASK_ITEM_WIDTH + 64, 0)
+		row.size_flags_horizontal = Control.SIZE_SHRINK_END
 		task_list.add_child(row)
 
 		var checkbox := CheckBox.new()
@@ -139,18 +141,19 @@ func complete_task(task_id: String) -> void:
 func _build_task_panel(parent: Control) -> void:
 	var box := VBoxContainer.new()
 	task_panel = box
-	box.anchor_left = 0.0
+	box.anchor_left = 1.0
 	box.anchor_top = 0.0
-	box.anchor_right = 0.0
+	box.anchor_right = 1.0
 	box.anchor_bottom = 0.0
-	box.offset_left = 0
-	box.offset_top = 0
-	box.offset_right = TASK_PANEL_WIDTH
-	box.offset_bottom = 284
+	box.offset_left = -TASK_PANEL_WIDTH
+	box.offset_top = TASK_PANEL_TOP
+	box.offset_right = 0
+	box.offset_bottom = TASK_PANEL_TOP + 284
 	box.add_theme_constant_override("separation", 8)
 	parent.add_child(box)
 
 	var header := HBoxContainer.new()
+	header.alignment = BoxContainer.ALIGNMENT_END
 	header.add_theme_constant_override("separation", 8)
 	box.add_child(header)
 
@@ -169,6 +172,7 @@ func _build_task_panel(parent: Control) -> void:
 	header.add_child(add_task_button)
 
 	task_list = VBoxContainer.new()
+	task_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	task_list.add_theme_constant_override("separation", 6)
 	box.add_child(task_list)
 

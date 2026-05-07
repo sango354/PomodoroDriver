@@ -4,6 +4,12 @@ signal language_previous_pressed
 signal language_next_pressed
 signal break_media_pressed
 signal ambient_prompt_pressed
+signal panel_opened
+
+const OPTION_PANEL_LEFT := 342
+const OPTION_PANEL_TOP := 54
+const OPTION_PANEL_WIDTH := 330
+const OPTION_PANEL_HEIGHT := 192
 
 var localizer
 var option_button: Button
@@ -30,11 +36,21 @@ func setup(parent: Control, localization_service, media_enabled: bool = false, a
 func toggle_visible() -> void:
 	_raise_option_panel()
 	option_panel.visible = not option_panel.visible
+	if option_panel.visible:
+		panel_opened.emit()
 
 
 func hide() -> void:
 	if option_panel != null:
 		option_panel.visible = false
+
+
+func is_visible() -> bool:
+	return option_panel != null and option_panel.visible
+
+
+func contains_global_point(point: Vector2) -> bool:
+	return option_panel != null and option_panel.visible and option_panel.get_global_rect().has_point(point)
 
 
 func refresh_text() -> void:
@@ -89,14 +105,14 @@ func _build_option_panel(parent: Control) -> void:
 	option_panel.name = "OptionPanel"
 	option_panel.visible = false
 	option_panel.z_index = 100
-	option_panel.anchor_left = 1.0
+	option_panel.anchor_left = 0.0
 	option_panel.anchor_top = 0.0
-	option_panel.anchor_right = 1.0
+	option_panel.anchor_right = 0.0
 	option_panel.anchor_bottom = 0.0
-	option_panel.offset_left = -330
-	option_panel.offset_top = 54
-	option_panel.offset_right = 0
-	option_panel.offset_bottom = 246
+	option_panel.offset_left = OPTION_PANEL_LEFT
+	option_panel.offset_top = OPTION_PANEL_TOP
+	option_panel.offset_right = OPTION_PANEL_LEFT + OPTION_PANEL_WIDTH
+	option_panel.offset_bottom = OPTION_PANEL_TOP + OPTION_PANEL_HEIGHT
 	parent.add_child(option_panel)
 	_raise_option_panel()
 
@@ -137,12 +153,10 @@ func _build_option_panel(parent: Control) -> void:
 
 	var media_row := HBoxContainer.new()
 	media_row.add_theme_constant_override("separation", 12)
-	box.add_child(media_row)
 
 	break_media_label = Label.new()
 	break_media_label.custom_minimum_size = Vector2(210, 0)
 	break_media_label.add_theme_color_override("font_color", Color(0.95, 0.0, 1.0, 1.0))
-	media_row.add_child(break_media_label)
 
 	break_media_toggle = Button.new()
 	break_media_toggle.text = ""
@@ -154,7 +168,6 @@ func _build_option_panel(parent: Control) -> void:
 	knob.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	knob.add_theme_stylebox_override("panel", _new_switch_knob_style())
 	break_media_toggle.add_child(knob)
-	media_row.add_child(break_media_toggle)
 	refresh_break_media(break_media_enabled)
 
 	var ambient_row := HBoxContainer.new()

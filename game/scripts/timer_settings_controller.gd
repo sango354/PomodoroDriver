@@ -5,6 +5,12 @@ signal break_duration_delta_requested(delta_minutes: int)
 signal auto_restart_pressed
 signal alarm_pressed
 
+const TIMER_RAIL_LEFT := 0
+const TIMER_RAIL_TOP := 58
+const TIMER_RAIL_HEIGHT := 222
+const TIMER_SETTINGS_GAP := 12
+const TIMER_SETTINGS_HEIGHT := 238
+
 var settings_panel: PanelContainer
 var duration_value_label: Label
 var break_duration_value_label: Label
@@ -95,12 +101,14 @@ func _build_settings_panel(
 	settings_panel.visible = false
 	settings_panel.anchor_top = 0.0
 	settings_panel.anchor_bottom = 0.0
-	settings_panel.anchor_left = 1.0
-	settings_panel.anchor_right = 1.0
-	settings_panel.offset_left = -(timer_rail_width + panel_width + 12)
-	settings_panel.offset_top = 104
-	settings_panel.offset_right = -(timer_rail_width + 12)
-	settings_panel.offset_bottom = 342
+	settings_panel.anchor_left = 0.0
+	settings_panel.anchor_right = 0.0
+	var settings_left := TIMER_RAIL_LEFT + timer_rail_width + TIMER_SETTINGS_GAP
+	var settings_top := TIMER_RAIL_TOP
+	settings_panel.offset_left = settings_left
+	settings_panel.offset_top = settings_top
+	settings_panel.offset_right = settings_left + panel_width
+	settings_panel.offset_bottom = settings_top + TIMER_SETTINGS_HEIGHT
 	parent.add_child(settings_panel)
 
 	var box := _panel_box(settings_panel)

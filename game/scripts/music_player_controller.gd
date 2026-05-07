@@ -361,6 +361,15 @@ func _refresh_loop_button() -> void:
 	_set_icon_disabled_overlay(loop_button, not music_loop)
 
 
+func create_ambience_button() -> TextureButton:
+	if ambience_button == null:
+		ambience_button = _new_icon_asset_button(ICON_AMBIENCE_PATH, _tr("music.ambience"), Vector2(36, 32))
+	elif ambience_button.get_parent() != null:
+		ambience_button.get_parent().remove_child(ambience_button)
+	ambience_button.tooltip_text = _tr("music.ambience")
+	return ambience_button
+
+
 func set_localizer(localization_service) -> void:
 	localizer = localization_service
 	if menu_button != null:
