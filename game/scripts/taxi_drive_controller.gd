@@ -24,6 +24,7 @@ var selected_background_id := ""
 var layer_nodes := []
 var sky_rect: ColorRect
 var street_viewport: SubViewport
+var street_world_controller: Node
 var street_sprite: Sprite2D
 var elapsed := 0.0
 var viewport_size := TARGET_VIEWPORT_SIZE
@@ -59,6 +60,11 @@ func load_selected_background() -> void:
 	_apply_context_tint()
 
 
+func trigger_sky_transition() -> void:
+	if street_world_controller != null and street_world_controller.has_method("trigger_sky_transition"):
+		street_world_controller.trigger_sky_transition()
+
+
 func prepare_for_quit() -> void:
 	set_process(false)
 	if street_sprite != null:
@@ -72,6 +78,7 @@ func prepare_for_quit() -> void:
 				(child as Node).set_physics_process(false)
 		street_viewport.queue_free()
 		street_viewport = null
+	street_world_controller = null
 	street_sprite = null
 
 
@@ -165,6 +172,7 @@ func _build_scene() -> void:
 	if street_viewport != null:
 		street_viewport.queue_free()
 		street_viewport = null
+	street_world_controller = null
 	street_sprite = null
 	_build_sky()
 	_build_exterior()
@@ -209,9 +217,9 @@ func _build_exterior() -> void:
 	street_viewport.size = Vector2i(int(TARGET_VIEWPORT_SIZE.x), int(TARGET_VIEWPORT_SIZE.y))
 	add_child(street_viewport)
 
-	var street_world := TaxiStreetWorldController.new()
-	street_world.name = "TaxiStreetWorld"
-	street_viewport.add_child(street_world)
+	street_world_controller = TaxiStreetWorldController.new()
+	street_world_controller.name = "TaxiStreetWorld"
+	street_viewport.add_child(street_world_controller)
 
 	street_sprite = Sprite2D.new()
 	street_sprite.name = "ExteriorStreet3D"

@@ -3,7 +3,11 @@ extends Node3D
 const GlbStaticLoader = preload("res://scripts/glb_static_loader.gd")
 
 const MODEL_ROOT := "res://assets/Generated/JapaneseStreet3D"
-const SKY_PANORAMA_PATH := "res://assets/Taxi/Exterior/sky_panorama.png"
+const SKY_PANORAMA_PATHS := [
+	"res://assets/Taxi/Exterior/sky_panorama.png",
+	"res://assets/Taxi/Exterior/sky_afternoon.png",
+	"res://assets/Taxi/Exterior/sky_night.png"
+]
 const DEFAULT_MAP_ID := "downtown_grid"
 const DRIVE_SPEED := 2.6
 const ROAD_WIDTH := 4.8
@@ -29,6 +33,11 @@ const PROP_SPACING := 6.0
 const GROUND_MARGIN := 42.0
 const GROUND_TILE_SIZE := 16.0
 const LOOK_AHEAD_DISTANCE := 14.0
+const CAMERA_HEIGHT := 1.45
+const CAMERA_TARGET_HEIGHT := 1.60
+const SKY_TRANSITION_INTERVAL := 180.0
+const SKY_TRANSITION_DURATION := 18.0
+const SKY_DOME_RADIUS := 420.0
 const SIDE_LOOK_OFFSET := 0.0
 const TURN_RADIUS := 3.15
 const TURN_LENGTH_MULTIPLIER := 2.35
@@ -108,6 +117,16 @@ var turn_exit := Vector2.ZERO
 var turn_progress := 0.0
 var turn_length := 1.0
 var building_footprints := []
+var sun_light: DirectionalLight3D
+var world_environment: WorldEnvironment
+var sky_textures := []
+var sky_domes := []
+var sky_materials := []
+var sky_phase_index := 0
+var sky_next_phase_index := 1
+var sky_cycle_elapsed := 0.0
+var sky_transition_elapsed := 0.0
+var sky_transition_active := false
 
 
 func _ready() -> void:
@@ -118,8 +137,17 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_sky_cycle(delta)
 	_advance_vehicle(delta)
 	_update_camera()
+
+
+func trigger_sky_transition() -> void:
+	if sky_textures.size() < 2:
+		return
+	if sky_transition_active:
+		return
+	_start_sky_transition()
 
 
 func set_active_map(map_id: String) -> void:
@@ -413,30 +441,23 @@ func _build_lighting() -> void:
 	sun.light_energy = 1.3
 	sun.rotation_degrees = Vector3(-42.0, -28.0, 0.0)
 	add_child(sun)
+	sun_light = sun
 
 	var ambient := WorldEnvironment.new()
 	var env := Environment.new()
-	var sky_texture := _load_sky_panorama()
-	if sky_texture != null:
-		var sky_material := PanoramaSkyMaterial.new()
-		sky_material.panorama = sky_texture
-		var sky := Sky.new()
-		sky.sky_material = sky_material
-		env.background_mode = Environment.BG_SKY
-		env.sky = sky
-	else:
-		env.background_mode = Environment.BG_COLOR
-		env.background_color = Color(0.58, 0.80, 0.98, 1.0)
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = _sky_background_color(0)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.86, 0.88, 0.90, 1.0)
-	env.ambient_light_energy = 1.04
-	env.fog_enabled = true
-	env.fog_light_color = Color(0.72, 0.82, 0.88, 1.0)
-	env.fog_light_energy = 0.18
-	env.fog_density = 0.004
-	env.fog_sky_affect = 0.08
+	env.ambient_light_color = _sky_ambient_color(0)
+	env.ambient_light_energy = _sky_ambient_energy(0)
+	env.fog_enabled = false
+	env.fog_light_color = _sky_fog_color(0)
+	env.fog_light_energy = _sky_fog_energy(0)
+	env.fog_density = 0.0
+	env.fog_sky_affect = 0.0
 	ambient.environment = env
 	add_child(ambient)
+	world_environment = ambient
 
 
 func _build_camera() -> void:
@@ -444,23 +465,185 @@ func _build_camera() -> void:
 	camera.name = "PassengerViewCamera"
 	camera.fov = 96.0
 	camera.near = 0.08
-	camera.far = 190.0
+	camera.far = 900.0
 	camera.current = true
 	add_child(camera)
 
 
 func _build_sky() -> void:
-	pass
+	sky_textures.clear()
+	sky_domes.clear()
+	sky_materials.clear()
+	for path in SKY_PANORAMA_PATHS:
+		var texture := _load_sky_panorama(path)
+		if texture != null:
+			sky_textures.append(texture)
+	if sky_textures.is_empty():
+		return
+	_add_sky_dome("SkyCurrent", sky_textures[0], 1.0, SKY_DOME_RADIUS)
+	var next_texture: Texture2D = sky_textures[1 % sky_textures.size()]
+	_add_sky_dome("SkyNext", next_texture, 0.0, SKY_DOME_RADIUS * 0.995)
+	_apply_sky_lighting(0, 0, 0.0)
 
 
-func _load_sky_panorama() -> Texture2D:
-	if ResourceLoader.exists(SKY_PANORAMA_PATH):
-		return load(SKY_PANORAMA_PATH)
-	if FileAccess.file_exists(SKY_PANORAMA_PATH):
+func _add_sky_dome(node_name: String, texture: Texture2D, alpha: float, radius: float) -> void:
+	var dome := MeshInstance3D.new()
+	dome.name = node_name
+	var mesh := SphereMesh.new()
+	mesh.radius = radius
+	mesh.height = radius * 2.0
+	mesh.radial_segments = 96
+	mesh.rings = 48
+	dome.mesh = mesh
+	dome.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var material := StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.albedo_texture = texture
+	material.albedo_color = Color(1.0, 1.0, 1.0, alpha)
+	_disable_material_fog(material)
+	dome.material_override = material
+	add_child(dome)
+	sky_domes.append(dome)
+	sky_materials.append(material)
+
+
+func _disable_material_fog(material: StandardMaterial3D) -> void:
+	for property in material.get_property_list():
+		if str(property.get("name", "")) == "disable_fog":
+			material.set("disable_fog", true)
+			return
+
+
+func _load_sky_panorama(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if FileAccess.file_exists(path):
 		var image := Image.new()
-		if image.load(SKY_PANORAMA_PATH) == OK:
+		if image.load(path) == OK:
 			return ImageTexture.create_from_image(image)
 	return null
+
+
+func _update_sky_cycle(delta: float) -> void:
+	if sky_textures.size() < 2 or sky_materials.size() < 2:
+		return
+	if sky_transition_active:
+		sky_transition_elapsed += delta
+		var t: float = clamp(sky_transition_elapsed / SKY_TRANSITION_DURATION, 0.0, 1.0)
+		var eased: float = t * t * (3.0 - 2.0 * t)
+		_set_sky_blend(eased)
+		_apply_sky_lighting(sky_phase_index, sky_next_phase_index, eased)
+		if t >= 1.0:
+			_finish_sky_transition()
+		return
+
+	sky_cycle_elapsed += delta
+	if sky_cycle_elapsed >= SKY_TRANSITION_INTERVAL:
+		_start_sky_transition()
+
+
+func _start_sky_transition() -> void:
+	if sky_textures.size() < 2 or sky_materials.size() < 2:
+		return
+	sky_cycle_elapsed = 0.0
+	sky_transition_elapsed = 0.0
+	sky_next_phase_index = (sky_phase_index + 1) % sky_textures.size()
+	var next_material := sky_materials[1] as StandardMaterial3D
+	next_material.albedo_texture = sky_textures[sky_next_phase_index]
+	_set_sky_blend(0.0)
+	sky_transition_active = true
+
+
+func _finish_sky_transition() -> void:
+	sky_phase_index = sky_next_phase_index
+	sky_transition_active = false
+	var current_material := sky_materials[0] as StandardMaterial3D
+	var next_material := sky_materials[1] as StandardMaterial3D
+	current_material.albedo_texture = sky_textures[sky_phase_index]
+	current_material.albedo_color = Color(1.0, 1.0, 1.0, 1.0)
+	next_material.albedo_color = Color(1.0, 1.0, 1.0, 0.0)
+	_apply_sky_lighting(sky_phase_index, sky_phase_index, 0.0)
+
+
+func _set_sky_blend(t: float) -> void:
+	var current_material := sky_materials[0] as StandardMaterial3D
+	var next_material := sky_materials[1] as StandardMaterial3D
+	current_material.albedo_color = Color(1.0, 1.0, 1.0, 1.0)
+	next_material.albedo_color = Color(1.0, 1.0, 1.0, t)
+
+
+func _apply_sky_lighting(from_index: int, to_index: int, t: float) -> void:
+	if sun_light != null:
+		sun_light.light_energy = lerp(_sky_sun_energy(from_index), _sky_sun_energy(to_index), t)
+	if world_environment != null and world_environment.environment != null:
+		var env := world_environment.environment
+		env.background_color = _sky_background_color(from_index).lerp(_sky_background_color(to_index), t)
+		env.ambient_light_color = _sky_ambient_color(from_index).lerp(_sky_ambient_color(to_index), t)
+		env.ambient_light_energy = lerp(_sky_ambient_energy(from_index), _sky_ambient_energy(to_index), t)
+		env.fog_light_color = _sky_fog_color(from_index).lerp(_sky_fog_color(to_index), t)
+		env.fog_light_energy = lerp(_sky_fog_energy(from_index), _sky_fog_energy(to_index), t)
+
+
+func _sky_sun_energy(index: int) -> float:
+	match index % 3:
+		1:
+			return 0.9
+		2:
+			return 0.28
+		_:
+			return 1.3
+
+
+func _sky_ambient_energy(index: int) -> float:
+	match index % 3:
+		1:
+			return 0.9
+		2:
+			return 0.38
+		_:
+			return 1.04
+
+
+func _sky_fog_energy(index: int) -> float:
+	match index % 3:
+		1:
+			return 0.14
+		2:
+			return 0.05
+		_:
+			return 0.18
+
+
+func _sky_background_color(index: int) -> Color:
+	match index % 3:
+		1:
+			return Color(0.32, 0.22, 0.48, 1.0)
+		2:
+			return Color(0.015, 0.025, 0.06, 1.0)
+		_:
+			return Color(0.58, 0.80, 0.98, 1.0)
+
+
+func _sky_ambient_color(index: int) -> Color:
+	match index % 3:
+		1:
+			return Color(0.94, 0.68, 0.62, 1.0)
+		2:
+			return Color(0.24, 0.34, 0.62, 1.0)
+		_:
+			return Color(0.86, 0.88, 0.90, 1.0)
+
+
+func _sky_fog_color(index: int) -> Color:
+	match index % 3:
+		1:
+			return Color(0.75, 0.42, 0.48, 1.0)
+		2:
+			return Color(0.07, 0.10, 0.20, 1.0)
+		_:
+			return Color(0.72, 0.82, 0.88, 1.0)
 
 
 func _build_city_blocks() -> void:
@@ -636,6 +819,10 @@ func _build_perimeter_buildings() -> void:
 	_add_perimeter_side(Vector2(max_x, min_z), Vector2(min_x, min_z), Vector2(0.0, 1.0), 1)
 	_add_perimeter_side(Vector2(min_x, min_z), Vector2(min_x, max_z), Vector2(1.0, 0.0), 2)
 	_add_perimeter_side(Vector2(max_x, max_z), Vector2(max_x, min_z), Vector2(-1.0, 0.0), 3)
+	_add_perimeter_corner_cluster(Vector2(min_x, max_z), Vector2(-1.0, 1.0), 0)
+	_add_perimeter_corner_cluster(Vector2(max_x, max_z), Vector2(1.0, 1.0), 1)
+	_add_perimeter_corner_cluster(Vector2(min_x, min_z), Vector2(-1.0, -1.0), 2)
+	_add_perimeter_corner_cluster(Vector2(max_x, min_z), Vector2(1.0, -1.0), 3)
 
 
 func _add_perimeter_side(start: Vector2, end: Vector2, facing: Vector2, side_id: int) -> void:
@@ -720,6 +907,34 @@ func _add_building_side(
 			var sign := _add_model("AE_Signboards_01.glb", _v3(sign_position, 1.55), 0.35)
 			sign.rotation.y = yaw
 			_register_footprint(sign_position, SIGN_FOOTPRINT_RADIUS)
+
+
+func _add_perimeter_corner_cluster(corner: Vector2, outside_sign: Vector2, corner_id: int) -> void:
+	var spacing := PERIMETER_HOUSE_SPACING
+	var offsets := [
+		Vector2(0.48, 0.48),
+		Vector2(1.42, 0.48),
+		Vector2(0.48, 1.42),
+		Vector2(1.42, 1.42),
+		Vector2(2.36, 0.92),
+		Vector2(0.92, 2.36)
+	]
+	for i in range(offsets.size()):
+		var offset: Vector2 = offsets[i]
+		var center := corner + Vector2(outside_sign.x * spacing * offset.x, outside_sign.y * spacing * offset.y)
+		if not _can_place_footprint(center, PERIMETER_FOOTPRINT_RADIUS):
+			continue
+		var house_index := (corner_id * 7 + i * 3) % HOUSE_MODELS.size()
+		var house_name: String = HOUSE_MODELS[house_index]
+		var house := _add_model(
+			house_name,
+			_v3(center, -0.08),
+			_house_scale(house_name, i) * 1.03
+		)
+		_register_footprint(center, PERIMETER_FOOTPRINT_RADIUS)
+		house.scale.y *= 1.02 + float((corner_id + i) % 3) * 0.08
+		var facing := Vector2(-outside_sign.x, 0.0) if offset.x > offset.y else Vector2(0.0, -outside_sign.y)
+		house.rotation.y = _yaw_for_facing(facing) + _house_angle_variation(i, facing.x + facing.y, corner_id)
 
 
 func _can_place_footprint(center: Vector2, radius: float) -> bool:
@@ -899,9 +1114,16 @@ func _update_camera() -> void:
 	var side_sway := sin(Time.get_ticks_msec() * 0.0012) * 0.08
 	var normal := Vector2(-direction.y, direction.x)
 	var side_focus := normal * (SIDE_LOOK_OFFSET + side_sway)
-	var camera_pos := _v3(vehicle_position + normal * side_sway, 1.62)
-	var target_pos := _v3(vehicle_position + direction * LOOK_AHEAD_DISTANCE + side_focus, 1.72)
+	var camera_pos := _v3(vehicle_position + normal * side_sway, CAMERA_HEIGHT)
+	var target_pos := _v3(vehicle_position + direction * LOOK_AHEAD_DISTANCE + side_focus, CAMERA_TARGET_HEIGHT)
+	_update_sky_domes(_v3(vehicle_position, 0.0))
 	camera.look_at_from_position(camera_pos, target_pos, Vector3.UP)
+
+
+func _update_sky_domes(center_position: Vector3) -> void:
+	for dome in sky_domes:
+		if dome is Node3D:
+			(dome as Node3D).position = center_position
 
 
 func _add_box(node_name: String, position: Vector3, size: Vector3, yaw: float, color: Color, y_offset: float, texture_path: String = "") -> MeshInstance3D:

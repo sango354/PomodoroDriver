@@ -188,6 +188,9 @@ func _input(event: InputEvent) -> void:
 		currencies.gold_tokens = int(currencies.get("gold_tokens", 0)) + 1
 		_save_game()
 		_refresh_progress_ui()
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F3:
+		if drive_scene != null and drive_scene.has_method("trigger_sky_transition"):
+			drive_scene.trigger_sky_transition()
 
 
 func _notification(what: int) -> void:

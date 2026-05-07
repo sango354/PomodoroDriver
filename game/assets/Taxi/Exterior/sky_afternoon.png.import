@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpx62mutp2c0"
-path.s3tc="res://.godot/imported/sky_panorama.png-1e58230455272db18207ff1e70dcbc57.s3tc.ctex"
+uid="uid://cwp85yhnbq12u"
+path.s3tc="res://.godot/imported/sky_afternoon.png-b86987aff6b38747c4b0594c3419d82d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/Taxi/Exterior/sky_panorama.png"
-dest_files=["res://.godot/imported/sky_panorama.png-1e58230455272db18207ff1e70dcbc57.s3tc.ctex"]
+source_file="res://assets/Taxi/Exterior/sky_afternoon.png"
+dest_files=["res://.godot/imported/sky_afternoon.png-b86987aff6b38747c4b0594c3419d82d.s3tc.ctex"]
 
 [params]
 
