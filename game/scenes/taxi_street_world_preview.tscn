@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://2gn43rix75di"]
+
+[ext_resource type="Script" path="res://scripts/taxi_street_world_preview.gd" id="1_2db4g"]
+
+[node name="TaxiStreetWorldPreview" type="Node3D"]
+script = ExtResource("1_2db4g")

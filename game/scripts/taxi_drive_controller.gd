@@ -59,6 +59,22 @@ func load_selected_background() -> void:
 	_apply_context_tint()
 
 
+func prepare_for_quit() -> void:
+	set_process(false)
+	if street_sprite != null:
+		street_sprite.texture = null
+		street_sprite.visible = false
+	if street_viewport != null:
+		street_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		for child in street_viewport.get_children():
+			if child is Node:
+				(child as Node).set_process(false)
+				(child as Node).set_physics_process(false)
+		street_viewport.queue_free()
+		street_viewport = null
+	street_sprite = null
+
+
 func fit_to_viewport() -> void:
 	viewport_size = Vector2(get_viewport().get_visible_rect().size)
 	if viewport_size.x <= 0 or viewport_size.y <= 0:

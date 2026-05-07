@@ -2,27 +2,26 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daugwvqld8j4e"
-path.s3tc="res://.godot/imported/AE_Bicycle_A.png-96205957e9823368e89d823a0832be1c.s3tc.ctex"
+uid="uid://bpx62mutp2c0"
+path="res://.godot/imported/sky_panorama.png-1e58230455272db18207ff1e70dcbc57.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Generated/JapaneseStreet3D/Textures/AE_Auto/AE_Bicycle/AE_Bicycle_A.png"
-dest_files=["res://.godot/imported/AE_Bicycle_A.png-96205957e9823368e89d823a0832be1c.s3tc.ctex"]
+source_file="res://assets/Taxi/Exterior/sky_panorama.png"
+dest_files=["res://.godot/imported/sky_panorama.png-1e58230455272db18207ff1e70dcbc57.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -32,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

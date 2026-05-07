@@ -3,34 +3,50 @@ extends Node3D
 const GlbStaticLoader = preload("res://scripts/glb_static_loader.gd")
 
 const MODEL_ROOT := "res://assets/Generated/JapaneseStreet3D"
+const SKY_PANORAMA_PATH := "res://assets/Taxi/Exterior/sky_panorama.png"
 const DEFAULT_MAP_ID := "downtown_grid"
 const DRIVE_SPEED := 2.6
 const ROAD_WIDTH := 4.8
 const SIDEWALK_WIDTH := 1.55
-const BLOCK_CLEARANCE := 4.05
-const PERIMETER_CLEARANCE := 4.95
+const BLOCK_CLEARANCE := 4.7
+const PERIMETER_CLEARANCE := 4.9
 const BUILDING_CENTER_DEPTH := 1.35
 const PROP_OFFSET := 2.9
-const BLOCK_HOUSE_SPACING := 3.75
-const PERIMETER_HOUSE_SPACING := 4.15
+const BLOCK_HOUSE_SPACING := 5.65
+const PERIMETER_HOUSE_SPACING := 5.95
+const BLOCK_CORNER_MARGIN := 2.8
+const PERIMETER_CORNER_MARGIN := 3.2
+const BLOCK_INNER_MARGIN := 6.4
+const BLOCK_INNER_SPACING := 6.35
+const HOUSE_FOOTPRINT_RADIUS := 2.5
+const INNER_HOUSE_FOOTPRINT_RADIUS := 2.65
+const PERIMETER_FOOTPRINT_RADIUS := 2.65
+const SIGN_FOOTPRINT_RADIUS := 1.15
+const FOOTPRINT_PADDING := 0.35
+const PERIMETER_BACK_ROW_OFFSET := 5.9
+const PERIMETER_BACK_ROW_STAGGER := 0.5
 const PROP_SPACING := 6.0
+const GROUND_MARGIN := 42.0
+const GROUND_TILE_SIZE := 16.0
 const LOOK_AHEAD_DISTANCE := 14.0
 const SIDE_LOOK_OFFSET := 0.0
 const TURN_RADIUS := 3.15
 const TURN_LENGTH_MULTIPLIER := 2.35
+const TURN_ACCEL_START := 0.45
+const TURN_EXIT_SPEED_MULTIPLIER := 1.35
 const TURN_CHANCE := 0.72
 const DRIVE_MODE_STRAIGHT := 0
 const DRIVE_MODE_TURN := 1
 const MAP_LAYOUTS := {
 	"countdown_grid": {
-		"street_x": [-18.0, -6.0, 6.0, 18.0],
-		"street_z": [6.0, -8.0, -22.0, -36.0, -50.0],
+		"street_x": [-58.0, -30.0, 2.0, 37.0, 75.0],
+		"street_z": [36.0, 8.0, -23.0, -57.0, -94.0, -134.0],
 		"start": [0, 2],
 		"target": [0, 1]
 	},
 	"downtown_grid": {
-		"street_x": [-20.0, -8.0, 4.0, 16.0, 28.0],
-		"street_z": [8.0, -5.0, -18.0, -31.0, -44.0, -57.0],
+		"street_x": [-130.0, -92.0, -52.0, -10.0, 33.0, 78.0, 124.0],
+		"street_z": [92.0, 54.0, 15.0, -27.0, -70.0, -114.0, -159.0, -205.0],
 		"start": [0, 2],
 		"target": [0, 1]
 	}
@@ -91,6 +107,7 @@ var turn_corner := Vector2.ZERO
 var turn_exit := Vector2.ZERO
 var turn_progress := 0.0
 var turn_length := 1.0
+var building_footprints := []
 
 
 func _ready() -> void:
@@ -117,6 +134,7 @@ func set_active_map(map_id: String) -> void:
 
 
 func _clear_world() -> void:
+	building_footprints.clear()
 	for child in get_children():
 		remove_child(child)
 		child.free()
@@ -216,15 +234,18 @@ func _advance_straight(move_distance: float) -> float:
 
 func _advance_turn(move_distance: float) -> float:
 	var turn_remaining := turn_length - turn_progress
-	if move_distance < turn_remaining:
-		turn_progress += move_distance
+	var speed_factor := _turn_speed_factor()
+	var turn_delta := move_distance * speed_factor
+	if turn_delta < turn_remaining:
+		turn_progress += turn_delta
 		_update_turn_vehicle()
 		return 0.0
 
 	turn_progress = turn_length
 	_update_turn_vehicle()
 	_finish_turn()
-	return move_distance - max(turn_remaining, 0.0)
+	var consumed_move: float = turn_remaining / max(speed_factor, 0.001)
+	return max(move_distance - consumed_move, 0.0)
 
 
 func _update_straight_vehicle() -> void:
@@ -279,6 +300,13 @@ func _arrive_without_turn() -> void:
 
 func _turn_radius_for_segment() -> float:
 	return min(TURN_RADIUS, max(segment_length * 0.35, 0.5))
+
+
+func _turn_speed_factor() -> float:
+	var t: float = clamp(turn_progress / turn_length, 0.0, 1.0)
+	var accel_t: float = clamp((t - TURN_ACCEL_START) / (1.0 - TURN_ACCEL_START), 0.0, 1.0)
+	var eased: float = accel_t * accel_t * (3.0 - 2.0 * accel_t)
+	return lerp(1.0, TURN_EXIT_SPEED_MULTIPLIER, eased)
 
 
 func _has_forward_choice(node_key: String, last_node_key: String) -> bool:
@@ -388,8 +416,17 @@ func _build_lighting() -> void:
 
 	var ambient := WorldEnvironment.new()
 	var env := Environment.new()
-	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color(0.58, 0.80, 0.98, 1.0)
+	var sky_texture := _load_sky_panorama()
+	if sky_texture != null:
+		var sky_material := PanoramaSkyMaterial.new()
+		sky_material.panorama = sky_texture
+		var sky := Sky.new()
+		sky.sky_material = sky_material
+		env.background_mode = Environment.BG_SKY
+		env.sky = sky
+	else:
+		env.background_mode = Environment.BG_COLOR
+		env.background_color = Color(0.58, 0.80, 0.98, 1.0)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color(0.86, 0.88, 0.90, 1.0)
 	env.ambient_light_energy = 1.04
@@ -416,12 +453,70 @@ func _build_sky() -> void:
 	pass
 
 
+func _load_sky_panorama() -> Texture2D:
+	if ResourceLoader.exists(SKY_PANORAMA_PATH):
+		return load(SKY_PANORAMA_PATH)
+	if FileAccess.file_exists(SKY_PANORAMA_PATH):
+		var image := Image.new()
+		if image.load(SKY_PANORAMA_PATH) == OK:
+			return ImageTexture.create_from_image(image)
+	return null
+
+
 func _build_city_blocks() -> void:
+	building_footprints.clear()
+	_build_ground_plane()
 	_build_grid_roads()
 	_build_map_building_blocks()
 	_build_perimeter_buildings()
 	_add_map_props()
 	_add_street_lighting()
+
+
+func _build_ground_plane() -> void:
+	var street_x := _street_x_values()
+	var street_z := _street_z_values()
+	var min_x: float = float(street_x[0]) - GROUND_MARGIN
+	var max_x: float = float(street_x[street_x.size() - 1]) + GROUND_MARGIN
+	var max_z: float = float(street_z[0]) + GROUND_MARGIN
+	var min_z: float = float(street_z[street_z.size() - 1]) - GROUND_MARGIN
+	var center_x: float = (min_x + max_x) * 0.5
+	var center_z: float = (min_z + max_z) * 0.5
+	_add_box(
+		"GroundBase",
+		Vector3(center_x, -0.085, center_z),
+		Vector3(max_x - min_x, 0.04, max_z - min_z),
+		0.0,
+		Color(0.42, 0.43, 0.42, 1.0),
+		0.0
+	)
+	_add_ground_tile_lines(min_x, max_x, min_z, max_z)
+
+
+func _add_ground_tile_lines(min_x: float, max_x: float, min_z: float, max_z: float) -> void:
+	var line_color := Color(0.52, 0.53, 0.52, 1.0)
+	var x_count: int = int(floor((max_x - min_x) / GROUND_TILE_SIZE))
+	var z_count: int = int(floor((max_z - min_z) / GROUND_TILE_SIZE))
+	for x_index in range(x_count + 1):
+		var x: float = min_x + float(x_index) * GROUND_TILE_SIZE
+		_add_box(
+			"GroundTileVertical%02d" % x_index,
+			Vector3(x, -0.052, (min_z + max_z) * 0.5),
+			Vector3(0.08, 0.012, max_z - min_z),
+			0.0,
+			line_color,
+			0.0
+		)
+	for z_index in range(z_count + 1):
+		var z: float = min_z + float(z_index) * GROUND_TILE_SIZE
+		_add_box(
+			"GroundTileHorizontal%02d" % z_index,
+			Vector3((min_x + max_x) * 0.5, -0.051, z),
+			Vector3(max_x - min_x, 0.012, 0.08),
+			0.0,
+			line_color,
+			0.0
+		)
 
 
 func _build_grid_roads() -> void:
@@ -480,6 +575,8 @@ func _build_map_building_blocks() -> void:
 			var max_x := float(street_x[x_index + 1]) - padding
 			var min_z := float(street_z[z_index + 1]) + padding
 			var max_z := float(street_z[z_index]) - padding
+			if min_x >= max_x or min_z >= max_z:
+				continue
 			_add_building_block(min_x, max_x, min_z, max_z, x_index, z_index)
 
 
@@ -488,6 +585,44 @@ func _add_building_block(min_x: float, max_x: float, min_z: float, max_z: float,
 	_add_building_side(Vector2(max_x, min_z), Vector2(min_x, min_z), Vector2(0.0, -1.0), block_x, block_z, 3)
 	_add_building_side(Vector2(min_x, min_z), Vector2(min_x, max_z), Vector2(-1.0, 0.0), block_x, block_z, 6)
 	_add_building_side(Vector2(max_x, max_z), Vector2(max_x, min_z), Vector2(1.0, 0.0), block_x, block_z, 9)
+	_add_block_infill(min_x, max_x, min_z, max_z, block_x, block_z)
+
+
+func _add_block_infill(min_x: float, max_x: float, min_z: float, max_z: float, block_x: int, block_z: int) -> void:
+	var inner_min_x: float = min_x + BLOCK_INNER_MARGIN
+	var inner_max_x: float = max_x - BLOCK_INNER_MARGIN
+	var inner_min_z: float = min_z + BLOCK_INNER_MARGIN
+	var inner_max_z: float = max_z - BLOCK_INNER_MARGIN
+	var usable_width: float = inner_max_x - inner_min_x
+	var usable_depth: float = inner_max_z - inner_min_z
+	if usable_width < BLOCK_INNER_SPACING * 0.45 or usable_depth < BLOCK_INNER_SPACING * 0.45:
+		return
+
+	var columns: int = max(1, int(floor(usable_width / BLOCK_INNER_SPACING)) + 1)
+	var rows: int = max(1, int(floor(usable_depth / BLOCK_INNER_SPACING)) + 1)
+	var column_step: float = 0.0 if columns <= 1 else usable_width / float(columns - 1)
+	var row_step: float = 0.0 if rows <= 1 else usable_depth / float(rows - 1)
+	for row in range(rows):
+		for column in range(columns):
+			var center := Vector2(
+				inner_min_x + column_step * float(column),
+				inner_min_z + row_step * float(row)
+			)
+			center.x = clamp(center.x + _lot_jitter(block_x, block_z, column, row, 0), inner_min_x, inner_max_x)
+			center.y = clamp(center.y + _lot_jitter(block_x, block_z, column, row, 1), inner_min_z, inner_max_z)
+			if not _can_place_footprint(center, INNER_HOUSE_FOOTPRINT_RADIUS):
+				continue
+			var facing := Vector2(0.0, 1.0) if center.y >= (min_z + max_z) * 0.5 else Vector2(0.0, -1.0)
+			var house_index := (block_x * 11 + block_z * 13 + row * 3 + column * 5) % HOUSE_MODELS.size()
+			var house_name: String = HOUSE_MODELS[house_index]
+			var house := _add_model(
+				house_name,
+				_v3(center, -0.08),
+				_house_scale(house_name, row + column) * 0.96
+			)
+			_register_footprint(center, INNER_HOUSE_FOOTPRINT_RADIUS)
+			house.scale.y *= 0.96 + float((row + column + block_x + block_z) % 4) * 0.07
+			house.rotation.y = _yaw_for_facing(facing) + _house_angle_variation(row + column, facing.x + facing.y, block_x + block_z)
 
 
 func _build_perimeter_buildings() -> void:
@@ -504,7 +639,34 @@ func _build_perimeter_buildings() -> void:
 
 
 func _add_perimeter_side(start: Vector2, end: Vector2, facing: Vector2, side_id: int) -> void:
-	_add_building_side(start, end, facing, side_id + 20, side_id, 2, PERIMETER_HOUSE_SPACING, 1.08, 1.18)
+	_add_building_side(
+		start,
+		end,
+		facing,
+		side_id + 20,
+		side_id,
+		2,
+		PERIMETER_HOUSE_SPACING,
+		1.08,
+		1.18,
+		PERIMETER_CORNER_MARGIN,
+		PERIMETER_FOOTPRINT_RADIUS
+	)
+	_add_building_side(
+		start,
+		end,
+		facing,
+		side_id + 40,
+		side_id + 2,
+		5,
+		PERIMETER_HOUSE_SPACING,
+		1.0,
+		1.08,
+		PERIMETER_CORNER_MARGIN,
+		PERIMETER_FOOTPRINT_RADIUS,
+		PERIMETER_BACK_ROW_OFFSET,
+		PERIMETER_BACK_ROW_STAGGER
+	)
 
 
 func _add_building_side(
@@ -516,19 +678,31 @@ func _add_building_side(
 	model_offset: int,
 	spacing: float = BLOCK_HOUSE_SPACING,
 	scale_multiplier: float = 1.0,
-	height_multiplier: float = 1.0
+	height_multiplier: float = 1.0,
+	corner_margin: float = BLOCK_CORNER_MARGIN,
+	footprint_radius: float = HOUSE_FOOTPRINT_RADIUS,
+	depth_offset: float = 0.0,
+	side_stagger: float = 0.0
 ) -> void:
 	var direction := (end - start).normalized()
 	var length := start.distance_to(end)
 	if length <= 0.1:
 		return
-	var count: int = max(1, int(floor(length / spacing)))
-	var step := length / float(count)
+	var usable_length: float = max(length - corner_margin * 2.0, 0.0)
+	if usable_length < spacing * 0.55:
+		return
+	var count: int = max(1, int(floor(usable_length / spacing)))
+	var step: float = usable_length / float(count)
 	var yaw := _yaw_for_facing(facing)
 	for i in range(count):
-		var center := start + direction * (step * (float(i) + 0.5))
-		center -= facing * _building_depth_offset(i, block_x, block_z)
+		var distance_along_side: float = corner_margin + step * (float(i) + 0.5 + side_stagger)
+		if distance_along_side > length - corner_margin:
+			distance_along_side -= usable_length
+		var center := start + direction * distance_along_side
+		center -= facing * (_building_depth_offset(i, block_x, block_z) + depth_offset)
 		center += direction * _building_side_jitter(i, block_x, block_z)
+		if not _can_place_footprint(center, footprint_radius):
+			continue
 		var house_index := (block_x * 5 + block_z * 7 + model_offset + i * 2) % HOUSE_MODELS.size()
 		var house_name: String = HOUSE_MODELS[house_index]
 		var house := _add_model(
@@ -536,12 +710,34 @@ func _add_building_side(
 			_v3(center, -0.08),
 			_house_scale(house_name, i) * scale_multiplier
 		)
+		_register_footprint(center, footprint_radius)
 		house.scale.y *= height_multiplier + float((i + block_x + block_z) % 3) * 0.08
 		house.rotation.y = yaw + _house_angle_variation(i, facing.x + facing.y, model_offset)
 		if (i + model_offset) % 4 == 0:
 			var sign_position := center + facing * 0.9
+			if not _can_place_footprint(sign_position, SIGN_FOOTPRINT_RADIUS):
+				continue
 			var sign := _add_model("AE_Signboards_01.glb", _v3(sign_position, 1.55), 0.35)
 			sign.rotation.y = yaw
+			_register_footprint(sign_position, SIGN_FOOTPRINT_RADIUS)
+
+
+func _can_place_footprint(center: Vector2, radius: float) -> bool:
+	for footprint in building_footprints:
+		var footprint_data: Dictionary = footprint
+		var other_center: Vector2 = footprint_data.get("center", Vector2.ZERO)
+		var other_radius: float = float(footprint_data.get("radius", 0.0))
+		var minimum_distance: float = radius + other_radius + FOOTPRINT_PADDING
+		if center.distance_to(other_center) < minimum_distance:
+			return false
+	return true
+
+
+func _register_footprint(center: Vector2, radius: float) -> void:
+	building_footprints.append({
+		"center": center,
+		"radius": radius
+	})
 
 
 func _distance_variation(index: int, leg_index: int, model_offset: int) -> float:
@@ -563,6 +759,10 @@ func _building_depth_offset(index: int, block_x: int, block_z: int) -> float:
 
 func _building_side_jitter(index: int, block_x: int, block_z: int) -> float:
 	return float(((index * 3 + block_x + block_z) % 5) - 2) * 0.12
+
+
+func _lot_jitter(block_x: int, block_z: int, column: int, row: int, axis: int) -> float:
+	return float(((block_x * 17 + block_z * 19 + column * 7 + row * 11 + axis * 5) % 5) - 2) * 0.22
 
 
 func _yaw_for_facing(facing: Vector2) -> float:

@@ -45,6 +45,7 @@ const BACKGROUND_LOFI_AUTO := "lofi_auto"
 const FIRST_ENTRY_DIALOGUE_ID := "first_entry_welcome"
 const H_EVENT_PREVIEW_DIALOGUE_ID := "h_event_preview"
 const H_EVENT_DIALOGUE_COUNT := 2
+const QUIT_VIEWPORT_SHUTDOWN_FRAMES := 2
 
 var app_state := "idle"
 var session_mode := "focus"
@@ -144,9 +145,11 @@ var selected_background_id := BACKGROUND_LOFI_AUTO
 var h_event_active := false
 var h_event_queue: Array = []
 var h_event_music_state := {}
+var quit_requested := false
 
 
 func _ready() -> void:
+	get_tree().auto_accept_quit = false
 	_load_save()
 	_ensure_currency_defaults()
 	background_defs = ContentUnlockService.load_background_defs()
@@ -189,7 +192,24 @@ func _input(event: InputEvent) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		_save_game()
+		_request_quit()
+
+
+func _request_quit() -> void:
+	if quit_requested:
+		return
+	quit_requested = true
+	set_process(false)
+	_save_game()
+	if drive_scene != null and drive_scene.has_method("prepare_for_quit"):
+		drive_scene.prepare_for_quit()
+	call_deferred("_quit_after_viewport_shutdown")
+
+
+func _quit_after_viewport_shutdown() -> void:
+	for _i in range(QUIT_VIEWPORT_SHUTDOWN_FRAMES):
+		await get_tree().process_frame
+	get_tree().quit()
 
 
 func _build_scene() -> void:
