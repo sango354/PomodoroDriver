@@ -19,6 +19,7 @@ var current_music_index := -1
 var saved_music_path := ""
 var music_loop := false
 var music_volume := 0.7
+var music_list_dismiss_layer: Button
 var music_list_panel: PanelContainer
 var music_list: VBoxContainer
 var track_label: Label
@@ -78,8 +79,24 @@ func restore_after_event(state: Dictionary) -> void:
 func set_ui_visible(is_visible: bool) -> void:
 	if music_bar != null:
 		music_bar.visible = is_visible
-	if music_list_panel != null:
-		music_list_panel.visible = false if not is_visible else music_list_panel.visible
+	if not is_visible:
+		_hide_music_list()
+
+
+func _input(event: InputEvent) -> void:
+	if music_list_panel == null or not music_list_panel.visible:
+		return
+	if not event is InputEventMouseButton:
+		return
+	var mouse_event := event as InputEventMouseButton
+	if not mouse_event.pressed:
+		return
+	if mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+		_hide_music_list()
+		get_viewport().set_input_as_handled()
+	elif mouse_event.button_index == MOUSE_BUTTON_LEFT and not music_list_panel.get_global_rect().has_point(mouse_event.position):
+		_hide_music_list()
+		get_viewport().set_input_as_handled()
 
 
 func _build_bottom_bar(parent: Control) -> void:
@@ -159,8 +176,21 @@ func _build_bottom_bar(parent: Control) -> void:
 	ambience_button = _new_icon_asset_button(ICON_AMBIENCE_PATH, _tr("music.ambience"), Vector2(36, 32))
 	row.add_child(ambience_button)
 
+	music_list_dismiss_layer = Button.new()
+	music_list_dismiss_layer.name = "MusicListDismissLayer"
+	music_list_dismiss_layer.flat = true
+	music_list_dismiss_layer.visible = false
+	music_list_dismiss_layer.text = ""
+	music_list_dismiss_layer.focus_mode = Control.FOCUS_NONE
+	music_list_dismiss_layer.z_index = 170
+	music_list_dismiss_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	music_list_dismiss_layer.pressed.connect(_hide_music_list)
+	music_list_dismiss_layer.gui_input.connect(_on_music_list_dismiss_layer_gui_input)
+	parent.add_child(music_list_dismiss_layer)
+
 	music_list_panel = _new_panel()
 	music_list_panel.visible = false
+	music_list_panel.z_index = 171
 	music_list_panel.anchor_left = 0.0
 	music_list_panel.anchor_top = 1.0
 	music_list_panel.anchor_right = 0.0
@@ -169,13 +199,19 @@ func _build_bottom_bar(parent: Control) -> void:
 	music_list_panel.offset_top = -332
 	music_list_panel.offset_right = 430
 	music_list_panel.offset_bottom = -58
+	music_list_panel.gui_input.connect(_on_music_list_panel_gui_input)
 	parent.add_child(music_list_panel)
 	var list_box := _panel_box(music_list_panel)
 	music_title_label = _new_title(_tr("music.title"))
 	list_box.add_child(music_title_label)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(0, 218)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	list_box.add_child(scroll)
 	music_list = VBoxContainer.new()
+	music_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	music_list.add_theme_constant_override("separation", 6)
-	list_box.add_child(music_list)
+	scroll.add_child(music_list)
 
 
 func _build_audio_player() -> void:
@@ -243,7 +279,34 @@ func _refresh_music_list() -> void:
 
 
 func _toggle_music_list() -> void:
-	music_list_panel.visible = not music_list_panel.visible
+	_set_music_list_visible(not music_list_panel.visible)
+
+
+func _set_music_list_visible(is_visible: bool) -> void:
+	if music_list_panel != null:
+		music_list_panel.visible = is_visible
+	if music_list_dismiss_layer != null:
+		music_list_dismiss_layer.visible = is_visible
+
+
+func _hide_music_list() -> void:
+	_set_music_list_visible(false)
+
+
+func _on_music_list_dismiss_layer_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+			_hide_music_list()
+			music_list_dismiss_layer.accept_event()
+
+
+func _on_music_list_panel_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_RIGHT:
+			_hide_music_list()
+			music_list_panel.accept_event()
 
 
 func _select_music(index: int) -> void:
@@ -251,7 +314,7 @@ func _select_music(index: int) -> void:
 		return
 	current_music_index = index
 	_play_current_music()
-	music_list_panel.visible = false
+	_hide_music_list()
 
 
 func _toggle_music_playback() -> void:

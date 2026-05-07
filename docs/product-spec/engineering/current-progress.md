@@ -471,6 +471,55 @@ Deferred from the 2026-04-29 planning pass:
 
 2026-05-07:
 
+- Remote-work sync after music-list UI update:
+  - `game/scripts/music_player_controller.gd` now gives the music list panel
+    the same close interaction pattern used by the top HUD popups:
+    right-click closes the panel while it is open, and left-clicking outside
+    the panel closes it.
+  - The music list now sits inside a `ScrollContainer`; when there are more
+    tracks than the visible panel area, the right-side vertical scrollbar is
+    shown automatically.
+  - Right-click close is handled both on the panel and at controller input
+    level so nested list buttons do not prevent the close behavior.
+  - `set_ui_visible(false)` hides both the music bar and any open music list
+    popup.
+- Current focus/reward tuning snapshot:
+  - Default focus duration: `5` minutes.
+  - Default break duration: `5` minutes.
+  - Focus duration range: `1` to `180` minutes.
+  - Break duration range: `1` to `60` minutes.
+  - Minimum rewardable focus time: `300` seconds.
+  - Full reward for a completed focus session: `20` Focus Points, `30` XP,
+    and `10` Bond.
+  - Early-ended focus sessions become `partial` at `30%` of planned duration,
+    but still only pay rewards if actual focus time is at least `300` seconds.
+  - Partial rewards scale by actual/planned time and clamp the ratio to
+    `0.3` through `0.99`.
+  - Marking the bound task done from the result panel grants an extra
+    `8` Focus Points and `10` XP.
+  - XP requirement for one Gold Token is `80`; overflow XP carries after the
+    token is granted.
+  - `F1` debug shortcut grants `100` Focus Points.
+  - `F2` debug shortcut grants `1` Gold Token.
+  - Starting an H event spends `1` Gold Token.
+- Validation on `E:\Pomodoro-copy`:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+git diff --check -- game/scripts/music_player_controller.gd
+```
+
+- Git handoff notes:
+  - The branch is `main` and the remote is
+    `https://github.com/sango354/PomodoroDriver.git`.
+  - Before this sync commit, local `main` was ahead of `origin/main` by two
+    commits: `89d8f20 Add dynamic taxi sky cycle` and
+    `494752e Refine UI panels and tutorial interactions`.
+  - The raw Unity source folder `game/assets/Japanese_Street/` and old flat
+    taxi exterior prototype files under `game/assets/Taxi/Exterior/` remain
+    untracked local/source material unless explicitly staged in a source-asset
+    archival commit.
+
 - Taxi exterior scenery handoff:
   - Active taxi main screen now renders the exterior through a live 3D
     `SubViewport` instead of the previous flat 2D sky/side-loop/rear-road
