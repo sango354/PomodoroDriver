@@ -9,12 +9,13 @@ const TaskService = preload("res://scripts/task_service.gd")
 const TASK_PANEL_WIDTH := 390
 const TASK_ITEM_WIDTH := 258
 const TASK_PANEL_TOP := 54
+const ICON_MISSION_PLUS_PATH := "res://assets/Arts/UI/Icon_missionplus.png"
 
 var tasks: Array = []
 var task_panel: Control
 var task_list: VBoxContainer
 var tasks_title_label: Label
-var add_task_button: Button
+var add_task_button: BaseButton
 var localizer
 var active_task_edit: LineEdit = null
 
@@ -61,6 +62,7 @@ func refresh_tasks() -> void:
 		checkbox.button_pressed = task.status == "done"
 		checkbox.disabled = task.status == "done"
 		checkbox.toggled.connect(_on_task_checkbox_toggled.bind(task.task_id))
+		_add_hover_effect(checkbox)
 		row.add_child(checkbox)
 
 		var title_panel := PanelContainer.new()
@@ -95,6 +97,7 @@ func refresh_tasks() -> void:
 		archive.tooltip_text = _tr("tasks.archive")
 		archive.custom_minimum_size = Vector2(32, 30)
 		archive.pressed.connect(archive_task.bind(task.task_id))
+		_add_hover_effect(archive)
 		row.add_child(archive)
 
 
@@ -164,10 +167,8 @@ func _build_task_panel(parent: Control) -> void:
 	tasks_title_label.add_theme_constant_override("shadow_offset_y", 2)
 	header.add_child(tasks_title_label)
 
-	add_task_button = Button.new()
-	add_task_button.text = "+"
+	add_task_button = _new_icon_asset_button(ICON_MISSION_PLUS_PATH, _tr("tasks.add"), Vector2(34, 32))
 	add_task_button.tooltip_text = _tr("tasks.add")
-	add_task_button.custom_minimum_size = Vector2(34, 32)
 	add_task_button.pressed.connect(func(): create_task(_tr("tasks.default_title")))
 	header.add_child(add_task_button)
 
@@ -225,6 +226,41 @@ func _new_title(text: String) -> Label:
 	label.text = text
 	label.add_theme_font_size_override("font_size", 20)
 	return label
+
+
+func _new_icon_asset_button(icon_path: String, tip: String, size: Vector2) -> TextureButton:
+	var button := TextureButton.new()
+	button.texture_normal = _load_texture(icon_path)
+	button.texture_hover = button.texture_normal
+	button.texture_pressed = button.texture_normal
+	button.texture_disabled = button.texture_normal
+	button.tooltip_text = tip
+	button.custom_minimum_size = size
+	button.focus_mode = Control.FOCUS_NONE
+	button.ignore_texture_size = true
+	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	_add_hover_effect(button)
+	return button
+
+
+func _load_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if FileAccess.file_exists(path):
+		var image := Image.new()
+		if image.load(path) == OK:
+			return ImageTexture.create_from_image(image)
+	return null
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _new_panel_style(alpha: float) -> StyleBoxFlat:

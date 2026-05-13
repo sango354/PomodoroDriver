@@ -16,5 +16,10 @@ config/features=PackedStringArray("4.1")
 
 [display]
 
-window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
+theme/default_font_oversampling=2.0

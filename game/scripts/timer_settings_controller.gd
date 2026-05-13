@@ -139,6 +139,7 @@ func _build_duration_adjuster(parent: VBoxContainer, focus: bool) -> void:
 		minus_button.pressed.connect(func(): focus_duration_delta_requested.emit(-1))
 	else:
 		minus_button.pressed.connect(func(): break_duration_delta_requested.emit(-1))
+	_add_hover_effect(minus_button)
 	row.add_child(minus_button)
 
 	var value_label := _new_muted_label("")
@@ -157,6 +158,7 @@ func _build_duration_adjuster(parent: VBoxContainer, focus: bool) -> void:
 		plus_button.pressed.connect(func(): focus_duration_delta_requested.emit(1))
 	else:
 		plus_button.pressed.connect(func(): break_duration_delta_requested.emit(1))
+	_add_hover_effect(plus_button)
 	row.add_child(plus_button)
 
 
@@ -177,6 +179,7 @@ func _build_settings_toggle(parent: VBoxContainer, label_text: String, enabled: 
 	toggle.text = ""
 	toggle.custom_minimum_size = Vector2(54, 30)
 	toggle.focus_mode = Control.FOCUS_NONE
+	_add_hover_effect(toggle)
 	var knob := Panel.new()
 	knob.name = "SwitchKnob"
 	knob.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -233,6 +236,16 @@ func _new_muted_label(text: String) -> Label:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_color_override("font_color", Color(0.86, 0.88, 0.9, 0.92))
 	return label
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _new_switch_style(enabled: bool) -> StyleBoxFlat:

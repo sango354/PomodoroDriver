@@ -24,6 +24,16 @@
 5. [系統 04 - 角色陪伴互動系統](./systems/04-companion-interaction.md)
 6. [系統 05 - 解鎖、情境與內容系統](./systems/05-unlocks-context-and-content.md)
 7. [系統 06 - 任務、成就與統計系統](./systems/06-missions-achievements-and-stats.md)
-8. [資料結構](./data/schema.md)
-9. [開發路線與工作拆解](./engineering/roadmap-and-backlog.md)
-10. [目前製作進度](./engineering/current-progress.md)
+8. [系統 07 - 在地化與選項](./systems/07-localization-and-options.md)
+9. [資料結構](./data/schema.md)
+10. [開發路線與工作拆解](./engineering/roadmap-and-backlog.md)
+11. [目前製作進度](./engineering/current-progress.md)
+
+## 目前同步狀態
+
+- 最近 handoff：2026-05-13。
+- 目前 UI 素材、hover 行為、全螢幕切換、對話隨機抽句、以及
+  localization/dialogue CSV 狀態已記錄於
+  [目前製作進度](./engineering/current-progress.md)。
+- 驗證步驟與人工檢查項目已同步到
+  [Manual QA Checklist](./engineering/manual-qa-checklist.md)。

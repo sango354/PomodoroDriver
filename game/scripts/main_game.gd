@@ -24,7 +24,7 @@ const SAVE_PATH := "user://save.json"
 const ALARM_SOUND_PATH := "res://assets/sfx/alarm_placeholder.wav"
 const DEFAULT_BREAK_MEDIA_PATH := "res://assets/videos/break/video.mp4"
 const SETTINGS_PANEL_WIDTH := 264
-const TIMER_RAIL_WIDTH := 190
+const TIMER_RAIL_WIDTH := 260
 const DEFAULT_FOCUS_MINUTES := 5
 const DEFAULT_BREAK_MINUTES := 5
 const MIN_REWARDABLE_SESSION_SEC := 300
@@ -46,6 +46,17 @@ const FIRST_ENTRY_DIALOGUE_ID := "first_entry_welcome"
 const H_EVENT_PREVIEW_DIALOGUE_ID := "h_event_preview"
 const H_EVENT_DIALOGUE_COUNT := 2
 const QUIT_VIEWPORT_SHUTDOWN_FRAMES := 2
+const ICON_TUTORIAL_PATH := "res://assets/Arts/UI/ICON_tutorial.png"
+const ICON_MEMORY_PATH := "res://assets/Arts/UI/ICON_memory.png"
+const ICON_STATISTICS_PATH := "res://assets/Arts/UI/ICON_statistics.png"
+const ICON_FOCUS_POINT_PATH := "res://assets/Arts/UI/Icon_FocusPoint.png"
+const ICON_TOKEN_PATH := "res://assets/Arts/UI/Icon_Token.png"
+const ICON_TOKEN_BAR_PATH := "res://assets/Arts/UI/Icon_Tokenbar.png"
+const PANEL_BOND_LEVEL_PATH := "res://assets/Arts/UI/Panel_Bondlevel.png"
+const ICON_SIMPLE_MODE_PATH := "res://assets/Arts/UI/Icon_simplemode.png"
+const ICON_MISSION_PATH := "res://assets/Arts/UI/ICON_mission.png"
+const ICON_HIDE_MISSION_PATH := "res://assets/Arts/UI/ICON_hidemission.png"
+const ICON_HIDE_CLOCK_PATH := "res://assets/Arts/UI/Icon_hideclock.png"
 
 var app_state := "idle"
 var session_mode := "focus"
@@ -104,12 +115,13 @@ var message_label: Label
 var top_bar: Control
 var bottom_mode_controls: Control
 var background_menu_panel: PanelContainer
-var tutorial_button: Button
+var tutorial_button: BaseButton
 var tutorial_panel: PanelContainer
-var simple_mode_button: Button
-var tasks_toggle_button: Button
-var timer_toggle_button: Button
+var simple_mode_button: BaseButton
+var tasks_toggle_button: BaseButton
+var timer_toggle_button: BaseButton
 var ambience_toggle_button: Control
+var fullscreen_toggle_button: Button
 var focus_progress_hud: Control
 var fp_label: Control
 var focus_points_value_label: Label
@@ -143,8 +155,8 @@ var ambient_prompt_visible_sec := 0.0
 var ambient_prompt_has_shown := false
 var unlocks_label: Button
 var store_button: Button
-var avg_gallery_button: Button
-var stats_button: Button
+var avg_gallery_button: BaseButton
+var stats_button: BaseButton
 var simple_mode_enabled := false
 var tasks_ui_visible := true
 var timer_ui_visible := true
@@ -156,9 +168,12 @@ var h_event_music_state := {}
 var avg_dialogue_music_state := {}
 var avg_dialogue_music_suspended := false
 var quit_requested := false
+var previous_window_mode := DisplayServer.WINDOW_MODE_WINDOWED
+var has_previous_window_mode := false
 
 
 func _ready() -> void:
+	randomize()
 	get_tree().auto_accept_quit = false
 	_load_save()
 	_ensure_currency_defaults()
@@ -394,7 +409,7 @@ func _build_scene() -> void:
 
 
 func _build_top_bar(parent: Control) -> void:
-	var bar := PanelContainer.new()
+	var bar := Control.new()
 	top_bar = bar
 	bar.name = "TopBar"
 	bar.z_index = 90
@@ -405,8 +420,7 @@ func _build_top_bar(parent: Control) -> void:
 	bar.offset_left = 0
 	bar.offset_top = 0
 	bar.offset_right = 240
-	bar.offset_bottom = 46
-	bar.add_theme_stylebox_override("panel", _new_panel_style(0.42))
+	bar.offset_bottom = 58
 	parent.add_child(bar)
 
 	var margin := MarginContainer.new()
@@ -435,22 +449,22 @@ func _build_top_bar(parent: Control) -> void:
 	shop.pressed.connect(_toggle_store_panel)
 	row.add_child(shop)
 
-	var tutorial := _new_icon_button("教學", "Tutorial")
+	var tutorial := _new_top_bar_icon_button(ICON_TUTORIAL_PATH, "Tutorial")
 	tutorial_button = tutorial
 	tutorial.pressed.connect(_toggle_tutorial_panel)
 	row.add_child(tutorial)
 
-	var gallery := _new_icon_button("DG", "Dialogue Gallery")
+	var gallery := _new_top_bar_icon_button(ICON_MEMORY_PATH, "Dialogue Gallery")
 	avg_gallery_button = gallery
 	gallery.pressed.connect(_toggle_avg_gallery)
 	row.add_child(gallery)
 
-	var stats := _new_icon_button("ST", "Stats")
+	var stats := _new_top_bar_icon_button(ICON_STATISTICS_PATH, "Stats")
 	stats_button = stats
 	stats.pressed.connect(_toggle_stats_message)
 	row.add_child(stats)
 
-	var option_button := option_controller.create_top_bar_button() as Button
+	var option_button: BaseButton = option_controller.create_top_bar_button() as BaseButton
 	row.add_child(option_button)
 	option_controller.refresh_text()
 
@@ -464,7 +478,7 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	panel.anchor_top = 1.0
 	panel.anchor_right = 1.0
 	panel.anchor_bottom = 1.0
-	panel.offset_left = -210
+	panel.offset_left = -270
 	panel.offset_top = -50
 	panel.offset_right = 0
 	panel.offset_bottom = 0
@@ -484,17 +498,17 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 	row.add_theme_constant_override("separation", 8)
 	margin.add_child(row)
 
-	var simple_button := _new_icon_button("A", "Simple Mode")
+	var simple_button := _new_icon_asset_button(ICON_SIMPLE_MODE_PATH, "Simple Mode", Vector2(42, 36))
 	simple_mode_button = simple_button
 	simple_button.pressed.connect(_toggle_simple_mode)
 	row.add_child(simple_button)
 
-	var tasks_button := _new_icon_button("B", "Tasks")
+	var tasks_button := _new_icon_asset_button(ICON_MISSION_PATH, "Tasks", Vector2(42, 36))
 	tasks_toggle_button = tasks_button
 	tasks_button.pressed.connect(_toggle_tasks_ui)
 	row.add_child(tasks_button)
 
-	var timer_button := _new_icon_button("C", "Pomodoro")
+	var timer_button := _new_icon_asset_button(ICON_HIDE_CLOCK_PATH, "Pomodoro", Vector2(42, 36))
 	timer_toggle_button = timer_button
 	timer_button.pressed.connect(_toggle_timer_ui)
 	row.add_child(timer_button)
@@ -516,9 +530,15 @@ func _build_bottom_mode_controls(parent: Control) -> void:
 		ambience_toggle_button = ambience_button
 		row.add_child(ambience_button)
 		row.move_child(ambience_button, 0)
-	row.move_child(tasks_button, 1)
-	row.move_child(timer_button, 2)
+	var fullscreen_button := _new_icon_button("FS", localizer.translate("music.fullscreen_enter"))
+	fullscreen_toggle_button = fullscreen_button
+	fullscreen_button.pressed.connect(_toggle_borderless_fullscreen)
+	row.add_child(fullscreen_button)
+	row.move_child(fullscreen_button, 1)
+	row.move_child(tasks_button, 2)
+	row.move_child(timer_button, 3)
 	row.move_child(simple_button, row.get_child_count() - 1)
+	_refresh_bottom_mode_icons()
 
 	_build_background_menu(parent)
 
@@ -546,17 +566,13 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	points.add_theme_constant_override("separation", 5)
 	hud.add_child(points)
 
-	var diamond := Label.new()
-	diamond.text = "◇"
-	diamond.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	diamond.custom_minimum_size = Vector2(22, 32)
-	diamond.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	diamond.add_theme_font_size_override("font_size", 19)
-	diamond.add_theme_color_override("font_color", Color(0.96, 0.98, 1.0, 1.0))
-	diamond.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
-	diamond.add_theme_constant_override("shadow_offset_x", 2)
-	diamond.add_theme_constant_override("shadow_offset_y", 2)
-	points.add_child(diamond)
+	var focus_icon := TextureRect.new()
+	focus_icon.texture = _load_texture(ICON_FOCUS_POINT_PATH)
+	focus_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	focus_icon.custom_minimum_size = Vector2(30, 32)
+	focus_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	focus_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	points.add_child(focus_icon)
 
 	focus_points_value_label = Label.new()
 	focus_points_value_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -569,26 +585,48 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	focus_points_value_label.add_theme_constant_override("shadow_offset_y", 2)
 	points.add_child(focus_points_value_label)
 
+	var bond_panel := Control.new()
+	bond_panel.custom_minimum_size = Vector2(88, 34)
+	bond_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hud.add_child(bond_panel)
+
+	var bond_background := TextureRect.new()
+	bond_background.texture = _load_texture(PANEL_BOND_LEVEL_PATH)
+	bond_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bond_background.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bond_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bond_background.stretch_mode = TextureRect.STRETCH_SCALE
+	bond_panel.add_child(bond_background)
+
 	bond_level_label = Label.new()
 	bond_level_label.mouse_filter = Control.MOUSE_FILTER_STOP
-	bond_level_label.custom_minimum_size = Vector2(70, 32)
-	bond_level_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bond_level_label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bond_level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	bond_level_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	bond_level_label.add_theme_font_size_override("font_size", 22)
 	bond_level_label.add_theme_color_override("font_color", Color(1.0, 0.83, 0.38, 1.0))
 	bond_level_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.86))
 	bond_level_label.add_theme_constant_override("shadow_offset_x", 2)
 	bond_level_label.add_theme_constant_override("shadow_offset_y", 2)
-	hud.add_child(bond_level_label)
+	bond_panel.add_child(bond_level_label)
 
 	var level := Control.new()
 	level_label = level
-	level.custom_minimum_size = Vector2(116, 32)
+	level.custom_minimum_size = Vector2(126, 34)
 	level.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	level.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	level.mouse_filter = Control.MOUSE_FILTER_STOP
 	level.gui_input.connect(_on_gold_token_gui_input)
+	_add_hover_effect(level)
 	hud.add_child(level)
+
+	var token_bar := TextureRect.new()
+	token_bar.texture = _load_texture(ICON_TOKEN_BAR_PATH)
+	token_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	token_bar.set_anchors_preset(Control.PRESET_FULL_RECT)
+	token_bar.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	token_bar.stretch_mode = TextureRect.STRETCH_SCALE
+	level.add_child(token_bar)
 
 	var bar := ProgressBar.new()
 	focus_level_progress = bar
@@ -609,7 +647,7 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	bar.add_theme_stylebox_override("fill", _new_progress_fill_style())
 	level.add_child(bar)
 
-	var badge := PanelContainer.new()
+	var badge := Control.new()
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge.custom_minimum_size = Vector2(34, 34)
 	badge.anchor_left = 0.0
@@ -620,11 +658,19 @@ func _build_focus_progress_hud(parent: Control) -> void:
 	badge.offset_top = -17
 	badge.offset_right = 34
 	badge.offset_bottom = 17
-	badge.add_theme_stylebox_override("panel", _new_level_badge_style())
 	level.add_child(badge)
+
+	var token_icon := TextureRect.new()
+	token_icon.texture = _load_texture(ICON_TOKEN_PATH)
+	token_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	token_icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+	token_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	token_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	badge.add_child(token_icon)
 
 	var badge_center := CenterContainer.new()
 	badge_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge_center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	badge.add_child(badge_center)
 
 	focus_level_badge_label = Label.new()
@@ -677,6 +723,7 @@ func _refresh_background_menu() -> void:
 		button.disabled = bool(item.get("locked", false))
 		button.tooltip_text = str(item.get("tooltip", ""))
 		button.pressed.connect(_select_background.bind(str(item.get("id", BACKGROUND_LOFI_AUTO))))
+		_add_hover_effect(button)
 		box.add_child(button)
 
 
@@ -854,7 +901,91 @@ func _new_icon_button(text: String, tip: String) -> Button:
 	button.tooltip_text = tip
 	button.custom_minimum_size = Vector2(42, 32)
 	button.focus_mode = Control.FOCUS_NONE
+	_add_hover_effect(button)
 	return button
+
+
+func _new_icon_asset_button(icon_path: String, tip: String, size: Vector2) -> TextureButton:
+	var button := TextureButton.new()
+	button.texture_normal = _load_texture(icon_path)
+	button.texture_hover = button.texture_normal
+	button.texture_pressed = button.texture_normal
+	button.texture_disabled = button.texture_normal
+	button.tooltip_text = tip
+	button.custom_minimum_size = size
+	button.focus_mode = Control.FOCUS_NONE
+	button.ignore_texture_size = true
+	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	_add_hover_effect(button)
+	return button
+
+
+func _new_top_bar_icon_button(icon_path: String, tip: String) -> TextureButton:
+	var button := TextureButton.new()
+	button.texture_normal = _load_texture(icon_path)
+	button.texture_hover = button.texture_normal
+	button.texture_pressed = button.texture_normal
+	button.texture_disabled = button.texture_normal
+	button.tooltip_text = tip
+	button.custom_minimum_size = Vector2(42, 42)
+	button.focus_mode = Control.FOCUS_NONE
+	button.ignore_texture_size = true
+	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	_add_hover_effect(button)
+	return button
+
+
+func _load_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if FileAccess.file_exists(path):
+		var image := Image.new()
+		if image.load(path) == OK:
+			return ImageTexture.create_from_image(image)
+	return null
+
+
+func _set_texture_button_icon(button: BaseButton, icon_path: String) -> void:
+	var texture_button := button as TextureButton
+	if texture_button == null:
+		return
+	var texture := _load_texture(icon_path)
+	texture_button.texture_normal = texture
+	texture_button.texture_hover = texture
+	texture_button.texture_pressed = texture
+	texture_button.texture_disabled = texture
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
+
+
+func _toggle_borderless_fullscreen() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	var current_mode := DisplayServer.window_get_mode()
+	if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		var restore_mode := previous_window_mode if has_previous_window_mode else DisplayServer.WINDOW_MODE_WINDOWED
+		DisplayServer.window_set_mode(restore_mode)
+		has_previous_window_mode = false
+	else:
+		previous_window_mode = current_mode
+		has_previous_window_mode = true
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	_refresh_fullscreen_button()
+
+
+func _refresh_fullscreen_button() -> void:
+	if fullscreen_toggle_button == null:
+		return
+	var is_fullscreen := DisplayServer.get_name() != "headless" and DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+	fullscreen_toggle_button.tooltip_text = localizer.translate("music.fullscreen_exit") if is_fullscreen else localizer.translate("music.fullscreen_enter")
 
 
 func _new_muted_label(text: String) -> Label:
@@ -975,7 +1106,7 @@ func _show_ambient_prompt() -> void:
 		return
 	companion_controller.show_ambient_prompt(
 		int(bond_progress.get("bond_level", 1)),
-		selected_context,
+		_ambient_prompt_context(),
 		interaction_history
 	)
 	ambient_prompt_visible_sec = 0.0
@@ -1022,6 +1153,14 @@ func _ambient_prompt_interval_sec() -> int:
 	if app_state == "running":
 		return AMBIENT_PROMPT_FOCUS_INTERVAL_SEC
 	return AMBIENT_PROMPT_LOW_IDLE_INTERVAL_SEC if ambient_prompt_frequency == AMBIENT_PROMPT_LOW else AMBIENT_PROMPT_NORMAL_IDLE_INTERVAL_SEC
+
+
+func _ambient_prompt_context() -> Dictionary:
+	var context := selected_context.duplicate()
+	context.app_state = app_state
+	context.session_mode = session_mode
+	context.ambient_state = "focus" if app_state == "running" and session_mode == "focus" else "idle"
+	return context
 
 
 func _is_ambient_prompt_visible() -> bool:
@@ -1319,6 +1458,7 @@ func _refresh_localized_text() -> void:
 		avg_dialogue_controller.set_localizer(localizer)
 	if avg_gallery_controller != null and avg_gallery_controller.has_method("set_localizer"):
 		avg_gallery_controller.set_localizer(localizer)
+	_refresh_fullscreen_button()
 	_refresh_background_menu()
 	_refresh_all()
 
@@ -1421,16 +1561,19 @@ func _raise_tutorial_panel() -> void:
 func _toggle_simple_mode() -> void:
 	simple_mode_enabled = not simple_mode_enabled
 	_apply_ui_visibility()
+	_refresh_bottom_mode_icons()
 
 
 func _toggle_tasks_ui() -> void:
 	tasks_ui_visible = not tasks_ui_visible
 	_apply_ui_visibility()
+	_refresh_bottom_mode_icons()
 
 
 func _toggle_timer_ui() -> void:
 	timer_ui_visible = not timer_ui_visible
 	_apply_ui_visibility()
+	_refresh_bottom_mode_icons()
 
 
 func _apply_ui_visibility() -> void:
@@ -1477,6 +1620,17 @@ func _apply_ui_visibility() -> void:
 		_stop_break_media()
 	if background_menu_panel != null and simple_mode_enabled:
 		background_menu_panel.visible = false
+	_refresh_bottom_mode_icons()
+
+
+func _refresh_bottom_mode_icons() -> void:
+	if simple_mode_button != null:
+		simple_mode_button.tooltip_text = "Simple Mode"
+	if tasks_toggle_button != null:
+		tasks_toggle_button.tooltip_text = "Tasks"
+		_set_texture_button_icon(tasks_toggle_button, ICON_MISSION_PATH if tasks_ui_visible else ICON_HIDE_MISSION_PATH)
+	if timer_toggle_button != null:
+		timer_toggle_button.tooltip_text = "Pomodoro"
 
 
 func _cycle_time_context() -> void:
@@ -1562,19 +1716,32 @@ func _start_avg_dialogue(dialogue_id: String) -> bool:
 func _show_first_entry_dialogue_if_needed() -> void:
 	if avg_dialogue_controller == null:
 		return
+	var lines := [
+		{
+			"speaker": "女司機",
+			"text": "終於來了，我等你很久了。"
+		},
+		{
+			"speaker": "女司機",
+			"text": "上車吧，今晚只載你一個。"
+		},
+		{
+			"speaker": "女司機",
+			"text": "又想被我陪著努力了？"
+		},
+		{
+			"speaker": "女司機",
+			"text": "門鎖好了，現在逃不掉囉。"
+		},
+		{
+			"speaker": "女司機",
+			"text": "安全帶繫好，別偷看別處喔。"
+		}
+	]
 	var dialogue := {
 		"dialogue_id": FIRST_ENTRY_DIALOGUE_ID,
 		"transparent_overlay": true,
-		"lines": [
-			{
-				"speaker": "女司機",
-				"text": "歡迎上車，乘客。今晚的路由我來開，你只要坐穩，讓這趟夜車慢慢發動。"
-			},
-			{
-				"speaker": "女司機",
-				"text": "如果你準備好了，就把目的地交給我。這台車會載你去該去的地方。"
-			}
-		]
+		"lines": [lines[randi() % lines.size()]]
 	}
 	avg_dialogue_controller.show_dialogue(dialogue)
 
@@ -1772,12 +1939,10 @@ func _refresh_progress_ui() -> void:
 		store_button.text = ""
 		store_button.tooltip_text = ""
 	if avg_gallery_button != null:
-		avg_gallery_button.text = "DG"
 		avg_gallery_button.tooltip_text = localizer.translate("avg.gallery.title")
 	if stats_button != null:
 		stats_button.tooltip_text = localizer.translate("top.stats")
 	if tutorial_button != null:
-		tutorial_button.text = "教學"
 		tutorial_button.tooltip_text = "簡易教學"
 	stats_label.text = "%s: %d\n%s: %d\n%s: %d\n%s: %d" % [
 		localizer.translate("stats.completed"),

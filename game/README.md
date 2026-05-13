@@ -6,13 +6,13 @@ probe scene is kept at `res://scenes/spine_background_probe.tscn`.
 Use this editor:
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --path E:\ProjectPomodoro\game
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --path E:\PomodoroDriver\game
 ```
 
 Or run:
 
 ```powershell
-E:\ProjectPomodoro\scripts\open-godot-spine.ps1
+E:\PomodoroDriver\scripts\open-godot-spine.ps1
 ```
 
 The main scene is:
@@ -51,7 +51,7 @@ disabled for production use in Godot.
 Verification performed:
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
 ```
 
 Expected output includes:
@@ -88,21 +88,39 @@ The MVP game scene currently covers the M1 loop from the product spec:
 - Switch background mode from the bottom-right `BG` menu between Lo-fi,
   Background 01, and Background 02.
 - Save selected background mode to `user://save.json`.
+- Render the active taxi exterior through a live 3D `SubViewport` using runtime
+  art under `res://assets/Generated/JapaneseStreet3D/`.
 
 Current UI implementation notes:
 
+- Current authored UI art lives under `res://assets/Arts/UI/`.
+- The active topbar uses image-only buttons for tutorial, memory/gallery,
+  statistics, and options. The previous translucent topbar backing panel has
+  been removed.
 - Timer controls use icon-only Settings and Reset buttons beside the primary
-  Start/Pause/Resume button.
+  Start/Pause/Resume button. The timer rail uses `Panel_clock.png`,
+  `Button_config.png`, `Button_reset.png`, and `Button_start.png`.
 - Timer Settings supports one-minute focus/break adjustments plus Auto restart
   and Alarm switches.
 - The Alarm switch currently plays a silent placeholder from
   `res://assets/sfx/alarm_placeholder.wav`.
-- The bottom music bar uses icon-only controls from `res://assets/icons`.
+- The bottom music bar uses icon-only controls from `res://assets/Arts/UI/`
+  for list, previous, play, pause, next, and loop.
 - Loop off is represented by a gray overlay on the loop icon.
+- The bottom-right utility controls use the simple mode, mission/hide mission,
+  and hide clock art. A borderless fullscreen toggle sits beside the ambience
+  button and restores the previous window mode on the next click.
+- The right-top resource HUD uses the current Focus Point, Token, Token bar,
+  and Bond Level art.
+- Visible button-like controls use a hover scale effect. The right-top Token
+  hit area also scales on hover. Full-screen invisible dismiss layers do not.
 - Break interaction dialogue is loaded from `res://data/dialogue_defs.json`.
+- Startup welcome, idle ambient, focus ambient, and break companion triggers
+  each randomly select one line from their matching line pool. Idle and focus
+  ambient lines are split by `ambient_state`.
 - Localized UI text is loaded from `res://data/localization.csv`.
 - The top-right Option button opens a panel with language switching and Break
-  Video on/off plus Ambient Prompt Low/Normal frequency.
+  Video on/off plus Ambient Prompt Normal/Low/Off frequency.
 - The saved game payload includes `app_settings.language`,
   `app_settings.break_media_enabled`, `app_settings.break_media_path`, and
   `app_settings.ambient_prompt_frequency`.
@@ -124,25 +142,25 @@ Current UI implementation notes:
 For handoff status and current implementation notes, see:
 
 ```text
-E:\ProjectPomodoro\docs\product-spec\engineering\current-progress.md
+E:\PomodoroDriver\docs\product-spec\engineering\current-progress.md
 ```
 
 Localization/options details are documented in:
 
 ```text
-E:\ProjectPomodoro\docs\product-spec\systems\07-localization-and-options.md
+E:\PomodoroDriver\docs\product-spec\systems\07-localization-and-options.md
 ```
 
 Manual QA steps are documented in:
 
 ```text
-E:\ProjectPomodoro\docs\product-spec\engineering\manual-qa-checklist.md
+E:\PomodoroDriver\docs\product-spec\engineering\manual-qa-checklist.md
 ```
 
 Build Windows export:
 
 ```powershell
-E:\ProjectPomodoro\build-windows.cmd
+E:\PomodoroDriver\build-windows.cmd
 ```
 
 The build script regenerates localization/music manifests and writes ignored
@@ -159,6 +177,8 @@ game/data/reward_summary_defs.json
 game/assets/spine/backgrounds/Room/Room.skel
 game/assets/spine/backgrounds/Room/Room.atlas
 game/assets/spine/backgrounds/Room/Room.png
+game/assets/Arts/UI/
+game/data/dialogue_defs.json
 game/scripts/localization_service.gd
 game/scripts/option_panel_controller.gd
 game/scripts/task_panel_controller.gd

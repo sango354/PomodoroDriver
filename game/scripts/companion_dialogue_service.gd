@@ -4,7 +4,7 @@ const DIALOGUE_PATH := "res://data/dialogue_defs.json"
 const FALLBACK_DIALOGUE := {
 	"dialogue_id": "break_fallback",
 	"text_key": "dialogue.break_fallback",
-	"text": "Take a short stop. I will keep the cab ready for the next fare.",
+	"text": "休息時間到了，肩膀放鬆一點。",
 	"bond_requirement": 0,
 	"context_requirement": "any",
 	"cooldown_minutes": 0,
@@ -14,7 +14,7 @@ const FALLBACK_DIALOGUE := {
 const FALLBACK_AMBIENT_DIALOGUE := {
 	"dialogue_id": "ambient_fallback",
 	"text_key": "dialogue.ambient_fallback",
-	"text": "I am at the wheel. Keep the ride smooth.",
+	"text": "車還在開，你卻開始發呆了？",
 	"bond_requirement": 0,
 	"context_requirement": "any",
 	"cooldown_minutes": 8,
@@ -96,14 +96,18 @@ static func ambient_dialogue(index: int, bond_level: int, context: Dictionary, i
 static func _select_dialogue(dialogues: Array, index: int, excluded_dialogue_id: String, fallback: Dictionary) -> Dictionary:
 	if dialogues.is_empty():
 		return fallback
-	var selected = dialogues[index % dialogues.size()]
-	if excluded_dialogue_id == "":
-		return selected
-	for offset in range(dialogues.size()):
-		var candidate = dialogues[(index + offset) % dialogues.size()]
+	var candidates := []
+	for dialogue in dialogues:
+		if excluded_dialogue_id == "" or str(dialogue.get("dialogue_id", "")) != excluded_dialogue_id:
+			candidates.append(dialogue)
+	if candidates.is_empty():
+		candidates = dialogues
+	var selected_index := randi() % candidates.size()
+	for offset in range(candidates.size()):
+		var candidate = candidates[(selected_index + offset) % candidates.size()]
 		if str(candidate.get("dialogue_id", "")) != excluded_dialogue_id:
 			return candidate
-	return selected
+	return candidates[selected_index]
 
 
 static func _weighted_dialogues(dialogues: Array) -> Array:

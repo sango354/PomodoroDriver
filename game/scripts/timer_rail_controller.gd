@@ -4,12 +4,14 @@ signal primary_pressed
 signal reset_pressed
 signal settings_pressed
 
-const ICON_RESET_PATH := "res://assets/icons/reset.png"
-const ICON_SETTINGS_PATH := "res://assets/icons/settings.png"
-const TIMER_RAIL_WIDTH := 190
+const ICON_RESET_PATH := "res://assets/Arts/UI/Button_reset.png"
+const ICON_SETTINGS_PATH := "res://assets/Arts/UI/Button_config.png"
+const PANEL_CLOCK_PATH := "res://assets/Arts/UI/Panel_clock.png"
+const BUTTON_START_PATH := "res://assets/Arts/UI/Button_start.png"
+const TIMER_RAIL_WIDTH := 260
 const TIMER_RAIL_LEFT := 0
 const TIMER_RAIL_TOP := 58
-const TIMER_RAIL_HEIGHT := 222
+const TIMER_RAIL_HEIGHT := 325
 const DEFAULT_FOCUS_MINUTES := 5
 const DEFAULT_BREAK_MINUTES := 5
 const TIMER_RUNNING_COLOR := Color(1, 1, 1, 1)
@@ -19,7 +21,8 @@ var timer_label: Label
 var timer_panel: Control
 var break_time_label: Label
 var phase_label: Label
-var primary_timer_button: Button
+var primary_timer_button: BaseButton
+var primary_timer_label: Label
 var reset_button: BaseButton
 var settings_button: BaseButton
 var localizer
@@ -77,13 +80,13 @@ func refresh_controls(app_state: String) -> void:
 	_last_app_state = app_state
 	primary_timer_button.disabled = false
 	if app_state == "running":
-		primary_timer_button.text = _tr("timer.pause")
+		primary_timer_label.text = _tr("timer.pause")
 		primary_timer_button.tooltip_text = _tr("timer.pause")
 	elif app_state == "paused":
-		primary_timer_button.text = _tr("timer.resume")
+		primary_timer_label.text = _tr("timer.resume")
 		primary_timer_button.tooltip_text = _tr("timer.resume")
 	else:
-		primary_timer_button.text = _tr("timer.start")
+		primary_timer_label.text = _tr("timer.start")
 		primary_timer_button.tooltip_text = _tr("timer.start")
 	reset_button.disabled = false
 
@@ -133,7 +136,8 @@ func _build_timer_rail(parent: Control) -> void:
 	timer_label = Label.new()
 	timer_label.text = _format_time(DEFAULT_FOCUS_MINUTES * 60)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	timer_label.add_theme_font_size_override("font_size", 42)
+	timer_label.add_theme_font_size_override("font_size", 44)
+	timer_label.add_theme_color_override("font_color", Color(0.28, 0.16, 0.1, 1.0))
 	box.add_child(timer_label)
 
 	break_time_label = _new_muted_label(_trf("timer.break_label", {"time": _format_time(DEFAULT_BREAK_MINUTES * 60)}))
@@ -147,7 +151,7 @@ func _build_timer_rail(parent: Control) -> void:
 	controls.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(controls)
 
-	settings_button = _new_icon_asset_button(ICON_SETTINGS_PATH, _tr("timer.settings"), Vector2(34, 34))
+	settings_button = _new_icon_asset_button(ICON_SETTINGS_PATH, _tr("timer.settings"), Vector2(38, 38))
 	settings_button.pressed.connect(func(): settings_pressed.emit())
 	controls.add_child(settings_button)
 
@@ -155,15 +159,21 @@ func _build_timer_rail(parent: Control) -> void:
 	primary_timer_button.pressed.connect(func(): primary_pressed.emit())
 	controls.add_child(primary_timer_button)
 
-	reset_button = _new_icon_asset_button(ICON_RESET_PATH, _tr("timer.reset"), Vector2(34, 34))
+	reset_button = _new_icon_asset_button(ICON_RESET_PATH, _tr("timer.reset"), Vector2(38, 38))
 	reset_button.pressed.connect(func(): reset_pressed.emit())
 	controls.add_child(reset_button)
 
 
-func _new_panel() -> PanelContainer:
-	var panel := PanelContainer.new()
+func _new_panel() -> Control:
+	var panel := Control.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	panel.add_theme_stylebox_override("panel", _new_panel_style(0.62))
+	var background := TextureRect.new()
+	background.texture = _load_icon_texture(PANEL_CLOCK_PATH)
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_SCALE
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	background.set_anchors_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(background)
 	return panel
 
 
@@ -179,16 +189,17 @@ func _new_panel_style(alpha: float) -> StyleBoxFlat:
 	return style
 
 
-func _panel_box(panel: PanelContainer) -> VBoxContainer:
+func _panel_box(panel: Control) -> VBoxContainer:
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 16)
-	margin.add_theme_constant_override("margin_top", 14)
-	margin.add_theme_constant_override("margin_right", 16)
-	margin.add_theme_constant_override("margin_bottom", 14)
+	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin.add_theme_constant_override("margin_left", 24)
+	margin.add_theme_constant_override("margin_top", 68)
+	margin.add_theme_constant_override("margin_right", 24)
+	margin.add_theme_constant_override("margin_bottom", 34)
 	panel.add_child(margin)
 
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
+	box.add_theme_constant_override("separation", 12)
 	margin.add_child(box)
 	return box
 
@@ -197,7 +208,7 @@ func _new_muted_label(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_color_override("font_color", Color(0.86, 0.88, 0.9, 0.92))
+	label.add_theme_color_override("font_color", Color(0.38, 0.24, 0.16, 0.92))
 	return label
 
 
@@ -228,13 +239,26 @@ func _load_icon_texture(icon_path: String) -> Texture2D:
 	return null
 
 
-func _new_timer_action_button(text: String, tip: String) -> Button:
-	var button := Button.new()
-	button.text = text
+func _new_timer_action_button(text: String, tip: String) -> BaseButton:
+	var button := TextureButton.new()
+	button.texture_normal = _load_icon_texture(BUTTON_START_PATH)
+	button.texture_hover = button.texture_normal
+	button.texture_pressed = button.texture_normal
+	button.texture_disabled = button.texture_normal
 	button.tooltip_text = tip
-	button.custom_minimum_size = Vector2(74, 34)
+	button.custom_minimum_size = Vector2(112, 36)
 	button.focus_mode = Control.FOCUS_NONE
-	_apply_timer_button_style(button)
+	button.ignore_texture_size = true
+	button.stretch_mode = TextureButton.STRETCH_SCALE
+	primary_timer_label = Label.new()
+	primary_timer_label.text = text
+	primary_timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	primary_timer_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	primary_timer_label.add_theme_color_override("font_color", Color(0.34, 0.18, 0.1, 1.0))
+	primary_timer_label.add_theme_font_size_override("font_size", 16)
+	primary_timer_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	primary_timer_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	button.add_child(primary_timer_label)
 	button.mouse_entered.connect(_on_hover_scale.bind(button, true))
 	button.mouse_exited.connect(_on_hover_scale.bind(button, false))
 	return button

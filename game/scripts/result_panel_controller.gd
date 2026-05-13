@@ -100,12 +100,14 @@ func _build_result_panel(parent: Control) -> void:
 	mark_task_done_button.text = _tr("result.mark_task_done")
 	mark_task_done_button.custom_minimum_size = Vector2(126, 30)
 	mark_task_done_button.pressed.connect(func(): mark_task_done_pressed.emit())
+	_add_hover_effect(mark_task_done_button)
 	buttons.add_child(mark_task_done_button)
 
 	break_button = Button.new()
 	break_button.text = _tr("result.start_break")
 	break_button.custom_minimum_size = Vector2(104, 30)
 	break_button.pressed.connect(func(): break_pressed.emit())
+	_add_hover_effect(break_button)
 	buttons.add_child(break_button)
 
 
@@ -171,6 +173,16 @@ func _new_muted_label(text: String) -> Label:
 
 func _status_title(status: String) -> String:
 	return _tr("timer.state_%s" % status)
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _tr(key: String) -> String:

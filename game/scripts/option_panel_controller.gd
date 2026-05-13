@@ -10,9 +10,10 @@ const OPTION_PANEL_LEFT := 342
 const OPTION_PANEL_TOP := 54
 const OPTION_PANEL_WIDTH := 330
 const OPTION_PANEL_HEIGHT := 192
+const ICON_OPTION_PATH := "res://assets/Arts/UI/ICON_option.png"
 
 var localizer
-var option_button: Button
+var option_button: BaseButton
 var option_panel: PanelContainer
 var language_title: Label
 var language_value: Label
@@ -24,7 +25,7 @@ var ambient_prompt_button: Button
 var ambient_prompt_frequency := "normal"
 
 
-func setup(parent: Control, localization_service, media_enabled: bool = false, ambient_frequency: String = "normal") -> Button:
+func setup(parent: Control, localization_service, media_enabled: bool = false, ambient_frequency: String = "normal") -> BaseButton:
 	localizer = localization_service
 	break_media_enabled = media_enabled
 	ambient_prompt_frequency = ambient_frequency
@@ -57,7 +58,6 @@ func refresh_text() -> void:
 	if localizer == null:
 		return
 	if option_button != null:
-		option_button.text = localizer.translate("option.button")
 		option_button.tooltip_text = localizer.translate("option.title")
 	if language_title != null:
 		language_title.text = localizer.translate("option.language")
@@ -163,6 +163,7 @@ func _build_option_panel(parent: Control) -> void:
 	break_media_toggle.custom_minimum_size = Vector2(54, 30)
 	break_media_toggle.focus_mode = Control.FOCUS_NONE
 	break_media_toggle.pressed.connect(func(): break_media_pressed.emit())
+	_add_hover_effect(break_media_toggle)
 	var knob := Panel.new()
 	knob.name = "SwitchKnob"
 	knob.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -183,16 +184,35 @@ func _build_option_panel(parent: Control) -> void:
 	ambient_prompt_button.custom_minimum_size = Vector2(82, 30)
 	ambient_prompt_button.focus_mode = Control.FOCUS_NONE
 	ambient_prompt_button.pressed.connect(func(): ambient_prompt_pressed.emit())
+	_add_hover_effect(ambient_prompt_button)
 	ambient_row.add_child(ambient_prompt_button)
 	refresh_ambient_prompt(ambient_prompt_frequency)
 
 
-func create_top_bar_button() -> Button:
-	option_button = Button.new()
-	option_button.custom_minimum_size = Vector2(42, 32)
+func create_top_bar_button() -> BaseButton:
+	var button := TextureButton.new()
+	button.texture_normal = _load_texture(ICON_OPTION_PATH)
+	button.texture_hover = button.texture_normal
+	button.texture_pressed = button.texture_normal
+	button.texture_disabled = button.texture_normal
+	button.ignore_texture_size = true
+	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	option_button = button
+	option_button.custom_minimum_size = Vector2(42, 42)
 	option_button.focus_mode = Control.FOCUS_NONE
 	option_button.pressed.connect(toggle_visible)
+	_add_hover_effect(option_button)
 	return option_button
+
+
+func _load_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		return load(path)
+	if FileAccess.file_exists(path):
+		var image := Image.new()
+		if image.load(path) == OK:
+			return ImageTexture.create_from_image(image)
+	return null
 
 
 func _new_arrow_button(text: String) -> Button:
@@ -207,6 +227,7 @@ func _new_arrow_button(text: String) -> Button:
 	button.add_theme_stylebox_override("hover", empty_style)
 	button.add_theme_stylebox_override("pressed", empty_style)
 	button.add_theme_stylebox_override("focus", empty_style)
+	_add_hover_effect(button)
 	return button
 
 
@@ -234,6 +255,16 @@ func _raise_option_panel() -> void:
 	var parent := option_panel.get_parent()
 	if parent != null:
 		parent.move_child(option_panel, parent.get_child_count() - 1)
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _new_switch_style(enabled: bool) -> StyleBoxFlat:

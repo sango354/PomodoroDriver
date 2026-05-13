@@ -1,6 +1,6 @@
 # Manual QA Checklist
 
-Last updated: 2026-05-07
+Last updated: 2026-05-13
 
 Use this checklist after UI, timer, companion, media, localization, or save/load
 changes. Run the headless checks first, then verify the windowed game manually.
@@ -8,11 +8,11 @@ changes. Run the headless checks first, then verify the windowed game manually.
 ## Headless Validation
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --quit
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game res://scenes/spine_background_probe.tscn --quit
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --script res://scripts/break_media_probe.gd
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --script res://scripts/room_spine_probe.gd
-E:\ProjectPomodoro\build-windows.cmd
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game res://scenes/spine_background_probe.tscn --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --script res://scripts/break_media_probe.gd
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --script res://scripts/room_spine_probe.gd
+E:\PomodoroDriver\build-windows.cmd
 ```
 
 ## Result Panel
@@ -70,16 +70,35 @@ E:\ProjectPomodoro\build-windows.cmd
 
 ## Debug UI Controls
 
-- `A` toggles Simple Mode and hides most UI while keeping Tasks and Pomodoro
-  visible.
-- `B` toggles Tasks UI.
-- `C` toggles Pomodoro UI.
+- Simple Mode icon toggles Simple Mode and hides most UI while keeping Tasks
+  and Pomodoro visible.
+- Mission icon toggles Tasks UI; hidden state uses the hide-mission icon.
+- Clock icon toggles Pomodoro UI.
+- Fullscreen button beside ambience toggles borderless fullscreen and returns
+  to the previous window mode on the next click.
 - `F1` adds 100 Focus Points and updates the top-right Focus Points tooltip.
 - `F2` adds one Gold Token and updates the top-left Gold Token badge.
 - Time button cycles Day, Sunset, Night, and Cloudy background contexts.
 - `BG` opens the background selection menu.
-- `A`, `B`, `C`, Time, `BG`, and ambience sit on the music bar background
-  without a separate backing panel.
+- Utility controls and ambience sit on the music bar background without a
+  separate backing panel.
+
+## UI Art And Hover
+
+- Topbar buttons use the current `game/assets/Arts/UI/` tutorial, memory,
+  statistics, and option icon art.
+- Topbar has no translucent backing panel.
+- Timer rail uses `Panel_clock.png`, config/reset art, and shared start-button
+  art with Start/Pause/Resume text layered above it.
+- Music controls use the new list/previous/play/pause/next/loop art.
+- Focus Points, Gold Token, token bar, and Bond Level use the new resource art.
+- Mission, hide mission, hide clock, simple mode, and mission-plus art are used
+  in their matching controls.
+- `Panel_Talk.png` is not wired yet.
+- Hover each visible button-like control and confirm it scales up then returns
+  to normal on mouse exit.
+- Hover the right-top Gold Token hit area and confirm the Token UI scales up.
+- Confirm transparent background dismiss layers do not visibly scale.
 
 ## Timer
 
@@ -107,7 +126,7 @@ E:\ProjectPomodoro\build-windows.cmd
 
 ## Tasks
 
-- `+` creates a new editable task.
+- Mission-plus icon creates a new editable task.
 - Empty rename falls back to localized default task title.
 - Checkbox completes a task.
 - Completed task cannot be completed twice.
@@ -126,7 +145,8 @@ E:\ProjectPomodoro\build-windows.cmd
 
 - Break text panel appears when Break Video is off or media playback fails.
 - Break dialogue is localized through `text_key`.
-- Next advances to a different eligible line when available.
+- Break dialogue randomly selects one eligible line per Break trigger.
+- Next randomly advances to a different eligible line when available.
 - Skip hides the panel without stopping the Break timer.
 - Viewed/skipped/advanced events are saved to `interaction_history`.
 - Bond/context/cooldown/weight filters do not prevent fallback dialogue.
@@ -137,6 +157,9 @@ E:\ProjectPomodoro\build-windows.cmd
 - Low frequency mode: later idle prompts use about 90 seconds.
 - Normal frequency mode: later idle prompts use about 3 minutes.
 - Focus prompts use about 8 minutes in both Low and Normal.
+- Idle prompts randomly select from the idle line pool.
+- Focus prompts randomly select from the focus line pool.
+- Idle and focus prompt pools do not mix.
 - Prompt auto-hides after about 8 seconds.
 - Dismiss button hides the prompt and records `ambient_prompt_dismissed`.
 - Prompt does not appear during Break countdown.
@@ -155,7 +178,7 @@ E:\ProjectPomodoro\build-windows.cmd
 
 ## Options And Localization
 
-- OP button opens Options panel.
+- Options image button opens Options panel.
 - Language arrows cycle supported languages.
 - Selected language updates visible labels/tooltips immediately.
 - Selected language persists after restart.
@@ -173,12 +196,14 @@ E:\ProjectPomodoro\build-windows.cmd
 - Loop icon overlay reflects on/off state.
 - Volume slider changes output volume.
 - Last played track, loop state, and volume persist after restart.
+- Music control icons use the new `game/assets/Arts/UI/` music art.
 
 ## AVG Gallery / H Event
 
 - Startup welcome dialogue appears every game launch.
-- Startup welcome dialogue is text-only and leaves the main screen visible.
-- `DG` opens the gallery and shows 15 dialogue entries from
+- Startup welcome dialogue randomly chooses one text-only line and leaves the
+  main screen visible.
+- Memory/Gallery image button opens the gallery and shows 15 dialogue entries from
   `game/assets/Arts/HIcon/`.
 - First 8 entries are unlocked by default for QA; locked entries are grayscale
   and disabled.

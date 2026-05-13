@@ -152,6 +152,7 @@ func _new_dialogue_card(dialogue: Dictionary) -> Control:
 	button.tooltip_text = _dialogue_name(dialogue)
 	button.disabled = not viewed
 	button.pressed.connect(func(): dialogue_selected.emit(dialogue_id))
+	_add_hover_effect(button)
 	card.add_child(button)
 	return card
 
@@ -186,6 +187,16 @@ func _locked_material() -> ShaderMaterial:
 	locked_thumbnail_material = ShaderMaterial.new()
 	locked_thumbnail_material.shader = shader
 	return locked_thumbnail_material
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _raise_to_front() -> void:

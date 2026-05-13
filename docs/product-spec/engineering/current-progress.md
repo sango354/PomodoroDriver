@@ -1,6 +1,6 @@
 # Current Development Progress
 
-Last updated: 2026-05-07
+Last updated: 2026-05-13
 
 This document records the current implementation state so work can continue
 from another machine without relying on chat history.
@@ -18,31 +18,36 @@ from another machine without relying on chat history.
   `docs/product-spec/engineering/manual-qa-checklist.md`
 - Spine-enabled Godot editor expected locally:
 
-Project root paths differ between development machines. Existing examples may
-use `E:\ProjectPomodoro`; the current checkout may instead be `E:\Pomodoro`.
+Project root paths differ between development machines. The current checkout
+used for this sync is:
+
+```text
+E:\PomodoroDriver
+```
+
 Use the same relative paths under the repository root when moving between
-machines.
+machines. The helper scripts now resolve paths relative to the repository root.
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe
 ```
 
 Open project:
 
 ```powershell
-E:\ProjectPomodoro\scripts\open-godot-spine.ps1
+E:\PomodoroDriver\scripts\open-godot-spine.ps1
 ```
 
 Headless validation:
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
 ```
 
 Windows build:
 
 ```powershell
-E:\ProjectPomodoro\build-windows.cmd
+E:\PomodoroDriver\build-windows.cmd
 ```
 
 The build script regenerates runtime manifests for localization and music,
@@ -57,12 +62,49 @@ Headless validation passed locally with the Spine-enabled Godot
 `4.1.3.stable.custom_build` editor:
 
 ```powershell
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game --quit
-E:\ProjectPomodoro\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\ProjectPomodoro\game res://scenes/spine_background_probe.tscn --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game res://scenes/spine_background_probe.tscn --quit
 ```
 
 Implemented:
 
+- 2026-05-13 UI and dialogue handoff update:
+  - `game/assets/Arts/UI/` was replaced with the current UI art set. Many old
+    unused UI source files were removed from the working tree; keep the new PNG
+    files and their Godot `.import` metadata together when syncing machines.
+  - Topbar is now image-only and no longer uses the translucent backing panel.
+    Active buttons use `ICON_tutorial.png`, `ICON_memory.png`,
+    `ICON_statistics.png`, and `ICON_option.png`.
+  - Timer rail uses `Panel_clock.png`, `Button_config.png`,
+    `Button_reset.png`, and `Button_start.png`; the primary timer button keeps
+    text over the shared start-button art for Start/Pause/Resume.
+  - Bottom music controls now use the new music button art:
+    `Musci_List.png`, `Music_Last.png`, `Musci_Play.png`,
+    `Musci_Pause.png`, `Music_Next.png`, and `Music_Loop.png`.
+  - Top HUD resources now use `Icon_FocusPoint.png`, `Icon_Token.png`,
+    `Icon_Tokenbar.png`, and `Panel_Bondlevel.png`.
+  - Bottom-right utility controls use `Icon_simplemode.png`,
+    `ICON_mission.png`, `ICON_hidemission.png`, and `Icon_hideclock.png`.
+    The task add button uses `Icon_missionplus.png`.
+  - `Panel_Talk.png` is imported but intentionally not wired yet.
+  - A borderless fullscreen toggle was added beside the ambience button. It
+    stores the previous window mode and toggles back on the next click.
+  - Display stretch mode is set for crisper fullscreen UI text, with project
+    font MSDF/mipmap/oversampling settings enabled.
+  - All visible button-like controls now use a hover scale effect, including
+    topbar buttons, bottom controls, music list entries, options, result,
+    companion, store, gallery, task, timer settings, and the right-top Token
+    hit area. Full-screen invisible dismiss layers intentionally do not scale.
+  - Startup welcome, idle ambient, focus ambient, and break companion copy was
+    replaced from `C:\Users\USER\Desktop\新文字文件.txt`.
+  - Each trigger now randomly selects one line from its own pool instead of
+    playing every line in that category. Startup welcome chooses one transparent
+    AVG line; idle/focus ambient prompts are separated by `ambient_state`; break
+    interaction randomly chooses one eligible break line and Next avoids the
+    current line when possible.
+  - Runtime dialogue data is mirrored in
+    `docs/product-spec/data/csv/dialogue_defs.csv`; Godot translation imports
+    were regenerated from `game/data/localization.csv`.
 - Spine background loading through the Spine-enabled Godot 4.1.3 editor.
 - Main Pomodoro scene with edge HUD layout.
 - Focus timer with `Start` / `Pause` / `Resume` sharing one primary button.
@@ -93,17 +135,18 @@ Implemented:
 - Task title is directly editable in-place.
 - Long task titles are truncated in display form and expose full text via tooltip.
 - Local persistence to `user://save.json` for tasks, sessions, progress, and stats.
-- Focus Points and Focus Level now use a compact Tasks-adjacent HUD beside the
-  task add button. It shows a diamond + compact Focus Points value, plus a
-  circular level badge and XP progress bar. Tooltips still expose exact Focus
-  Points and XP/level progress.
-- Top-right icon HUD now keeps Bond, Unlocks, Store, Dialogue Gallery, Stats,
-  and Options.
+- Focus Points, Bond Level, Gold Token count, and XP progress use a compact
+  top-right resource HUD with the current UI art. Tooltips still expose exact
+  Focus Points, Gold Tokens, XP, and Bond progress.
+- Top-left/topbar icon HUD now keeps Tutorial, Dialogue Gallery, Stats, and
+  Options as image-only buttons.
 - Bottom music bar with list, previous, play/pause, next, loop toggle, and volume slider.
 - Bottom music controls use icon-only buttons for list, previous, play/pause,
-  next, loop, and ambience.
-- Bottom-right debug/background controls include `A`, `B`, `C`, time-cycle,
-  background menu (`BG`), and ambience.
+  next, loop, and ambience. List/previous/play/pause/next/loop use the current
+  `game/assets/Arts/UI/` art set.
+- Bottom-right debug/background controls include image buttons for Simple Mode,
+  Tasks, Pomodoro, borderless fullscreen, plus hidden time-cycle/background
+  debug buttons and ambience.
 - Background menu can switch between automatic Lo-fi context backgrounds,
   Room Background 01, and Room Background 02.
 - Selected background mode is saved under
@@ -329,9 +372,8 @@ Current state:
 - The selected language is saved as `app_settings.language` in
   `user://save.json`.
 - The top-right `OP` button opens the Options panel.
-- Options currently contain language previous/next switching only.
-- Options currently contain language previous/next switching and Break Video
-  on/off.
+- Options currently contain language previous/next switching, Break Video
+  on/off, and Ambient Prompt frequency cycling.
 - Options also contain an Ambient Prompt frequency cycle button:
   `Normal` -> `Low` -> `Off` -> `Normal`.
 - Break media playback during Break countdown is implemented behind the Break
@@ -468,6 +510,38 @@ Deferred from the 2026-04-29 planning pass:
 - Music metadata table remains future work.
 
 ## Latest Validation
+
+2026-05-08:
+
+- Current checkout sync on `E:\PomodoroDriver`:
+  - Branch is `main`.
+  - `main` is aligned with `origin/main` at
+    `876d199 進入對話會暫停音樂，調整晃動幅度`.
+  - Working tree was clean before this documentation sync.
+  - The active project remains `game/` with main scene
+    `res://scenes/main.tscn`.
+  - Helper scripts resolve the Godot executable and project path relative to
+    the repository root, so the project can move between local drive folders
+    without editing the scripts.
+- Implementation confirmed from code:
+  - Ambient Prompt option cycles `Normal -> Low -> Off -> Normal`.
+  - `Off` hides any current ambient prompt and prevents future idle/focus
+    ambient prompts.
+  - Break media still uses `app_settings.break_media_enabled` and
+    `app_settings.break_media_path`; toggling the switch during an active Break
+    updates the setting but does not interrupt the current Break panel/media.
+  - Taxi exterior rendering uses a live 3D `SubViewport` named
+    `TaxiStreetViewport` and runtime assets under
+    `game/assets/Generated/JapaneseStreet3D/`.
+  - Current street map default is `downtown_grid`; `countdown_grid` remains as
+    a second code-defined map.
+  - Current drive speed remains `DRIVE_SPEED = 2.6`.
+- Validation passed on `E:\PomodoroDriver`:
+
+```powershell
+E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
+git diff --check
+```
 
 2026-05-07:
 

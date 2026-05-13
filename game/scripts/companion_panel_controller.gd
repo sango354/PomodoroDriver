@@ -155,12 +155,14 @@ func _build_companion_panel(parent: Control) -> void:
 	next_button.text = _tr("companion.next")
 	next_button.custom_minimum_size = Vector2(84, 30)
 	next_button.pressed.connect(_show_next_break_dialogue)
+	_add_hover_effect(next_button)
 	buttons.add_child(next_button)
 
 	skip_button = Button.new()
 	skip_button.text = _tr("companion.skip")
 	skip_button.custom_minimum_size = Vector2(84, 30)
 	skip_button.pressed.connect(skip_break_interaction)
+	_add_hover_effect(skip_button)
 	buttons.add_child(skip_button)
 
 
@@ -200,6 +202,7 @@ func _build_ambient_panel(parent: Control) -> void:
 	ambient_dismiss_button.custom_minimum_size = Vector2(34, 30)
 	ambient_dismiss_button.focus_mode = Control.FOCUS_NONE
 	ambient_dismiss_button.pressed.connect(func(): hide_ambient_prompt(true))
+	_add_hover_effect(ambient_dismiss_button)
 	row.add_child(ambient_dismiss_button)
 
 
@@ -253,6 +256,16 @@ func _new_muted_label(text: String) -> Label:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_color_override("font_color", Color(0.86, 0.88, 0.9, 0.92))
 	return label
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _tr(key: String) -> String:

@@ -3,7 +3,7 @@
 		{
 			"dialogue_id": "break_001",
 			"text_key": "dialogue.break_001",
-			"text": "Good ride. Let your eyes leave the meter for a moment.",
+			"text": "休息時間到了，肩膀放鬆一點。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
 			"cooldown_minutes": 0,
@@ -13,7 +13,7 @@
 		{
 			"dialogue_id": "break_002",
 			"text_key": "dialogue.break_002",
-			"text": "Breathe slowly. My cab already carried you farther tonight.",
+			"text": "做得不錯，先靠著椅背吧。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
 			"cooldown_minutes": 0,
@@ -23,7 +23,7 @@
 		{
 			"dialogue_id": "break_003",
 			"text_key": "dialogue.break_003",
-			"text": "Stretch your shoulders before the next fare. I will keep the engine purring.",
+			"text": "這段路結束了，喘口氣吧。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
 			"cooldown_minutes": 0,
@@ -33,7 +33,7 @@
 		{
 			"dialogue_id": "break_004",
 			"text_key": "dialogue.break_004",
-			"text": "Need water passenger? The meter is paused right now.",
+			"text": "休息一下，別把自己逼太緊。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
 			"cooldown_minutes": 0,
@@ -43,7 +43,7 @@
 		{
 			"dialogue_id": "break_005",
 			"text_key": "dialogue.break_005",
-			"text": "Relax your jaw and let your hands leave the wheel for a breath.",
+			"text": "乖，這幾分鐘只准想我。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
 			"cooldown_minutes": 0,
@@ -53,149 +53,9 @@
 		{
 			"dialogue_id": "break_006",
 			"text_key": "dialogue.break_006",
-			"text": "Blink a few times. Night roads look better with rested eyes.",
+			"text": "放鬆點，我會陪你慢慢喘息。",
 			"bond_requirement": 0,
 			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_007",
-			"text_key": "dialogue.break_007",
-			"text": "You stayed in the seat for this whole ride. I like that.",
-			"bond_requirement": 0,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_008",
-			"text_key": "dialogue.break_008",
-			"text": "Let the cab idle in the dark a little longer.",
-			"bond_requirement": 0,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_009",
-			"text_key": "dialogue.break_009",
-			"text": "A short stop makes the next pickup smoother.",
-			"bond_requirement": 0,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_010",
-			"text_key": "dialogue.break_010",
-			"text": "Stand up if you can. Even night drivers need to reset their backs.",
-			"bond_requirement": 0,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_011",
-			"text_key": "dialogue.break_011",
-			"text": "Daylight is still on the windshield. Take it in passenger.",
-			"bond_requirement": 0,
-			"context_requirement": {"time": "day"},
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_012",
-			"text_key": "dialogue.break_012",
-			"text": "Sunset makes every route softer. We can slow down with it.",
-			"bond_requirement": 0,
-			"context_requirement": {"time": "sunfall"},
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_013",
-			"text_key": "dialogue.break_013",
-			"text": "Late route tonight. Keep this stop gentle.",
-			"bond_requirement": 0,
-			"context_requirement": {"time": "night"},
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_014",
-			"text_key": "dialogue.break_014",
-			"text": "Rain on the glass makes a fine little rest stop.",
-			"bond_requirement": 0,
-			"context_requirement": {"weather": "rain"},
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_015",
-			"text_key": "dialogue.break_015",
-			"text": "That was a steady fare. This driver noticed.",
-			"bond_requirement": 2,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_016",
-			"text_key": "dialogue.break_016",
-			"text": "You are learning how to get back in the cab faster.",
-			"bond_requirement": 2,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_017",
-			"text_key": "dialogue.break_017",
-			"text": "Rest your eyes. I will watch the road and the shadows.",
-			"bond_requirement": 3,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_018",
-			"text_key": "dialogue.break_018",
-			"text": "No need to rush back. The next passenger can wait one more minute.",
-			"bond_requirement": 3,
-			"context_requirement": "any",
-			"cooldown_minutes": 0,
-			"weight": 1,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_019",
-			"text_key": "dialogue.break_019",
-			"text": "Rough ride still counts. You got in and stayed with me.",
-			"bond_requirement": 0,
-			"context_requirement": {"mood": "troubled"},
-			"cooldown_minutes": 0,
-			"weight": 2,
-			"is_active": true
-		},
-		{
-			"dialogue_id": "break_020",
-			"text_key": "dialogue.break_020",
-			"text": "That route felt good. Let the afterglow settle before the next pickup.",
-			"bond_requirement": 0,
-			"context_requirement": {"mood": "good"},
 			"cooldown_minutes": 0,
 			"weight": 2,
 			"is_active": true
@@ -205,9 +65,11 @@
 		{
 			"dialogue_id": "ambient_001",
 			"text_key": "dialogue.ambient_001",
-			"text": "I am at the wheel. Keep the ride smooth.",
+			"text": "車還在開，你卻開始發呆了？",
 			"bond_requirement": 0,
-			"context_requirement": "any",
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
 			"weight": 3,
 			"is_active": true
@@ -215,71 +77,145 @@
 		{
 			"dialogue_id": "ambient_002",
 			"text_key": "dialogue.ambient_002",
-			"text": "One clean block at a time passenger.",
+			"text": "後座太舒服，也不能睡過頭喔。",
 			"bond_requirement": 0,
-			"context_requirement": "any",
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
-			"weight": 2,
+			"weight": 3,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_003",
 			"text_key": "dialogue.ambient_003",
-			"text": "The meter is running. Stay with the road in front of us.",
+			"text": "偷懶的表情，我可是看得見。",
 			"bond_requirement": 0,
-			"context_requirement": "any",
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
-			"weight": 2,
+			"weight": 3,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_004",
 			"text_key": "dialogue.ambient_004",
-			"text": "The cab will stay quiet for the next few minutes.",
+			"text": "怎麼停住了？在想我嗎？",
 			"bond_requirement": 0,
-			"context_requirement": {"time": "day"},
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
-			"weight": 1,
+			"weight": 2,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_005",
 			"text_key": "dialogue.ambient_005",
-			"text": "Evening fares can be gentle too.",
+			"text": "不專心的樣子，有點可愛呢。",
 			"bond_requirement": 0,
-			"context_requirement": {"time": "sunfall"},
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
-			"weight": 1,
+			"weight": 2,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_006",
 			"text_key": "dialogue.ambient_006",
-			"text": "It is late. Let the night driver set an easy pace.",
+			"text": "你的視線，剛剛飄去哪了？",
 			"bond_requirement": 0,
-			"context_requirement": {"time": "night"},
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
 			"cooldown_minutes": 8,
-			"weight": 1,
+			"weight": 2,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_007",
 			"text_key": "dialogue.ambient_007",
-			"text": "You are settling into the route nicely.",
-			"bond_requirement": 2,
-			"context_requirement": "any",
-			"cooldown_minutes": 10,
-			"weight": 1,
+			"text": "要我提醒你，還是誘惑你？",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "idle"
+			},
+			"cooldown_minutes": 8,
+			"weight": 2,
 			"is_active": true
 		},
 		{
 			"dialogue_id": "ambient_008",
 			"text_key": "dialogue.ambient_008",
-			"text": "I will keep the cab steady while you handle the fare.",
-			"bond_requirement": 3,
-			"context_requirement": "any",
-			"cooldown_minutes": 10,
-			"weight": 1,
+			"text": "看著我，接下來只准專心。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 3,
+			"is_active": true
+		},
+		{
+			"dialogue_id": "ambient_009",
+			"text_key": "dialogue.ambient_009",
+			"text": "這段時間，把你交給我吧。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 3,
+			"is_active": true
+		},
+		{
+			"dialogue_id": "ambient_010",
+			"text_key": "dialogue.ambient_010",
+			"text": "乖乖完成，我會好好獎勵你。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 2,
+			"is_active": true
+		},
+		{
+			"dialogue_id": "ambient_011",
+			"text_key": "dialogue.ambient_011",
+			"text": "別分心，我會一直盯著你。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 2,
+			"is_active": true
+		},
+		{
+			"dialogue_id": "ambient_012",
+			"text_key": "dialogue.ambient_012",
+			"text": "行程開始，注意力交給我保管。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 2,
+			"is_active": true
+		},
+		{
+			"dialogue_id": "ambient_013",
+			"text_key": "dialogue.ambient_013",
+			"text": "目標已設定，別讓我失望。",
+			"bond_requirement": 0,
+			"context_requirement": {
+				"ambient_state": "focus"
+			},
+			"cooldown_minutes": 8,
+			"weight": 2,
 			"is_active": true
 		}
 	]

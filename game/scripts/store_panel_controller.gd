@@ -189,12 +189,14 @@ func _build_confirm(parent: Control) -> void:
 	confirm_buy_button.text = _tr("store.buy")
 	confirm_buy_button.custom_minimum_size = Vector2(96, 30)
 	confirm_buy_button.pressed.connect(_confirm_purchase)
+	_add_hover_effect(confirm_buy_button)
 	buttons.add_child(confirm_buy_button)
 
 	confirm_cancel_button = Button.new()
 	confirm_cancel_button.text = _tr("store.cancel")
 	confirm_cancel_button.custom_minimum_size = Vector2(96, 30)
 	confirm_cancel_button.pressed.connect(_hide_confirm)
+	_add_hover_effect(confirm_cancel_button)
 	buttons.add_child(confirm_cancel_button)
 
 
@@ -215,6 +217,7 @@ func _rebuild_items() -> void:
 		button.text = _item_text(item)
 		button.disabled = bool(item.get("unlocked", false))
 		button.pressed.connect(_show_confirm.bind(item))
+		_add_hover_effect(button)
 		item_list.add_child(button)
 
 
@@ -262,6 +265,16 @@ func _raise_to_front() -> void:
 		var parent: Node = node.get_parent()
 		if parent != null:
 			parent.move_child(node, parent.get_child_count() - 1)
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
+
+
+func _on_hover_scale(control: Control, hovered: bool) -> void:
+	control.pivot_offset = control.size * 0.5
+	control.scale = Vector2.ONE * (1.1 if hovered else 1.0)
 
 
 func _new_panel_style(alpha: float) -> StyleBoxFlat:

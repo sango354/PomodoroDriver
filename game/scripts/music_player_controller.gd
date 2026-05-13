@@ -4,12 +4,12 @@ signal state_changed
 
 const MUSIC_ROOT := "res://assets/music"
 const ICON_AMBIENCE_PATH := "res://assets/icons/ambience.png"
-const ICON_LIST_PATH := "res://assets/icons/list.png"
-const ICON_LOOP_PATH := "res://assets/icons/loop.png"
-const ICON_MUSIC_PAUSE_PATH := "res://assets/icons/musicpause.png"
-const ICON_MUSIC_PLAY_PATH := "res://assets/icons/musicplay.png"
-const ICON_NEXT_PATH := "res://assets/icons/next.png"
-const ICON_PREVIOUS_PATH := "res://assets/icons/previous.png"
+const ICON_LIST_PATH := "res://assets/Arts/UI/Musci_List.png"
+const ICON_LOOP_PATH := "res://assets/Arts/UI/Music_Loop.png"
+const ICON_MUSIC_PAUSE_PATH := "res://assets/Arts/UI/Musci_Pause.png"
+const ICON_MUSIC_PLAY_PATH := "res://assets/Arts/UI/Musci_Play.png"
+const ICON_NEXT_PATH := "res://assets/Arts/UI/Music_Next.png"
+const ICON_PREVIOUS_PATH := "res://assets/Arts/UI/Music_Last.png"
 const MUSIC_MANIFEST_PATH := "res://data/music_manifest.json"
 
 var music_player: AudioStreamPlayer
@@ -275,6 +275,7 @@ func _refresh_music_list() -> void:
 		button.tooltip_text = music_files[i]
 		button.custom_minimum_size = Vector2(0, 32)
 		button.pressed.connect(_select_music.bind(i))
+		_add_hover_effect(button)
 		music_list.add_child(button)
 
 
@@ -527,6 +528,11 @@ func _new_icon_asset_button(icon_path: String, tip: String, size: Vector2) -> Te
 	button.mouse_entered.connect(_on_hover_scale.bind(button, true))
 	button.mouse_exited.connect(_on_hover_scale.bind(button, false))
 	return button
+
+
+func _add_hover_effect(control: Control) -> void:
+	control.mouse_entered.connect(_on_hover_scale.bind(control, true))
+	control.mouse_exited.connect(_on_hover_scale.bind(control, false))
 
 
 func _add_icon_disabled_overlay(button: Control) -> void:
