@@ -96,6 +96,13 @@ func translate(key: String) -> String:
 	return key
 
 
+func translate_or_fallback(key: String, fallback: String) -> String:
+	if key == "":
+		return fallback
+	var translated := translate(key)
+	return fallback if translated == key and fallback != "" else translated
+
+
 func trf(key: String, values: Dictionary) -> String:
 	var text := translate(key)
 	for value_key in values.keys():

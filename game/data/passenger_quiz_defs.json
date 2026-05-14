@@ -1,0 +1,5600 @@
+{
+  "schema_version": 2,
+  "questions": [
+    {
+      "question_id": "passenger_a_low_q01",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "壓力觀察",
+      "stem_text": "社畜一邊聽電話，一邊皺眉。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "電話那頭的人，從上車開始就沒停過吧？",
+          "text_key": "quiz.passenger_a.low.q01.option_a.text",
+          "response_text": "……妳聽得出來？",
+          "response_text_key": "quiz.passenger_a.low.q01.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "你回話很冷靜，但臉色很糟。",
+          "text_key": "quiz.passenger_a.low.q01.option_b.text",
+          "response_text": "我只是太累了。",
+          "response_text_key": "quiz.passenger_a.low.q01.option_b.response",
+          "emotion_delta": 6,
+          "alert_delta": -1
+        },
+        {
+          "key": "C",
+          "text": "你老闆是不是很煩？",
+          "text_key": "quiz.passenger_a.low.q01.option_c.text",
+          "response_text": "別這樣說。",
+          "response_text_key": "quiz.passenger_a.low.q01.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q01.stem",
+      "description_text": "社畜一邊聽電話，一邊皺眉。",
+      "description_text_key": "quiz.passenger_a.low.q01.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q02",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "自制力",
+      "stem_text": "他低聲說「是，我明白」但手指攥緊。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "被罵成這樣還能正常回話，挺能忍的。",
+          "text_key": "quiz.passenger_a.low.q02.option_a.text",
+          "response_text": "別說了，我正在努力。",
+          "response_text_key": "quiz.passenger_a.low.q02.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你是不是已經快掛不住笑了？",
+          "text_key": "quiz.passenger_a.low.q02.option_b.text",
+          "response_text": "……我沒有笑。",
+          "response_text_key": "quiz.passenger_a.low.q02.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "乾脆掛電話吧。",
+          "text_key": "quiz.passenger_a.low.q02.option_c.text",
+          "response_text": "不行，現在不能。",
+          "response_text_key": "quiz.passenger_a.low.q02.option_c.response",
+          "emotion_delta": -3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q02.stem",
+      "description_text": "他低聲說「是，我明白」但手指攥緊。",
+      "description_text_key": "quiz.passenger_a.low.q02.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q03",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "乘客",
+      "prompt_type": "試探",
+      "stem_text": "「妳一直看後照鏡，是在看我嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我在確認你還撐不撐得住。",
+          "text_key": "quiz.passenger_a.low.q03.option_a.text",
+          "response_text": "這種確認很煩人。",
+          "response_text_key": "quiz.passenger_a.low.q03.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你忍耐的樣子太明顯了。",
+          "text_key": "quiz.passenger_a.low.q03.option_b.text",
+          "response_text": "……別說出來。",
+          "response_text_key": "quiz.passenger_a.low.q03.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "只是職業習慣。",
+          "text_key": "quiz.passenger_a.low.q03.option_c.text",
+          "response_text": "那就好。",
+          "response_text_key": "quiz.passenger_a.low.q03.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳一直看後照鏡，是在看我嗎？」",
+      "stem_text_key": "quiz.passenger_a.low.q03.stem",
+      "question_text_key": "quiz.passenger_a.low.q03.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q04",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "工作壓力",
+      "stem_text": "電話那頭似乎又提高音量。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你其實不是怕老闆，是怕自己撐不住吧？",
+          "text_key": "quiz.passenger_a.low.q04.option_a.text",
+          "response_text": "妳少亂說。",
+          "response_text_key": "quiz.passenger_a.low.q04.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "要不要我開穩一點，讓你專心挨罵？",
+          "text_key": "quiz.passenger_a.low.q04.option_b.text",
+          "response_text": "妳講話真難聽。",
+          "response_text_key": "quiz.passenger_a.low.q04.option_b.response",
+          "emotion_delta": 6,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "工作真的很辛苦呢。",
+          "text_key": "quiz.passenger_a.low.q04.option_c.text",
+          "response_text": "嗯……是啊。",
+          "response_text_key": "quiz.passenger_a.low.q04.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q04.stem",
+      "scene_text": "電話那頭似乎又提高音量。",
+      "scene_text_key": "quiz.passenger_a.low.q04.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q05",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "乘客",
+      "prompt_type": "防備",
+      "stem_text": "「我現在沒空聊天，可以嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "可以，我會讓你用沉默回答。",
+          "text_key": "quiz.passenger_a.low.q05.option_a.text",
+          "response_text": "……這句話更奇怪。",
+          "response_text_key": "quiz.passenger_a.low.q05.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "不行，你越忍我越想逗你。",
+          "text_key": "quiz.passenger_a.low.q05.option_b.text",
+          "response_text": "妳很危險。",
+          "response_text_key": "quiz.passenger_a.low.q05.option_b.response",
+          "emotion_delta": 9,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "當然，我不打擾。",
+          "text_key": "quiz.passenger_a.low.q05.option_c.text",
+          "response_text": "謝謝。",
+          "response_text_key": "quiz.passenger_a.low.q05.option_c.response",
+          "emotion_delta": 3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我現在沒空聊天，可以嗎？」",
+      "stem_text_key": "quiz.passenger_a.low.q05.stem",
+      "question_text_key": "quiz.passenger_a.low.q05.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q06",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "呼吸觀察",
+      "stem_text": "他努力壓低呼吸聲。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你的聲音很穩，但呼吸亂了。",
+          "text_key": "quiz.passenger_a.low.q06.option_a.text",
+          "response_text": "……妳觀察太細了。",
+          "response_text_key": "quiz.passenger_a.low.q06.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "電話那頭聽得出來嗎？",
+          "text_key": "quiz.passenger_a.low.q06.option_b.text",
+          "response_text": "不要嚇我。",
+          "response_text_key": "quiz.passenger_a.low.q06.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "你是不是感冒？",
+          "text_key": "quiz.passenger_a.low.q06.option_c.text",
+          "response_text": "不是。",
+          "response_text_key": "quiz.passenger_a.low.q06.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q06.stem",
+      "description_text": "他努力壓低呼吸聲。",
+      "description_text_key": "quiz.passenger_a.low.q06.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q07",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "警戒試探",
+      "stem_text": "他用眼神示意妳安靜。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "怕我說話，還是怕自己有反應？",
+          "text_key": "quiz.passenger_a.low.q07.option_a.text",
+          "response_text": "妳不要亂講。",
+          "response_text_key": "quiz.passenger_a.low.q07.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "我安靜，但你要繼續看著前面嗎？",
+          "text_key": "quiz.passenger_a.low.q07.option_b.text",
+          "response_text": "我本來就沒看妳。",
+          "response_text_key": "quiz.passenger_a.low.q07.option_b.response",
+          "emotion_delta": 7,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "好，我不說。",
+          "text_key": "quiz.passenger_a.low.q07.option_c.text",
+          "response_text": "嗯。",
+          "response_text_key": "quiz.passenger_a.low.q07.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q07.stem",
+      "description_text": "他用眼神示意妳安靜。",
+      "description_text_key": "quiz.passenger_a.low.q07.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q08",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "乘客",
+      "prompt_type": "壓力轉移",
+      "stem_text": "「妳們夜班司機，都這麼會看人？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "只看得出你今天快爆炸了。",
+          "text_key": "quiz.passenger_a.low.q08.option_a.text",
+          "response_text": "……差不多。",
+          "response_text_key": "quiz.passenger_a.low.q08.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "我比較會看誰在硬撐。",
+          "text_key": "quiz.passenger_a.low.q08.option_b.text",
+          "response_text": "妳在說我？",
+          "response_text_key": "quiz.passenger_a.low.q08.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "沒有，只是隨口問。",
+          "text_key": "quiz.passenger_a.low.q08.option_c.text",
+          "response_text": "是嗎。",
+          "response_text_key": "quiz.passenger_a.low.q08.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳們夜班司機，都這麼會看人？」",
+      "stem_text_key": "quiz.passenger_a.low.q08.stem",
+      "question_text_key": "quiz.passenger_a.low.q08.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q09",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "電話情境",
+      "stem_text": "他被要求重新報告進度。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "聲音不要抖喔，他還在聽。",
+          "text_key": "quiz.passenger_a.low.q09.option_a.text",
+          "response_text": "妳閉嘴……",
+          "response_text_key": "quiz.passenger_a.low.q09.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "你講工作時，比剛剛更緊繃。",
+          "text_key": "quiz.passenger_a.low.q09.option_b.text",
+          "response_text": "因為這很重要。",
+          "response_text_key": "quiz.passenger_a.low.q09.option_b.response",
+          "emotion_delta": 7,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "慢慢講，不急。",
+          "text_key": "quiz.passenger_a.low.q09.option_c.text",
+          "response_text": "謝謝。",
+          "response_text_key": "quiz.passenger_a.low.q09.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q09.stem",
+      "description_text": "他被要求重新報告進度。",
+      "description_text_key": "quiz.passenger_a.low.q09.stem"
+    },
+    {
+      "question_id": "passenger_a_low_q10",
+      "passenger_id": "passenger_a",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "工作壓力、通話破冰、觀察疲憊、自制力試探",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "初步誘惑",
+      "stem_text": "他偷看後照鏡。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "剛剛不是說沒空看我？",
+          "text_key": "quiz.passenger_a.low.q10.option_a.text",
+          "response_text": "我沒有看。",
+          "response_text_key": "quiz.passenger_a.low.q10.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "看一眼沒關係，我不會告訴電話那頭。",
+          "text_key": "quiz.passenger_a.low.q10.option_b.text",
+          "response_text": "妳真的很壞。",
+          "response_text_key": "quiz.passenger_a.low.q10.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "目的地快到了。",
+          "text_key": "quiz.passenger_a.low.q10.option_c.text",
+          "response_text": "嗯。",
+          "response_text_key": "quiz.passenger_a.low.q10.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.low.q10.stem",
+      "description_text": "他偷看後照鏡。",
+      "description_text_key": "quiz.passenger_a.low.q10.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q01",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "忍耐挑戰",
+      "stem_text": "他還在電話中。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你現在是在忍老闆，還是在忍我？",
+          "text_key": "quiz.passenger_a.mid.q01.option_a.text",
+          "response_text": "別在這時候問……",
+          "response_text_key": "quiz.passenger_a.mid.q01.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你的聲音越來越低了。",
+          "text_key": "quiz.passenger_a.mid.q01.option_b.text",
+          "response_text": "我怕被聽出來。",
+          "response_text_key": "quiz.passenger_a.mid.q01.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "需要我停車嗎？",
+          "text_key": "quiz.passenger_a.mid.q01.option_c.text",
+          "response_text": "不、不用。",
+          "response_text_key": "quiz.passenger_a.mid.q01.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q01.stem",
+      "description_text": "他還在電話中。",
+      "description_text_key": "quiz.passenger_a.mid.q01.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q02",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "乘客",
+      "prompt_type": "反問",
+      "stem_text": "「妳是不是故意挑這種時候？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "因為你不能失態的樣子，很有趣。",
+          "text_key": "quiz.passenger_a.mid.q02.option_a.text",
+          "response_text": "妳真的惡劣。",
+          "response_text_key": "quiz.passenger_a.mid.q02.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "因為你現在最誠實。",
+          "text_key": "quiz.passenger_a.mid.q02.option_b.text",
+          "response_text": "我哪裡誠實了？",
+          "response_text_key": "quiz.passenger_a.mid.q02.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "你要我停，我就停。",
+          "text_key": "quiz.passenger_a.mid.q02.option_c.text",
+          "response_text": "……先不用。",
+          "response_text_key": "quiz.passenger_a.mid.q02.option_c.response",
+          "emotion_delta": 8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳是不是故意挑這種時候？」",
+      "stem_text_key": "quiz.passenger_a.mid.q02.stem",
+      "question_text_key": "quiz.passenger_a.mid.q02.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q03",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "聲音控制",
+      "stem_text": "他開始避免回應妳。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不敢回我？怕電話那頭聽見？",
+          "text_key": "quiz.passenger_a.mid.q03.option_a.text",
+          "response_text": "別逼我。",
+          "response_text_key": "quiz.passenger_a.mid.q03.option_a.response",
+          "emotion_delta": 13,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你只要點頭，我就知道答案。",
+          "text_key": "quiz.passenger_a.mid.q03.option_b.text",
+          "response_text": "……",
+          "response_text_key": "quiz.passenger_a.mid.q03.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": -1
+        },
+        {
+          "key": "C",
+          "text": "專心講電話吧。",
+          "text_key": "quiz.passenger_a.mid.q03.option_c.text",
+          "response_text": "妳突然這樣反而更怪。",
+          "response_text_key": "quiz.passenger_a.mid.q03.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q03.stem",
+      "description_text": "他開始避免回應妳。",
+      "description_text_key": "quiz.passenger_a.mid.q03.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q04",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "工作崩潰",
+      "stem_text": "老闆要求他明早補資料。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "他一直壓你，你還要繼續當乖員工？",
+          "text_key": "quiz.passenger_a.mid.q04.option_a.text",
+          "response_text": "我沒有選擇。",
+          "response_text_key": "quiz.passenger_a.mid.q04.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你真的很會忍，讓人想看極限在哪。",
+          "text_key": "quiz.passenger_a.mid.q04.option_b.text",
+          "response_text": "妳別看。",
+          "response_text_key": "quiz.passenger_a.mid.q04.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "職場就是這樣。",
+          "text_key": "quiz.passenger_a.mid.q04.option_c.text",
+          "response_text": "……別說得那麼簡單。",
+          "response_text_key": "quiz.passenger_a.mid.q04.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q04.stem",
+      "description_text": "老闆要求他明早補資料。",
+      "description_text_key": "quiz.passenger_a.mid.q04.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q05",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "乘客",
+      "prompt_type": "求穩",
+      "stem_text": "「我現在不能出聲，妳知道吧？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "知道，所以我才壓低聲音。",
+          "text_key": "quiz.passenger_a.mid.q05.option_a.text",
+          "response_text": "更糟了……",
+          "response_text_key": "quiz.passenger_a.mid.q05.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "知道，所以你只能用眼神回答。",
+          "text_key": "quiz.passenger_a.mid.q05.option_b.text",
+          "response_text": "妳太過分了。",
+          "response_text_key": "quiz.passenger_a.mid.q05.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "那我不說了。",
+          "text_key": "quiz.passenger_a.mid.q05.option_c.text",
+          "response_text": "……也不是這個意思。",
+          "response_text_key": "quiz.passenger_a.mid.q05.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我現在不能出聲，妳知道吧？」",
+      "stem_text_key": "quiz.passenger_a.mid.q05.stem",
+      "question_text_key": "quiz.passenger_a.mid.q05.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q06",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "禁忌感",
+      "stem_text": "車內只剩電話聲和呼吸聲。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你越安靜，我越知道你在忍。",
+          "text_key": "quiz.passenger_a.mid.q06.option_a.text",
+          "response_text": "別分析我。",
+          "response_text_key": "quiz.passenger_a.mid.q06.option_a.response",
+          "emotion_delta": 13,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "現在最吵的不是電話，是你的呼吸。",
+          "text_key": "quiz.passenger_a.mid.q06.option_b.text",
+          "response_text": "閉嘴……",
+          "response_text_key": "quiz.passenger_a.mid.q06.option_b.response",
+          "emotion_delta": 15,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "開窗透氣？",
+          "text_key": "quiz.passenger_a.mid.q06.option_c.text",
+          "response_text": "不用。",
+          "response_text_key": "quiz.passenger_a.mid.q06.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q06.stem",
+      "scene_text": "車內只剩電話聲和呼吸聲。",
+      "scene_text_key": "quiz.passenger_a.mid.q06.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q07",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "半安撫",
+      "stem_text": "他明顯快跟不上電話內容。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我可以幫你撐完這通電話。",
+          "text_key": "quiz.passenger_a.mid.q07.option_a.text",
+          "response_text": "妳要怎麼幫……",
+          "response_text_key": "quiz.passenger_a.mid.q07.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "你只要繼續裝正常就好。",
+          "text_key": "quiz.passenger_a.mid.q07.option_b.text",
+          "response_text": "妳說得很輕鬆。",
+          "response_text_key": "quiz.passenger_a.mid.q07.option_b.response",
+          "emotion_delta": 11,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "我看你還是掛掉吧。",
+          "text_key": "quiz.passenger_a.mid.q07.option_c.text",
+          "response_text": "不行。",
+          "response_text_key": "quiz.passenger_a.mid.q07.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q07.stem",
+      "description_text": "他明顯快跟不上電話內容。",
+      "description_text_key": "quiz.passenger_a.mid.q07.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q08",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "乘客",
+      "prompt_type": "責任壓力",
+      "stem_text": "「如果我真的露餡，妳會負責嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我會讓你看起來只是太累。",
+          "text_key": "quiz.passenger_a.mid.q08.option_a.text",
+          "response_text": "妳連藉口都想好了？",
+          "response_text_key": "quiz.passenger_a.mid.q08.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "我只會看你能撐到哪裡。",
+          "text_key": "quiz.passenger_a.mid.q08.option_b.text",
+          "response_text": "惡魔……",
+          "response_text_key": "quiz.passenger_a.mid.q08.option_b.response",
+          "emotion_delta": 15,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "那我現在停下。",
+          "text_key": "quiz.passenger_a.mid.q08.option_c.text",
+          "response_text": "等一下。",
+          "response_text_key": "quiz.passenger_a.mid.q08.option_c.response",
+          "emotion_delta": 8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我真的露餡，妳會負責嗎？」",
+      "stem_text_key": "quiz.passenger_a.mid.q08.stem",
+      "question_text_key": "quiz.passenger_a.mid.q08.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q09",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "權力倒錯",
+      "stem_text": "他被電話那頭命令重說一次。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "那邊命令你，這邊也有人盯著你，很忙吧？",
+          "text_key": "quiz.passenger_a.mid.q09.option_a.text",
+          "response_text": "妳不要再增加壓力。",
+          "response_text_key": "quiz.passenger_a.mid.q09.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "一邊被罵，一邊還要裝正常，辛苦了。",
+          "text_key": "quiz.passenger_a.mid.q09.option_b.text",
+          "response_text": "妳是在安慰還是取笑？",
+          "response_text_key": "quiz.passenger_a.mid.q09.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "看來你今晚很倒楣。",
+          "text_key": "quiz.passenger_a.mid.q09.option_c.text",
+          "response_text": "是啊。",
+          "response_text_key": "quiz.passenger_a.mid.q09.option_c.response",
+          "emotion_delta": 3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.mid.q09.stem",
+      "scene_text": "他被電話那頭命令重說一次。",
+      "scene_text_key": "quiz.passenger_a.mid.q09.stem"
+    },
+    {
+      "question_id": "passenger_a_mid_q10",
+      "passenger_id": "passenger_a",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "不能露餡、忍耐升級、電話壓力、禁忌感",
+      "prompt_speaker": "乘客",
+      "prompt_type": "半崩潰",
+      "stem_text": "「我剛剛是不是聲音變了？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "有一點，但很可愛。",
+          "text_key": "quiz.passenger_a.mid.q10.option_a.text",
+          "response_text": "不要用可愛形容我。",
+          "response_text_key": "quiz.passenger_a.mid.q10.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "還沒露餡，不過快了。",
+          "text_key": "quiz.passenger_a.mid.q10.option_b.text",
+          "response_text": "妳別嚇我。",
+          "response_text_key": "quiz.passenger_a.mid.q10.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "沒有，很正常。",
+          "text_key": "quiz.passenger_a.mid.q10.option_c.text",
+          "response_text": "……謝謝。",
+          "response_text_key": "quiz.passenger_a.mid.q10.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我剛剛是不是聲音變了？」",
+      "stem_text_key": "quiz.passenger_a.mid.q10.stem",
+      "question_text_key": "quiz.passenger_a.mid.q10.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q01",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "色誘前導",
+      "stem_text": "他已經很難專心通話。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "電話還沒掛，你敢讓我把你的聲音吞回去嗎？",
+          "text_key": "quiz.passenger_a.high.q01.option_a.text",
+          "response_text": "別、別說得這麼直接……",
+          "response_text_key": "quiz.passenger_a.high.q01.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "你只要繼續講，我負責讓你別崩掉。",
+          "text_key": "quiz.passenger_a.high.q01.option_b.text",
+          "response_text": "這算哪門子幫忙……",
+          "response_text_key": "quiz.passenger_a.high.q01.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你要我停，我就停。",
+          "text_key": "quiz.passenger_a.high.q01.option_c.text",
+          "response_text": "我……還沒說停。",
+          "response_text_key": "quiz.passenger_a.high.q01.option_c.response",
+          "emotion_delta": 14,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q01.stem",
+      "description_text": "他已經很難專心通話。",
+      "description_text_key": "quiz.passenger_a.high.q01.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q02",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "口部誘惑",
+      "stem_text": "他用手摀住嘴，努力壓聲。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "別摀嘴，等一下需要用嘴的人不是你。",
+          "text_key": "quiz.passenger_a.high.q02.option_a.text",
+          "response_text": "妳真的瘋了……",
+          "response_text_key": "quiz.passenger_a.high.q02.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 5
+        },
+        {
+          "key": "B",
+          "text": "你現在每一個停頓，都像在求我繼續。",
+          "text_key": "quiz.passenger_a.high.q02.option_b.text",
+          "response_text": "我沒有求妳。",
+          "response_text_key": "quiz.passenger_a.high.q02.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "先深呼吸。",
+          "text_key": "quiz.passenger_a.high.q02.option_c.text",
+          "response_text": "我做不到。",
+          "response_text_key": "quiz.passenger_a.high.q02.option_c.response",
+          "emotion_delta": 10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q02.stem",
+      "description_text": "他用手摀住嘴，努力壓聲。",
+      "description_text_key": "quiz.passenger_a.high.q02.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q03",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "低聲質問",
+      "stem_text": "「如果我現在掛電話，妳想做什麼？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "讓你把剛才忍住的聲音都還給我。",
+          "text_key": "quiz.passenger_a.high.q03.option_a.text",
+          "response_text": "……妳太會逼人了。",
+          "response_text_key": "quiz.passenger_a.high.q03.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "讓你知道，不是只有老闆能命令你。",
+          "text_key": "quiz.passenger_a.high.q03.option_b.text",
+          "response_text": "這句話很危險。",
+          "response_text_key": "quiz.passenger_a.high.q03.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "先問你想不想繼續。",
+          "text_key": "quiz.passenger_a.high.q03.option_c.text",
+          "response_text": "妳這樣問，我反而拒絕不了。",
+          "response_text_key": "quiz.passenger_a.high.q03.option_c.response",
+          "emotion_delta": 18,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我現在掛電話，妳想做什麼？」",
+      "stem_text_key": "quiz.passenger_a.high.q03.stem",
+      "question_text_key": "quiz.passenger_a.high.q03.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q04",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "通話懲罰感",
+      "stem_text": "他剛被老闆責備。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "被罵得這麼乖，要不要我給你一點獎勵？",
+          "text_key": "quiz.passenger_a.high.q04.option_a.text",
+          "response_text": "不要在電話旁邊說這種話……",
+          "response_text_key": "quiz.passenger_a.high.q04.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你剛剛忍住了，表現很好。",
+          "text_key": "quiz.passenger_a.high.q04.option_b.text",
+          "response_text": "妳別像在訓練我。",
+          "response_text_key": "quiz.passenger_a.high.q04.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "辛苦了。",
+          "text_key": "quiz.passenger_a.high.q04.option_c.text",
+          "response_text": "……嗯。",
+          "response_text_key": "quiz.passenger_a.high.q04.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q04.stem",
+      "description_text": "他剛被老闆責備。",
+      "description_text_key": "quiz.passenger_a.high.q04.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q05",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "最後防線",
+      "stem_text": "「我現在真的快裝不下去了。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "那就只在我面前壞掉。",
+          "text_key": "quiz.passenger_a.high.q05.option_a.text",
+          "response_text": "……妳說得太簡單了。",
+          "response_text_key": "quiz.passenger_a.high.q05.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "再撐一下，讓電話那頭什麼都不知道。",
+          "text_key": "quiz.passenger_a.high.q05.option_b.text",
+          "response_text": "妳壞透了。",
+          "response_text_key": "quiz.passenger_a.high.q05.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "那我們停止。",
+          "text_key": "quiz.passenger_a.high.q05.option_c.text",
+          "response_text": "別馬上停……",
+          "response_text_key": "quiz.passenger_a.high.q05.option_c.response",
+          "emotion_delta": 14,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我現在真的快裝不下去了。」",
+      "stem_text_key": "quiz.passenger_a.high.q05.stem",
+      "question_text_key": "quiz.passenger_a.high.q05.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q06",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "明確挑逗",
+      "stem_text": "電話進入等待狀態。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "現在他聽不見了，要不要讓我聽聽你真正的聲音？",
+          "text_key": "quiz.passenger_a.high.q06.option_a.text",
+          "response_text": "妳不要趁空檔……",
+          "response_text_key": "quiz.passenger_a.high.q06.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "短短幾秒，也夠我讓你亂掉。",
+          "text_key": "quiz.passenger_a.high.q06.option_b.text",
+          "response_text": "妳真的會抓時間。",
+          "response_text_key": "quiz.passenger_a.high.q06.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 5
+        },
+        {
+          "key": "C",
+          "text": "趁現在整理呼吸。",
+          "text_key": "quiz.passenger_a.high.q06.option_c.text",
+          "response_text": "我反而更亂。",
+          "response_text_key": "quiz.passenger_a.high.q06.option_c.response",
+          "emotion_delta": 10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q06.stem",
+      "narration_text": "電話進入等待狀態。",
+      "narration_text_key": "quiz.passenger_a.high.q06.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q07",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "事件選擇",
+      "stem_text": "車快到目的地。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "status_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "電話結束後，你是要回家，還是先留在車上讓我收尾？",
+          "text_key": "quiz.passenger_a.high.q07.option_a.text",
+          "response_text": "……不要問得這麼明白。",
+          "response_text_key": "quiz.passenger_a.high.q07.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "我可以把這趟路延長，直到你說夠了。",
+          "text_key": "quiz.passenger_a.high.q07.option_b.text",
+          "response_text": "我可能不會那麼快說。",
+          "response_text_key": "quiz.passenger_a.high.q07.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "到了就下車吧。",
+          "text_key": "quiz.passenger_a.high.q07.option_c.text",
+          "response_text": "妳現在才裝正經？",
+          "response_text_key": "quiz.passenger_a.high.q07.option_c.response",
+          "emotion_delta": 8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q07.stem",
+      "status_text": "車快到目的地。",
+      "status_text_key": "quiz.passenger_a.high.q07.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q08",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "自爆",
+      "stem_text": "「我是不是……已經被妳弄得很奇怪了？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不是奇怪，是終於不像機器了。",
+          "text_key": "quiz.passenger_a.high.q08.option_a.text",
+          "response_text": "這句話……好過分。",
+          "response_text_key": "quiz.passenger_a.high.q08.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "是，而且我很滿意。",
+          "text_key": "quiz.passenger_a.high.q08.option_b.text",
+          "response_text": "妳真的很惡劣。",
+          "response_text_key": "quiz.passenger_a.high.q08.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "有一點，但你還能選擇停下。",
+          "text_key": "quiz.passenger_a.high.q08.option_c.text",
+          "response_text": "我知道。",
+          "response_text_key": "quiz.passenger_a.high.q08.option_c.response",
+          "emotion_delta": 14,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我是不是……已經被妳弄得很奇怪了？」",
+      "stem_text_key": "quiz.passenger_a.high.q08.stem",
+      "question_text_key": "quiz.passenger_a.high.q08.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q09",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "高壓誘惑",
+      "stem_text": "他被要求再講最後一句。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "最後一句要穩住喔，說完我就不客氣了。",
+          "text_key": "quiz.passenger_a.high.q09.option_a.text",
+          "response_text": "妳不要在這時候倒數……",
+          "response_text_key": "quiz.passenger_a.high.q09.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 5
+        },
+        {
+          "key": "B",
+          "text": "把聲音藏好，剩下的交給我。",
+          "text_key": "quiz.passenger_a.high.q09.option_b.text",
+          "response_text": "我快藏不住了。",
+          "response_text_key": "quiz.passenger_a.high.q09.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "冷靜，快結束了。",
+          "text_key": "quiz.passenger_a.high.q09.option_c.text",
+          "response_text": "妳越說越糟。",
+          "response_text_key": "quiz.passenger_a.high.q09.option_c.response",
+          "emotion_delta": 12,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_a.high.q09.stem",
+      "description_text": "他被要求再講最後一句。",
+      "description_text_key": "quiz.passenger_a.high.q09.stem"
+    },
+    {
+      "question_id": "passenger_a_high_q10",
+      "passenger_id": "passenger_a",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、通話中失控、口部暗示、最後事件前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "成功前導",
+      "stem_text": "「我掛了……現在妳滿意了嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "還沒。現在才輪到我真正聽你說話。",
+          "text_key": "quiz.passenger_a.high.q10.option_a.text",
+          "response_text": "……妳想聽什麼？",
+          "response_text_key": "quiz.passenger_a.high.q10.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "很滿意，尤其是你忍到最後的樣子。",
+          "text_key": "quiz.passenger_a.high.q10.option_b.text",
+          "response_text": "別那樣看我。",
+          "response_text_key": "quiz.passenger_a.high.q10.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你做得很好，想停就停。",
+          "text_key": "quiz.passenger_a.high.q10.option_c.text",
+          "response_text": "我不想立刻停。",
+          "response_text_key": "quiz.passenger_a.high.q10.option_c.response",
+          "emotion_delta": 18,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我掛了……現在妳滿意了嗎？」",
+      "stem_text_key": "quiz.passenger_a.high.q10.stem",
+      "question_text_key": "quiz.passenger_a.high.q10.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q01",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "忠誠破冰",
+      "stem_text": "他提到太太在家等。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你一直提到太太，是提醒我，還是提醒自己？",
+          "text_key": "quiz.passenger_d.low.q01.option_a.text",
+          "response_text": "妳說話很危險。",
+          "response_text_key": "quiz.passenger_d.low.q01.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "看得出來你很重視家庭。",
+          "text_key": "quiz.passenger_d.low.q01.option_b.text",
+          "response_text": "那是當然。",
+          "response_text_key": "quiz.passenger_d.low.q01.option_b.response",
+          "emotion_delta": 5,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "有太太的人更容易動搖嗎？",
+          "text_key": "quiz.passenger_d.low.q01.option_c.text",
+          "response_text": "這不尊重人。",
+          "response_text_key": "quiz.passenger_d.low.q01.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q01.stem",
+      "description_text": "他提到太太在家等。",
+      "description_text_key": "quiz.passenger_d.low.q01.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q02",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "防備",
+      "stem_text": "「妳是故意挑我這種人下手？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我只是好奇，自律的人防線是不是更漂亮。",
+          "text_key": "quiz.passenger_d.low.q02.option_a.text",
+          "response_text": "妳很會挑釁。",
+          "response_text_key": "quiz.passenger_d.low.q02.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你看起來很能忍。",
+          "text_key": "quiz.passenger_d.low.q02.option_b.text",
+          "response_text": "這點沒錯。",
+          "response_text_key": "quiz.passenger_d.low.q02.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": -1
+        },
+        {
+          "key": "C",
+          "text": "因為你最好攻破。",
+          "text_key": "quiz.passenger_d.low.q02.option_c.text",
+          "response_text": "妳小看我。",
+          "response_text_key": "quiz.passenger_d.low.q02.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳是故意挑我這種人下手？」",
+      "stem_text_key": "quiz.passenger_d.low.q02.stem",
+      "question_text_key": "quiz.passenger_d.low.q02.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q03",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "身體觀察",
+      "stem_text": "他坐姿挺直，肩背結實。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你平常很常訓練吧？",
+          "text_key": "quiz.passenger_d.low.q03.option_a.text",
+          "response_text": "算是。",
+          "response_text_key": "quiz.passenger_d.low.q03.option_a.response",
+          "emotion_delta": 4,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "身體練得這麼穩，心也一樣嗎？",
+          "text_key": "quiz.passenger_d.low.q03.option_b.text",
+          "response_text": "當然。",
+          "response_text_key": "quiz.passenger_d.low.q03.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "看起來很自戀。",
+          "text_key": "quiz.passenger_d.low.q03.option_c.text",
+          "response_text": "妳誤會了。",
+          "response_text_key": "quiz.passenger_d.low.q03.option_c.response",
+          "emotion_delta": -3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q03.stem",
+      "description_text": "他坐姿挺直，肩背結實。",
+      "description_text_key": "quiz.passenger_d.low.q03.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q04",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "自制力",
+      "stem_text": "他刻意保持距離。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你連坐姿都像在防守。",
+          "text_key": "quiz.passenger_d.low.q04.option_a.text",
+          "response_text": "我只是習慣端正。",
+          "response_text_key": "quiz.passenger_d.low.q04.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "不用離那麼遠，我不會咬人。",
+          "text_key": "quiz.passenger_d.low.q04.option_b.text",
+          "response_text": "這很難說。",
+          "response_text_key": "quiz.passenger_d.low.q04.option_b.response",
+          "emotion_delta": 7,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你很怕我？",
+          "text_key": "quiz.passenger_d.low.q04.option_c.text",
+          "response_text": "不是怕。",
+          "response_text_key": "quiz.passenger_d.low.q04.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q04.stem",
+      "description_text": "他刻意保持距離。",
+      "description_text_key": "quiz.passenger_d.low.q04.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q05",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "忠誠確認",
+      "stem_text": "「我不會做對不起太太的事。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我沒叫你做，我只是想看你會不會想。",
+          "text_key": "quiz.passenger_d.low.q05.option_a.text",
+          "response_text": "這更糟。",
+          "response_text_key": "quiz.passenger_d.low.q05.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "好男人通常最怕承認自己動搖。",
+          "text_key": "quiz.passenger_d.low.q05.option_b.text",
+          "response_text": "我沒有動搖。",
+          "response_text_key": "quiz.passenger_d.low.q05.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "那我們就安靜到目的地。",
+          "text_key": "quiz.passenger_d.low.q05.option_c.text",
+          "response_text": "很好。",
+          "response_text_key": "quiz.passenger_d.low.q05.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我不會做對不起太太的事。」",
+      "stem_text_key": "quiz.passenger_d.low.q05.stem",
+      "question_text_key": "quiz.passenger_d.low.q05.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q06",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "道德邊界",
+      "stem_text": "他看著窗外，避開視線。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果只是心裡動搖，算背叛嗎？",
+          "text_key": "quiz.passenger_d.low.q06.option_a.text",
+          "response_text": "……我不想回答。",
+          "response_text_key": "quiz.passenger_d.low.q06.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你真的很在乎界線。",
+          "text_key": "quiz.passenger_d.low.q06.option_b.text",
+          "response_text": "因為那很重要。",
+          "response_text_key": "quiz.passenger_d.low.q06.option_b.response",
+          "emotion_delta": 6,
+          "alert_delta": -2
+        },
+        {
+          "key": "C",
+          "text": "界線就是拿來越過的。",
+          "text_key": "quiz.passenger_d.low.q06.option_c.text",
+          "response_text": "不是。",
+          "response_text_key": "quiz.passenger_d.low.q06.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q06.stem",
+      "description_text": "他看著窗外，避開視線。",
+      "description_text_key": "quiz.passenger_d.low.q06.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q07",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "力量認同",
+      "stem_text": "他手臂肌肉明顯。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你看起來像很習慣保護別人。",
+          "text_key": "quiz.passenger_d.low.q07.option_a.text",
+          "response_text": "我希望如此。",
+          "response_text_key": "quiz.passenger_d.low.q07.option_a.response",
+          "emotion_delta": 7,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "這種手臂，用來忍耐太浪費了。",
+          "text_key": "quiz.passenger_d.low.q07.option_b.text",
+          "response_text": "妳講話太直接。",
+          "response_text_key": "quiz.passenger_d.low.q07.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "肌肉男是不是都很好騙？",
+          "text_key": "quiz.passenger_d.low.q07.option_c.text",
+          "response_text": "妳很失禮。",
+          "response_text_key": "quiz.passenger_d.low.q07.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q07.stem",
+      "description_text": "他手臂肌肉明顯。",
+      "description_text_key": "quiz.passenger_d.low.q07.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q08",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "試探",
+      "stem_text": "「妳平常都這樣跟男乘客說話？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "只對看起來會硬撐的人。",
+          "text_key": "quiz.passenger_d.low.q08.option_a.text",
+          "response_text": "妳又在挑釁。",
+          "response_text_key": "quiz.passenger_d.low.q08.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "只對有趣的人。",
+          "text_key": "quiz.passenger_d.low.q08.option_b.text",
+          "response_text": "我不想變有趣。",
+          "response_text_key": "quiz.passenger_d.low.q08.option_b.response",
+          "emotion_delta": 7,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "對，每個人都差不多。",
+          "text_key": "quiz.passenger_d.low.q08.option_c.text",
+          "response_text": "那我沒興趣。",
+          "response_text_key": "quiz.passenger_d.low.q08.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳平常都這樣跟男乘客說話？」",
+      "stem_text_key": "quiz.passenger_d.low.q08.stem",
+      "question_text_key": "quiz.passenger_d.low.q08.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q09",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "婚姻防線",
+      "stem_text": "他摸了摸戒指。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你摸戒指的次數，比看我還多。",
+          "text_key": "quiz.passenger_d.low.q09.option_a.text",
+          "response_text": "妳連這個都注意？",
+          "response_text_key": "quiz.passenger_d.low.q09.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "那枚戒指對你很重要。",
+          "text_key": "quiz.passenger_d.low.q09.option_b.text",
+          "response_text": "是。",
+          "response_text_key": "quiz.passenger_d.low.q09.option_b.response",
+          "emotion_delta": 5,
+          "alert_delta": -2
+        },
+        {
+          "key": "C",
+          "text": "戒指不代表什麼。",
+          "text_key": "quiz.passenger_d.low.q09.option_c.text",
+          "response_text": "對我代表很多。",
+          "response_text_key": "quiz.passenger_d.low.q09.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q09.stem",
+      "description_text": "他摸了摸戒指。",
+      "description_text_key": "quiz.passenger_d.low.q09.stem"
+    },
+    {
+      "question_id": "passenger_d_low_q10",
+      "passenger_id": "passenger_d",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "忠誠宣言、自律、家庭界線、身體觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "初步誘惑",
+      "stem_text": "車內氣氛逐漸沉默。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "status_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你越沉默，我越想知道你在忍什麼。",
+          "text_key": "quiz.passenger_d.low.q10.option_a.text",
+          "response_text": "不要亂猜。",
+          "response_text_key": "quiz.passenger_d.low.q10.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你說自己不會動搖，那就看著我說一次。",
+          "text_key": "quiz.passenger_d.low.q10.option_b.text",
+          "response_text": "……我不需要證明。",
+          "response_text_key": "quiz.passenger_d.low.q10.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "快到了。",
+          "text_key": "quiz.passenger_d.low.q10.option_c.text",
+          "response_text": "嗯。",
+          "response_text_key": "quiz.passenger_d.low.q10.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.low.q10.stem",
+      "status_text": "車內氣氛逐漸沉默。",
+      "status_text_key": "quiz.passenger_d.low.q10.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q01",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "身體與理性",
+      "stem_text": "他已經開始明顯動搖。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果身體先動搖了，理性還算贏嗎？",
+          "text_key": "quiz.passenger_d.mid.q01.option_a.text",
+          "response_text": "這問題太卑鄙。",
+          "response_text_key": "quiz.passenger_d.mid.q01.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你的心比肌肉難訓練嗎？",
+          "text_key": "quiz.passenger_d.mid.q01.option_b.text",
+          "response_text": "我一直以為不難。",
+          "response_text_key": "quiz.passenger_d.mid.q01.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "男人都差不多吧？",
+          "text_key": "quiz.passenger_d.mid.q01.option_c.text",
+          "response_text": "我不是那種人。",
+          "response_text_key": "quiz.passenger_d.mid.q01.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q01.stem",
+      "description_text": "他已經開始明顯動搖。",
+      "description_text_key": "quiz.passenger_d.mid.q01.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q02",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "乘客",
+      "prompt_type": "道德質問",
+      "stem_text": "「妳明知道我有太太，還要繼續？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我不否定你的忠誠，只想看它多堅固。",
+          "text_key": "quiz.passenger_d.mid.q02.option_a.text",
+          "response_text": "比直接誘惑還危險。",
+          "response_text_key": "quiz.passenger_d.mid.q02.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "真正忠誠的人不怕測試。",
+          "text_key": "quiz.passenger_d.mid.q02.option_b.text",
+          "response_text": "妳在激我。",
+          "response_text_key": "quiz.passenger_d.mid.q02.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "那就當我沒說。",
+          "text_key": "quiz.passenger_d.mid.q02.option_c.text",
+          "response_text": "……妳退得真快。",
+          "response_text_key": "quiz.passenger_d.mid.q02.option_c.response",
+          "emotion_delta": 3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳明知道我有太太，還要繼續？」",
+      "stem_text_key": "quiz.passenger_d.mid.q02.stem",
+      "question_text_key": "quiz.passenger_d.mid.q02.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q03",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "自尊挑釁",
+      "stem_text": "他努力保持端正。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不是很有定力嗎？那為什麼不敢看我？",
+          "text_key": "quiz.passenger_d.mid.q03.option_a.text",
+          "response_text": "我沒有不敢。",
+          "response_text_key": "quiz.passenger_d.mid.q03.option_a.response",
+          "emotion_delta": 15,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你可以拒絕，但你的身體不會說謊。",
+          "text_key": "quiz.passenger_d.mid.q03.option_b.text",
+          "response_text": "別用這種說法。",
+          "response_text_key": "quiz.passenger_d.mid.q03.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "算了，你太正經了。",
+          "text_key": "quiz.passenger_d.mid.q03.option_c.text",
+          "response_text": "這樣最好。",
+          "response_text_key": "quiz.passenger_d.mid.q03.option_c.response",
+          "emotion_delta": -1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q03.stem",
+      "description_text": "他努力保持端正。",
+      "description_text_key": "quiz.passenger_d.mid.q03.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q04",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "力量認同",
+      "stem_text": "他握緊拳頭。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你的力氣很適合壓住衝動，也很適合放開。",
+          "text_key": "quiz.passenger_d.mid.q04.option_a.text",
+          "response_text": "妳在誘導我。",
+          "response_text_key": "quiz.passenger_d.mid.q04.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你忍耐的樣子，比放縱更明顯。",
+          "text_key": "quiz.passenger_d.mid.q04.option_b.text",
+          "response_text": "別看了。",
+          "response_text_key": "quiz.passenger_d.mid.q04.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你是不是只剩肌肉？",
+          "text_key": "quiz.passenger_d.mid.q04.option_c.text",
+          "response_text": "無聊。",
+          "response_text_key": "quiz.passenger_d.mid.q04.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q04.stem",
+      "description_text": "他握緊拳頭。",
+      "description_text_key": "quiz.passenger_d.mid.q04.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q05",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "乘客",
+      "prompt_type": "自控宣言",
+      "stem_text": "「我可以控制自己。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我相信，所以才想看你控制到哪一步。",
+          "text_key": "quiz.passenger_d.mid.q05.option_a.text",
+          "response_text": "妳真的很壞。",
+          "response_text_key": "quiz.passenger_d.mid.q05.option_a.response",
+          "emotion_delta": 15,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "控制不是沒有感覺，是有感覺還能忍。",
+          "text_key": "quiz.passenger_d.mid.q05.option_b.text",
+          "response_text": "……妳說對了。",
+          "response_text_key": "quiz.passenger_d.mid.q05.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "那你就繼續控制吧。",
+          "text_key": "quiz.passenger_d.mid.q05.option_c.text",
+          "response_text": "我會的。",
+          "response_text_key": "quiz.passenger_d.mid.q05.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我可以控制自己。」",
+      "stem_text_key": "quiz.passenger_d.mid.q05.stem",
+      "question_text_key": "quiz.passenger_d.mid.q05.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q06",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "婚姻張力",
+      "stem_text": "他又看了一眼戒指。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不是不愛她，你只是開始誠實面對自己。",
+          "text_key": "quiz.passenger_d.mid.q06.option_a.text",
+          "response_text": "妳別替我找理由。",
+          "response_text_key": "quiz.passenger_d.mid.q06.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "戒指還在，但你已經不平靜了。",
+          "text_key": "quiz.passenger_d.mid.q06.option_b.text",
+          "response_text": "不要說出來。",
+          "response_text_key": "quiz.passenger_d.mid.q06.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "忘了她吧。",
+          "text_key": "quiz.passenger_d.mid.q06.option_c.text",
+          "response_text": "不准這樣說。",
+          "response_text_key": "quiz.passenger_d.mid.q06.option_c.response",
+          "emotion_delta": -10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q06.stem",
+      "description_text": "他又看了一眼戒指。",
+      "description_text_key": "quiz.passenger_d.mid.q06.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q07",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "強壯反差",
+      "stem_text": "他身體很穩，語氣卻亂。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "身體這麼穩，聲音卻先露餡了。",
+          "text_key": "quiz.passenger_d.mid.q07.option_a.text",
+          "response_text": "……妳聽錯了。",
+          "response_text_key": "quiz.passenger_d.mid.q07.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你看起來能扛很多，卻扛不住一句話？",
+          "text_key": "quiz.passenger_d.mid.q07.option_b.text",
+          "response_text": "不要小看我。",
+          "response_text_key": "quiz.passenger_d.mid.q07.option_b.response",
+          "emotion_delta": 15,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "你很可憐。",
+          "text_key": "quiz.passenger_d.mid.q07.option_c.text",
+          "response_text": "停。",
+          "response_text_key": "quiz.passenger_d.mid.q07.option_c.response",
+          "emotion_delta": -8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q07.stem",
+      "description_text": "他身體很穩，語氣卻亂。",
+      "description_text_key": "quiz.passenger_d.mid.q07.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q08",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "乘客",
+      "prompt_type": "反擊",
+      "stem_text": "「妳到底想證明什麼？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "證明你不是沒有慾望，只是很會藏。",
+          "text_key": "quiz.passenger_d.mid.q08.option_a.text",
+          "response_text": "……",
+          "response_text_key": "quiz.passenger_d.mid.q08.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "證明你越正直，越讓人想弄亂。",
+          "text_key": "quiz.passenger_d.mid.q08.option_b.text",
+          "response_text": "妳很危險。",
+          "response_text_key": "quiz.passenger_d.mid.q08.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "沒什麼，只是無聊。",
+          "text_key": "quiz.passenger_d.mid.q08.option_c.text",
+          "response_text": "那妳找錯人了。",
+          "response_text_key": "quiz.passenger_d.mid.q08.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳到底想證明什麼？」",
+      "stem_text_key": "quiz.passenger_d.mid.q08.stem",
+      "question_text_key": "quiz.passenger_d.mid.q08.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q09",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "破防誘導",
+      "stem_text": "他開始主動回應。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你剛剛沒有立刻拒絕，是不是？",
+          "text_key": "quiz.passenger_d.mid.q09.option_a.text",
+          "response_text": "我只是在想怎麼回。",
+          "response_text_key": "quiz.passenger_d.mid.q09.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你現在最怕的不是我，是你開始期待。",
+          "text_key": "quiz.passenger_d.mid.q09.option_b.text",
+          "response_text": "閉嘴。",
+          "response_text_key": "quiz.passenger_d.mid.q09.option_b.response",
+          "emotion_delta": 17,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "不用想太多。",
+          "text_key": "quiz.passenger_d.mid.q09.option_c.text",
+          "response_text": "我不能不想。",
+          "response_text_key": "quiz.passenger_d.mid.q09.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.mid.q09.stem",
+      "description_text": "他開始主動回應。",
+      "description_text_key": "quiz.passenger_d.mid.q09.stem"
+    },
+    {
+      "question_id": "passenger_d_mid_q10",
+      "passenger_id": "passenger_d",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "忠誠裂縫、身體誠實、自制力挑戰、力量壓抑",
+      "prompt_speaker": "乘客",
+      "prompt_type": "最後理性",
+      "stem_text": "「如果我後悔，妳會停嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "會。你說停，我就停。",
+          "text_key": "quiz.passenger_d.mid.q10.option_a.text",
+          "response_text": "……這反而更難拒絕。",
+          "response_text_key": "quiz.passenger_d.mid.q10.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "我會讓你在後悔前先承認想要。",
+          "text_key": "quiz.passenger_d.mid.q10.option_b.text",
+          "response_text": "妳太會繞了。",
+          "response_text_key": "quiz.passenger_d.mid.q10.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "後悔是之後的事。",
+          "text_key": "quiz.passenger_d.mid.q10.option_c.text",
+          "response_text": "不行。",
+          "response_text_key": "quiz.passenger_d.mid.q10.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我後悔，妳會停嗎？」",
+      "stem_text_key": "quiz.passenger_d.mid.q10.stem",
+      "question_text_key": "quiz.passenger_d.mid.q10.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q01",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "露骨挑釁",
+      "stem_text": "他已經無法再只談忠誠。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "今晚先別談忠誠，談談你的身體有多誠實。",
+          "text_key": "quiz.passenger_d.high.q01.option_a.text",
+          "response_text": "妳別逼我承認。",
+          "response_text_key": "quiz.passenger_d.high.q01.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "你可以愛她，但現在看著我的人是你。",
+          "text_key": "quiz.passenger_d.high.q01.option_b.text",
+          "response_text": "……太過分了。",
+          "response_text_key": "quiz.passenger_d.high.q01.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "我會等你自己說願意。",
+          "text_key": "quiz.passenger_d.high.q01.option_c.text",
+          "response_text": "妳真的很狡猾。",
+          "response_text_key": "quiz.passenger_d.high.q01.option_c.response",
+          "emotion_delta": 16,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q01.stem",
+      "description_text": "他已經無法再只談忠誠。",
+      "description_text_key": "quiz.passenger_d.high.q01.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q02",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "乘客",
+      "prompt_type": "力量反問",
+      "stem_text": "「如果我真的不再忍，妳承受得住嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我等的就是你不再只用理性說話。",
+          "text_key": "quiz.passenger_d.high.q02.option_a.text",
+          "response_text": "妳會後悔挑釁我。",
+          "response_text_key": "quiz.passenger_d.high.q02.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你終於想用力氣回答了？",
+          "text_key": "quiz.passenger_d.high.q02.option_b.text",
+          "response_text": "別把我說得像輸了。",
+          "response_text_key": "quiz.passenger_d.high.q02.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "我會讓你停在安全線前。",
+          "text_key": "quiz.passenger_d.high.q02.option_c.text",
+          "response_text": "妳還給我退路……",
+          "response_text_key": "quiz.passenger_d.high.q02.option_c.response",
+          "emotion_delta": 16,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我真的不再忍，妳承受得住嗎？」",
+      "stem_text_key": "quiz.passenger_d.high.q02.stem",
+      "question_text_key": "quiz.passenger_d.high.q02.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q03",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "身體接近",
+      "stem_text": "他刻意不再退開。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不退了，是想讓我靠近，還是想抓住我？",
+          "text_key": "quiz.passenger_d.high.q03.option_a.text",
+          "response_text": "我不知道。",
+          "response_text_key": "quiz.passenger_d.high.q03.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你的手很適合扶穩我，不是只適合忍耐。",
+          "text_key": "quiz.passenger_d.high.q03.option_b.text",
+          "response_text": "妳知道自己在說什麼嗎？",
+          "response_text_key": "quiz.passenger_d.high.q03.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 5
+        },
+        {
+          "key": "C",
+          "text": "我不會靠近，除非你點頭。",
+          "text_key": "quiz.passenger_d.high.q03.option_c.text",
+          "response_text": "……那我點頭呢？",
+          "response_text_key": "quiz.passenger_d.high.q03.option_c.response",
+          "emotion_delta": 18,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q03.stem",
+      "description_text": "他刻意不再退開。",
+      "description_text_key": "quiz.passenger_d.high.q03.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q04",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "火車便當前導",
+      "stem_text": "車停在偏暗處。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "status_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你這副身體，應該不只是拿來克制自己的吧？",
+          "text_key": "quiz.passenger_d.high.q04.option_a.text",
+          "response_text": "妳真的很敢說。",
+          "response_text_key": "quiz.passenger_d.high.q04.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "如果你抱起我，還能說自己完全沒動搖嗎？",
+          "text_key": "quiz.passenger_d.high.q04.option_b.text",
+          "response_text": "別再試探了。",
+          "response_text_key": "quiz.passenger_d.high.q04.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 5
+        },
+        {
+          "key": "C",
+          "text": "到了，該下車了。",
+          "text_key": "quiz.passenger_d.high.q04.option_c.text",
+          "response_text": "妳現在要逃？",
+          "response_text_key": "quiz.passenger_d.high.q04.option_c.response",
+          "emotion_delta": 8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q04.stem",
+      "status_text": "車停在偏暗處。",
+      "status_text_key": "quiz.passenger_d.high.q04.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q05",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "乘客",
+      "prompt_type": "忠誠崩裂",
+      "stem_text": "「我還是愛我太太。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我知道，所以我才不否定你，只讓你承認今晚的自己。",
+          "text_key": "quiz.passenger_d.high.q05.option_a.text",
+          "response_text": "……妳太狠了。",
+          "response_text_key": "quiz.passenger_d.high.q05.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "那就把這當成你唯一一次失控。",
+          "text_key": "quiz.passenger_d.high.q05.option_b.text",
+          "response_text": "不要替我找藉口。",
+          "response_text_key": "quiz.passenger_d.high.q05.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "那就結束。",
+          "text_key": "quiz.passenger_d.high.q05.option_c.text",
+          "response_text": "……也許該這樣。",
+          "response_text_key": "quiz.passenger_d.high.q05.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我還是愛我太太。」",
+      "stem_text_key": "quiz.passenger_d.high.q05.stem",
+      "question_text_key": "quiz.passenger_d.high.q05.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q06",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "強勢誘惑",
+      "stem_text": "他呼吸變沉。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你再忍下去，我會覺得是在等我主動坐上來。",
+          "text_key": "quiz.passenger_d.high.q06.option_a.text",
+          "response_text": "別說出口……",
+          "response_text_key": "quiz.passenger_d.high.q06.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 5
+        },
+        {
+          "key": "B",
+          "text": "你的眼神已經比你的嘴誠實多了。",
+          "text_key": "quiz.passenger_d.high.q06.option_b.text",
+          "response_text": "我沒有……",
+          "response_text_key": "quiz.passenger_d.high.q06.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "喝水嗎？",
+          "text_key": "quiz.passenger_d.high.q06.option_c.text",
+          "response_text": "現在不是喝水的問題。",
+          "response_text_key": "quiz.passenger_d.high.q06.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q06.stem",
+      "description_text": "他呼吸變沉。",
+      "description_text_key": "quiz.passenger_d.high.q06.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q07",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "誠實逼問",
+      "stem_text": "他已經不看戒指。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "現在說一句你不想要，我就停。",
+          "text_key": "quiz.passenger_d.high.q07.option_a.text",
+          "response_text": "……我說不出口。",
+          "response_text_key": "quiz.passenger_d.high.q07.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "你要繼續當好男人，還是今晚先當誠實的男人？",
+          "text_key": "quiz.passenger_d.high.q07.option_b.text",
+          "response_text": "妳這問題太殘忍。",
+          "response_text_key": "quiz.passenger_d.high.q07.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "你不用回答。",
+          "text_key": "quiz.passenger_d.high.q07.option_c.text",
+          "response_text": "不，我想回答。",
+          "response_text_key": "quiz.passenger_d.high.q07.option_c.response",
+          "emotion_delta": 16,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q07.stem",
+      "description_text": "他已經不看戒指。",
+      "description_text_key": "quiz.passenger_d.high.q07.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q08",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "乘客",
+      "prompt_type": "破防質問",
+      "stem_text": "「妳為什麼偏偏要挑戰我？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "因為你越忠誠，動搖的瞬間越漂亮。",
+          "text_key": "quiz.passenger_d.high.q08.option_a.text",
+          "response_text": "惡魔……",
+          "response_text_key": "quiz.passenger_d.high.q08.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "因為你不是隨便的人，所以才值得攻破。",
+          "text_key": "quiz.passenger_d.high.q08.option_b.text",
+          "response_text": "這不算稱讚。",
+          "response_text_key": "quiz.passenger_d.high.q08.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "因為我無聊。",
+          "text_key": "quiz.passenger_d.high.q08.option_c.text",
+          "response_text": "那就停。",
+          "response_text_key": "quiz.passenger_d.high.q08.option_c.response",
+          "emotion_delta": -8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳為什麼偏偏要挑戰我？」",
+      "stem_text_key": "quiz.passenger_d.high.q08.stem",
+      "question_text_key": "quiz.passenger_d.high.q08.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q09",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "力量爆發",
+      "stem_text": "他已經靠得很近。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果你要抱起我，就別再用『不小心』當藉口。",
+          "text_key": "quiz.passenger_d.high.q09.option_a.text",
+          "response_text": "妳連退路都堵住了。",
+          "response_text_key": "quiz.passenger_d.high.q09.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "你的力氣，今晚可以不用那麼紳士。",
+          "text_key": "quiz.passenger_d.high.q09.option_b.text",
+          "response_text": "妳會把自己玩火燒身。",
+          "response_text_key": "quiz.passenger_d.high.q09.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 5
+        },
+        {
+          "key": "C",
+          "text": "還是算了。",
+          "text_key": "quiz.passenger_d.high.q09.option_c.text",
+          "response_text": "現在說算了？",
+          "response_text_key": "quiz.passenger_d.high.q09.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_d.high.q09.stem",
+      "description_text": "他已經靠得很近。",
+      "description_text_key": "quiz.passenger_d.high.q09.stem"
+    },
+    {
+      "question_id": "passenger_d_high_q10",
+      "passenger_id": "passenger_d",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、身體誠實、力量爆發、忠誠破防",
+      "prompt_speaker": "乘客",
+      "prompt_type": "事件前導",
+      "stem_text": "「妳真的要我越過那條線？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我要你自己承認，是你想跨過來。",
+          "text_key": "quiz.passenger_d.high.q10.option_a.text",
+          "response_text": "……我想。",
+          "response_text_key": "quiz.passenger_d.high.q10.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "我要看你親手把防線放下。",
+          "text_key": "quiz.passenger_d.high.q10.option_b.text",
+          "response_text": "妳真殘忍。",
+          "response_text_key": "quiz.passenger_d.high.q10.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "我不要你後悔。",
+          "text_key": "quiz.passenger_d.high.q10.option_c.text",
+          "response_text": "那就別讓我有時間後悔。",
+          "response_text_key": "quiz.passenger_d.high.q10.option_c.response",
+          "emotion_delta": 22,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳真的要我越過那條線？」",
+      "stem_text_key": "quiz.passenger_d.high.q10.stem",
+      "question_text_key": "quiz.passenger_d.high.q10.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q01",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "氣場試探",
+      "stem_text": "他上車後直接命令開車。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不像乘客，像在檢查這台車是不是你的獵場。",
+          "text_key": "quiz.passenger_b.low.q01.option_a.text",
+          "response_text": "眼力不差。",
+          "response_text_key": "quiz.passenger_b.low.q01.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "你習慣所有人照你命令動嗎？",
+          "text_key": "quiz.passenger_b.low.q01.option_b.text",
+          "response_text": "是他們選擇服從。",
+          "response_text_key": "quiz.passenger_b.low.q01.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "你看起來很寂寞。",
+          "text_key": "quiz.passenger_b.low.q01.option_c.text",
+          "response_text": "廉價判斷。",
+          "response_text_key": "quiz.passenger_b.low.q01.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q01.stem",
+      "description_text": "他上車後直接命令開車。",
+      "description_text_key": "quiz.passenger_b.low.q01.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q02",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "乘客",
+      "prompt_type": "壓迫",
+      "stem_text": "「妳是想誘惑我，還是證明自己不怕我？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "兩個都是，怕你就不好玩了。",
+          "text_key": "quiz.passenger_b.low.q02.option_a.text",
+          "response_text": "至少不無聊。",
+          "response_text_key": "quiz.passenger_b.low.q02.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "我想知道你會不會被我動搖。",
+          "text_key": "quiz.passenger_b.low.q02.option_b.text",
+          "response_text": "妳想得太安全。",
+          "response_text_key": "quiz.passenger_b.low.q02.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "我沒有那意思。",
+          "text_key": "quiz.passenger_b.low.q02.option_c.text",
+          "response_text": "膽怯就別挑釁。",
+          "response_text_key": "quiz.passenger_b.low.q02.option_c.response",
+          "emotion_delta": -3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳是想誘惑我，還是證明自己不怕我？」",
+      "stem_text_key": "quiz.passenger_b.low.q02.stem",
+      "question_text_key": "quiz.passenger_b.low.q02.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q03",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "毛皮伏筆",
+      "stem_text": "他整理毛皮大衣。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "這件大衣很適合你，像把野性穿在身上。",
+          "text_key": "quiz.passenger_b.low.q03.option_a.text",
+          "response_text": "會說話。",
+          "response_text_key": "quiz.passenger_b.low.q03.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "你穿得很高調。",
+          "text_key": "quiz.passenger_b.low.q03.option_b.text",
+          "response_text": "權力本來就該被看見。",
+          "response_text_key": "quiz.passenger_b.low.q03.option_b.response",
+          "emotion_delta": 6,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "像暴發戶。",
+          "text_key": "quiz.passenger_b.low.q03.option_c.text",
+          "response_text": "下車。",
+          "response_text_key": "quiz.passenger_b.low.q03.option_c.response",
+          "emotion_delta": -10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q03.stem",
+      "description_text": "他整理毛皮大衣。",
+      "description_text_key": "quiz.passenger_b.low.q03.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q04",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "主導權",
+      "stem_text": "他一直看著後照鏡中的妳。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你看人的方式像在估價獵物。",
+          "text_key": "quiz.passenger_b.low.q04.option_a.text",
+          "response_text": "也許。",
+          "response_text_key": "quiz.passenger_b.low.q04.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你想讓我緊張？",
+          "text_key": "quiz.passenger_b.low.q04.option_b.text",
+          "response_text": "妳已經緊張了。",
+          "response_text_key": "quiz.passenger_b.low.q04.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "請不要盯著我。",
+          "text_key": "quiz.passenger_b.low.q04.option_c.text",
+          "response_text": "那就別挑釁我。",
+          "response_text_key": "quiz.passenger_b.low.q04.option_c.response",
+          "emotion_delta": -1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q04.stem",
+      "description_text": "他一直看著後照鏡中的妳。",
+      "description_text_key": "quiz.passenger_b.low.q04.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q05",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "乘客",
+      "prompt_type": "試探",
+      "stem_text": "「妳覺得自己能掌控這趟車？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "至少方向盤在我手上。",
+          "text_key": "quiz.passenger_b.low.q05.option_a.text",
+          "response_text": "方向盤不是全部。",
+          "response_text_key": "quiz.passenger_b.low.q05.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "我能掌控的是節奏。",
+          "text_key": "quiz.passenger_b.low.q05.option_b.text",
+          "response_text": "妳可以試試。",
+          "response_text_key": "quiz.passenger_b.low.q05.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "不能。",
+          "text_key": "quiz.passenger_b.low.q05.option_c.text",
+          "response_text": "無趣。",
+          "response_text_key": "quiz.passenger_b.low.q05.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳覺得自己能掌控這趟車？」",
+      "stem_text_key": "quiz.passenger_b.low.q05.stem",
+      "question_text_key": "quiz.passenger_b.low.q05.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q06",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "身分反差",
+      "stem_text": "他神情從容。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不缺人討好，所以一般誘惑對你沒用吧？",
+          "text_key": "quiz.passenger_b.low.q06.option_a.text",
+          "response_text": "繼續。",
+          "response_text_key": "quiz.passenger_b.low.q06.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "你像是會把人逼到牆角的人。",
+          "text_key": "quiz.passenger_b.low.q06.option_b.text",
+          "response_text": "妳怕？",
+          "response_text_key": "quiz.passenger_b.low.q06.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "你應該很好哄。",
+          "text_key": "quiz.passenger_b.low.q06.option_c.text",
+          "response_text": "錯得離譜。",
+          "response_text_key": "quiz.passenger_b.low.q06.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q06.stem",
+      "description_text": "他神情從容。",
+      "description_text_key": "quiz.passenger_b.low.q06.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q07",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "初步挑釁",
+      "stem_text": "車內氣壓低。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我很好奇，你被挑釁時會先笑，還是先咬人？",
+          "text_key": "quiz.passenger_b.low.q07.option_a.text",
+          "response_text": "看獵物表現。",
+          "response_text_key": "quiz.passenger_b.low.q07.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你不會真的那麼危險吧？",
+          "text_key": "quiz.passenger_b.low.q07.option_b.text",
+          "response_text": "妳可以驗證。",
+          "response_text_key": "quiz.passenger_b.low.q07.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "算了，你太可怕。",
+          "text_key": "quiz.passenger_b.low.q07.option_c.text",
+          "response_text": "那就閉嘴開車。",
+          "response_text_key": "quiz.passenger_b.low.q07.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q07.stem",
+      "scene_text": "車內氣壓低。",
+      "scene_text_key": "quiz.passenger_b.low.q07.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q08",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "乘客",
+      "prompt_type": "反壓",
+      "stem_text": "「妳挑釁人的方式，很像還沒學會害怕。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "那你教我？",
+          "text_key": "quiz.passenger_b.low.q08.option_a.text",
+          "response_text": "妳會後悔求教。",
+          "response_text_key": "quiz.passenger_b.low.q08.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "害怕太早出現就不好玩。",
+          "text_key": "quiz.passenger_b.low.q08.option_b.text",
+          "response_text": "有趣。",
+          "response_text_key": "quiz.passenger_b.low.q08.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "我沒有挑釁。",
+          "text_key": "quiz.passenger_b.low.q08.option_c.text",
+          "response_text": "妳在浪費我的時間。",
+          "response_text_key": "quiz.passenger_b.low.q08.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳挑釁人的方式，很像還沒學會害怕。」",
+      "stem_text_key": "quiz.passenger_b.low.q08.stem",
+      "question_text_key": "quiz.passenger_b.low.q08.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q09",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "獵物暗示",
+      "stem_text": "他眼神像在等待反應。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不是被誘惑，是在等我主動靠近陷阱。",
+          "text_key": "quiz.passenger_b.low.q09.option_a.text",
+          "response_text": "終於有點準了。",
+          "response_text_key": "quiz.passenger_b.low.q09.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": 0
+        },
+        {
+          "key": "B",
+          "text": "你想看我慌嗎？",
+          "text_key": "quiz.passenger_b.low.q09.option_b.text",
+          "response_text": "我想看妳失控。",
+          "response_text_key": "quiz.passenger_b.low.q09.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你是不是很愛控制人？",
+          "text_key": "quiz.passenger_b.low.q09.option_c.text",
+          "response_text": "問題太淺。",
+          "response_text_key": "quiz.passenger_b.low.q09.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q09.stem",
+      "description_text": "他眼神像在等待反應。",
+      "description_text_key": "quiz.passenger_b.low.q09.stem"
+    },
+    {
+      "question_id": "passenger_b_low_q10",
+      "passenger_id": "passenger_b",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "氣場、主導權、獵人感、本性伏筆",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "階段收束",
+      "stem_text": "他露出一點笑意。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你笑了，看來我還沒完全失敗。",
+          "text_key": "quiz.passenger_b.low.q10.option_a.text",
+          "response_text": "只是開始有趣。",
+          "response_text_key": "quiz.passenger_b.low.q10.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "這趟車你會記得我吧？",
+          "text_key": "quiz.passenger_b.low.q10.option_b.text",
+          "response_text": "看妳接下來值不值得。",
+          "response_text_key": "quiz.passenger_b.low.q10.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "請繫好安全帶。",
+          "text_key": "quiz.passenger_b.low.q10.option_c.text",
+          "response_text": "妳現在才裝正經？",
+          "response_text_key": "quiz.passenger_b.low.q10.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.low.q10.stem",
+      "description_text": "他露出一點笑意。",
+      "description_text_key": "quiz.passenger_b.low.q10.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q01",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "本性觸發",
+      "stem_text": "他看妳的眼神變深。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你看我的眼神，不像看人，像看終於靠近的獵物。",
+          "text_key": "quiz.passenger_b.mid.q01.option_a.text",
+          "response_text": "妳終於說對了。",
+          "response_text_key": "quiz.passenger_b.mid.q01.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 0
+        },
+        {
+          "key": "B",
+          "text": "你這件毛皮大衣，像警告牌。",
+          "text_key": "quiz.passenger_b.mid.q01.option_b.text",
+          "response_text": "警告誰？",
+          "response_text_key": "quiz.passenger_b.mid.q01.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "你只是裝得很強吧？",
+          "text_key": "quiz.passenger_b.mid.q01.option_c.text",
+          "response_text": "拙劣。",
+          "response_text_key": "quiz.passenger_b.mid.q01.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q01.stem",
+      "description_text": "他看妳的眼神變深。",
+      "description_text_key": "quiz.passenger_b.mid.q01.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q02",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "乘客",
+      "prompt_type": "反轉",
+      "stem_text": "「妳確定現在還是妳在誘惑我？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "至少在我承認輸之前，還是。",
+          "text_key": "quiz.passenger_b.mid.q02.option_a.text",
+          "response_text": "我會讓妳承認。",
+          "response_text_key": "quiz.passenger_b.mid.q02.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你想搶主導權？",
+          "text_key": "quiz.passenger_b.mid.q02.option_b.text",
+          "response_text": "不是想，是開始了。",
+          "response_text_key": "quiz.passenger_b.mid.q02.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "我只是開車。",
+          "text_key": "quiz.passenger_b.mid.q02.option_c.text",
+          "response_text": "太晚了。",
+          "response_text_key": "quiz.passenger_b.mid.q02.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳確定現在還是妳在誘惑我？」",
+      "stem_text_key": "quiz.passenger_b.mid.q02.stem",
+      "question_text_key": "quiz.passenger_b.mid.q02.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q03",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "獵場",
+      "stem_text": "車廂像變成私人空間。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "這台車現在像你的籠子，還是我的？",
+          "text_key": "quiz.passenger_b.mid.q03.option_a.text",
+          "response_text": "看誰先露出破綻。",
+          "response_text_key": "quiz.passenger_b.mid.q03.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "你是不是喜歡獵物自己走近？",
+          "text_key": "quiz.passenger_b.mid.q03.option_b.text",
+          "response_text": "那才有價值。",
+          "response_text_key": "quiz.passenger_b.mid.q03.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "我有點怕。",
+          "text_key": "quiz.passenger_b.mid.q03.option_c.text",
+          "response_text": "怕就別再引我。",
+          "response_text_key": "quiz.passenger_b.mid.q03.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q03.stem",
+      "narration_text": "車廂像變成私人空間。",
+      "narration_text_key": "quiz.passenger_b.mid.q03.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q04",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "乘客",
+      "prompt_type": "壓迫",
+      "stem_text": "「妳知道自己在引出什麼嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "知道，所以我才沒踩煞車。",
+          "text_key": "quiz.passenger_b.mid.q04.option_a.text",
+          "response_text": "很好。",
+          "response_text_key": "quiz.passenger_b.mid.q04.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "不知道，但我想看。",
+          "text_key": "quiz.passenger_b.mid.q04.option_b.text",
+          "response_text": "無知有時很誘人。",
+          "response_text_key": "quiz.passenger_b.mid.q04.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "那我不問了。",
+          "text_key": "quiz.passenger_b.mid.q04.option_c.text",
+          "response_text": "膽子太小。",
+          "response_text_key": "quiz.passenger_b.mid.q04.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳知道自己在引出什麼嗎？」",
+      "stem_text_key": "quiz.passenger_b.mid.q04.stem",
+      "question_text_key": "quiz.passenger_b.mid.q04.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q05",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "女主角挑釁",
+      "stem_text": "他似乎享受妳的挑釁。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不是想被誘惑，你想看我怎麼輸。",
+          "text_key": "quiz.passenger_b.mid.q05.option_a.text",
+          "response_text": "準確。",
+          "response_text_key": "quiz.passenger_b.mid.q05.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你喜歡我反抗，對吧？",
+          "text_key": "quiz.passenger_b.mid.q05.option_b.text",
+          "response_text": "比順從有趣。",
+          "response_text_key": "quiz.passenger_b.mid.q05.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你很難搞。",
+          "text_key": "quiz.passenger_b.mid.q05.option_c.text",
+          "response_text": "那是妳能力不足。",
+          "response_text_key": "quiz.passenger_b.mid.q05.option_c.response",
+          "emotion_delta": -1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q05.stem",
+      "description_text": "他似乎享受妳的挑釁。",
+      "description_text_key": "quiz.passenger_b.mid.q05.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q06",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "乘客",
+      "prompt_type": "霸總質問",
+      "stem_text": "「妳憑什麼覺得能勾起我的興趣？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "因為你現在還在跟我說話。",
+          "text_key": "quiz.passenger_b.mid.q06.option_a.text",
+          "response_text": "漂亮的反擊。",
+          "response_text_key": "quiz.passenger_b.mid.q06.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 0
+        },
+        {
+          "key": "B",
+          "text": "因為你已經在等我下一句。",
+          "text_key": "quiz.passenger_b.mid.q06.option_b.text",
+          "response_text": "妳很敢。",
+          "response_text_key": "quiz.passenger_b.mid.q06.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "因為我是魅魔。",
+          "text_key": "quiz.passenger_b.mid.q06.option_c.text",
+          "response_text": "頭銜不能證明價值。",
+          "response_text_key": "quiz.passenger_b.mid.q06.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳憑什麼覺得能勾起我的興趣？」",
+      "stem_text_key": "quiz.passenger_b.mid.q06.stem",
+      "question_text_key": "quiz.passenger_b.mid.q06.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q07",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "毛皮與本能",
+      "stem_text": "他手指拂過大衣。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你穿著獸皮，卻像是在等誰扯開你的紳士外殼。",
+          "text_key": "quiz.passenger_b.mid.q07.option_a.text",
+          "response_text": "繼續說。",
+          "response_text_key": "quiz.passenger_b.mid.q07.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "這件衣服讓你看起來更像獵人。",
+          "text_key": "quiz.passenger_b.mid.q07.option_b.text",
+          "response_text": "我本來就是。",
+          "response_text_key": "quiz.passenger_b.mid.q07.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "毛很多，挺暖的。",
+          "text_key": "quiz.passenger_b.mid.q07.option_c.text",
+          "response_text": "……",
+          "response_text_key": "quiz.passenger_b.mid.q07.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q07.stem",
+      "description_text": "他手指拂過大衣。",
+      "description_text_key": "quiz.passenger_b.mid.q07.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q08",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "乘客",
+      "prompt_type": "獵物測試",
+      "stem_text": "「如果我把妳當獵物，妳會逃嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "會，但不一定是往外逃。",
+          "text_key": "quiz.passenger_b.mid.q08.option_a.text",
+          "response_text": "很好。",
+          "response_text_key": "quiz.passenger_b.mid.q08.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "我會先看你追不追得上。",
+          "text_key": "quiz.passenger_b.mid.q08.option_b.text",
+          "response_text": "妳想被追。",
+          "response_text_key": "quiz.passenger_b.mid.q08.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "我不喜歡這種說法。",
+          "text_key": "quiz.passenger_b.mid.q08.option_c.text",
+          "response_text": "那就別碰我的本性。",
+          "response_text_key": "quiz.passenger_b.mid.q08.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我把妳當獵物，妳會逃嗎？」",
+      "stem_text_key": "quiz.passenger_b.mid.q08.stem",
+      "question_text_key": "quiz.passenger_b.mid.q08.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q09",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "失控預告",
+      "stem_text": "妳發現自己節奏被帶走。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "糟了，我好像真的引到不該引的東西。",
+          "text_key": "quiz.passenger_b.mid.q09.option_a.text",
+          "response_text": "現在才發現？",
+          "response_text_key": "quiz.passenger_b.mid.q09.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你是不是在等我害怕？",
+          "text_key": "quiz.passenger_b.mid.q09.option_b.text",
+          "response_text": "我在等妳承認。",
+          "response_text_key": "quiz.passenger_b.mid.q09.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "我們換話題吧。",
+          "text_key": "quiz.passenger_b.mid.q09.option_c.text",
+          "response_text": "不准逃。",
+          "response_text_key": "quiz.passenger_b.mid.q09.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q09.stem",
+      "narration_text": "妳發現自己節奏被帶走。",
+      "narration_text_key": "quiz.passenger_b.mid.q09.stem"
+    },
+    {
+      "question_id": "passenger_b_mid_q10",
+      "passenger_id": "passenger_b",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "本性觸發、獵物/獵人、主導權反轉",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "階段推進",
+      "stem_text": "他傾身靠近。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你再靠近，我可不保證還能裝從容。",
+          "text_key": "quiz.passenger_b.mid.q10.option_a.text",
+          "response_text": "那就別裝。",
+          "response_text_key": "quiz.passenger_b.mid.q10.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "現在誰才是被載走的人？",
+          "text_key": "quiz.passenger_b.mid.q10.option_b.text",
+          "response_text": "問得好。",
+          "response_text_key": "quiz.passenger_b.mid.q10.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "請坐好。",
+          "text_key": "quiz.passenger_b.mid.q10.option_c.text",
+          "response_text": "命令我？",
+          "response_text_key": "quiz.passenger_b.mid.q10.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.mid.q10.stem",
+      "description_text": "他傾身靠近。",
+      "description_text_key": "quiz.passenger_b.mid.q10.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q01",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "敗北前導",
+      "stem_text": "妳已經感覺局勢反轉。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果我不是獵人，而是故意走進來的獵物呢？",
+          "text_key": "quiz.passenger_b.high.q01.option_a.text",
+          "response_text": "那妳比我想像中更有趣。",
+          "response_text_key": "quiz.passenger_b.high.q01.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 0
+        },
+        {
+          "key": "B",
+          "text": "你是想被我誘惑，還是想反過來馴服我？",
+          "text_key": "quiz.passenger_b.high.q01.option_b.text",
+          "response_text": "終於問到核心。",
+          "response_text_key": "quiz.passenger_b.high.q01.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "今晚照我的節奏。",
+          "text_key": "quiz.passenger_b.high.q01.option_c.text",
+          "response_text": "妳還有節奏嗎？",
+          "response_text_key": "quiz.passenger_b.high.q01.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.high.q01.stem",
+      "narration_text": "妳已經感覺局勢反轉。",
+      "narration_text_key": "quiz.passenger_b.high.q01.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q02",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "反壓",
+      "stem_text": "「如果我要妳求我停下，妳會後悔挑釁嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我只後悔沒更早看見你這一面。",
+          "text_key": "quiz.passenger_b.high.q02.option_a.text",
+          "response_text": "嘴硬得漂亮。",
+          "response_text_key": "quiz.passenger_b.high.q02.option_a.response",
+          "emotion_delta": 22,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你可以試試，能不能讓我求饒。",
+          "text_key": "quiz.passenger_b.high.q02.option_b.text",
+          "response_text": "這句話我收下。",
+          "response_text_key": "quiz.passenger_b.high.q02.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "我會停在安全線前。",
+          "text_key": "quiz.passenger_b.high.q02.option_c.text",
+          "response_text": "安全線是給弱者的。",
+          "response_text_key": "quiz.passenger_b.high.q02.option_c.response",
+          "emotion_delta": 8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我要妳求我停下，妳會後悔挑釁嗎？」",
+      "stem_text_key": "quiz.passenger_b.high.q02.stem",
+      "question_text_key": "quiz.passenger_b.high.q02.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q03",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "露骨挑釁",
+      "stem_text": "他盯著妳的背影。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你一直看我背後，是在想怎麼把我按進你的節奏裡嗎？",
+          "text_key": "quiz.passenger_b.high.q03.option_a.text",
+          "response_text": "妳開始懂了。",
+          "response_text_key": "quiz.passenger_b.high.q03.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你喜歡從後面看獵物無處可逃？",
+          "text_key": "quiz.passenger_b.high.q03.option_b.text",
+          "response_text": "非常準確。",
+          "response_text_key": "quiz.passenger_b.high.q03.option_b.response",
+          "emotion_delta": 26,
+          "alert_delta": 4
+        },
+        {
+          "key": "C",
+          "text": "別看了。",
+          "text_key": "quiz.passenger_b.high.q03.option_c.text",
+          "response_text": "那就別露出破綻。",
+          "response_text_key": "quiz.passenger_b.high.q03.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.high.q03.stem",
+      "description_text": "他盯著妳的背影。",
+      "description_text_key": "quiz.passenger_b.high.q03.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q04",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "獵物宣告",
+      "stem_text": "「轉過去。妳不是想知道我的本性嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "命令得真自然……我差點照做。",
+          "text_key": "quiz.passenger_b.high.q04.option_a.text",
+          "response_text": "不是差點。",
+          "response_text_key": "quiz.passenger_b.high.q04.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": 3
+        },
+        {
+          "key": "B",
+          "text": "你已經不打算當乘客了？",
+          "text_key": "quiz.passenger_b.high.q04.option_b.text",
+          "response_text": "我從來不是。",
+          "response_text_key": "quiz.passenger_b.high.q04.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "不行，我還在開車。",
+          "text_key": "quiz.passenger_b.high.q04.option_c.text",
+          "response_text": "那就找個地方停下。",
+          "response_text_key": "quiz.passenger_b.high.q04.option_c.response",
+          "emotion_delta": 16,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「轉過去。妳不是想知道我的本性嗎？」",
+      "stem_text_key": "quiz.passenger_b.high.q04.stem",
+      "question_text_key": "quiz.passenger_b.high.q04.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q05",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "主導權放手",
+      "stem_text": "車速放慢。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果我停車，你會讓我後悔，還是讓我求饒？",
+          "text_key": "quiz.passenger_b.high.q05.option_a.text",
+          "response_text": "兩個都會。",
+          "response_text_key": "quiz.passenger_b.high.q05.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "我好像不該把你帶到這一步。",
+          "text_key": "quiz.passenger_b.high.q05.option_b.text",
+          "response_text": "太晚了。",
+          "response_text_key": "quiz.passenger_b.high.q05.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你冷靜一點。",
+          "text_key": "quiz.passenger_b.high.q05.option_c.text",
+          "response_text": "妳引出來的東西，自己收拾。",
+          "response_text_key": "quiz.passenger_b.high.q05.option_c.response",
+          "emotion_delta": 10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.high.q05.stem",
+      "narration_text": "車速放慢。",
+      "narration_text_key": "quiz.passenger_b.high.q05.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q06",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "壓制誘惑",
+      "stem_text": "「妳剛剛的自信呢？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "被你吃掉一半了，剩下的還想掙扎。",
+          "text_key": "quiz.passenger_b.high.q06.option_a.text",
+          "response_text": "掙扎很好。",
+          "response_text_key": "quiz.passenger_b.high.q06.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": 2
+        },
+        {
+          "key": "B",
+          "text": "還在，只是換成期待。",
+          "text_key": "quiz.passenger_b.high.q06.option_b.text",
+          "response_text": "聰明。",
+          "response_text_key": "quiz.passenger_b.high.q06.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "沒有了。",
+          "text_key": "quiz.passenger_b.high.q06.option_c.text",
+          "response_text": "太快投降就無趣。",
+          "response_text_key": "quiz.passenger_b.high.q06.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳剛剛的自信呢？」",
+      "stem_text_key": "quiz.passenger_b.high.q06.stem",
+      "question_text_key": "quiz.passenger_b.high.q06.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q07",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "露骨承認",
+      "stem_text": "妳開始被他的氣勢壓住。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我承認，我想看你失控，也想被你弄到後悔。",
+          "text_key": "quiz.passenger_b.high.q07.option_a.text",
+          "response_text": "這才像真話。",
+          "response_text_key": "quiz.passenger_b.high.q07.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "你再靠近，我可能真的會求你慢一點。",
+          "text_key": "quiz.passenger_b.high.q07.option_b.text",
+          "response_text": "我不保證會聽。",
+          "response_text_key": "quiz.passenger_b.high.q07.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "我只是開玩笑。",
+          "text_key": "quiz.passenger_b.high.q07.option_c.text",
+          "response_text": "妳已經沒有開玩笑的餘地。",
+          "response_text_key": "quiz.passenger_b.high.q07.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.high.q07.stem",
+      "narration_text": "妳開始被他的氣勢壓住。",
+      "narration_text_key": "quiz.passenger_b.high.q07.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q08",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "背面暗示",
+      "stem_text": "「妳知道獵物最適合什麼姿勢嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "背對獵人，還假裝自己能逃。",
+          "text_key": "quiz.passenger_b.high.q08.option_a.text",
+          "response_text": "正解。",
+          "response_text_key": "quiz.passenger_b.high.q08.option_a.response",
+          "emotion_delta": 28,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "讓獵人看見她終於服軟的樣子。",
+          "text_key": "quiz.passenger_b.high.q08.option_b.text",
+          "response_text": "妳很適合這個答案。",
+          "response_text_key": "quiz.passenger_b.high.q08.option_b.response",
+          "emotion_delta": 26,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "我不知道。",
+          "text_key": "quiz.passenger_b.high.q08.option_c.text",
+          "response_text": "那我教妳。",
+          "response_text_key": "quiz.passenger_b.high.q08.option_c.response",
+          "emotion_delta": 18,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳知道獵物最適合什麼姿勢嗎？」",
+      "stem_text_key": "quiz.passenger_b.high.q08.stem",
+      "question_text_key": "quiz.passenger_b.high.q08.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q09",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "事件前導",
+      "stem_text": "妳終於停車。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "narration_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "好了，獵場交給你。你要怎麼處理我？",
+          "text_key": "quiz.passenger_b.high.q09.option_a.text",
+          "response_text": "先讓妳明白誰是獵人。",
+          "response_text_key": "quiz.passenger_b.high.q09.option_a.response",
+          "emotion_delta": 28,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "如果我求饒，你會停嗎？",
+          "text_key": "quiz.passenger_b.high.q09.option_b.text",
+          "response_text": "看妳求得夠不夠真。",
+          "response_text_key": "quiz.passenger_b.high.q09.option_b.response",
+          "emotion_delta": 26,
+          "alert_delta": 5
+        },
+        {
+          "key": "C",
+          "text": "只是暫停一下。",
+          "text_key": "quiz.passenger_b.high.q09.option_c.text",
+          "response_text": "不是由妳定義。",
+          "response_text_key": "quiz.passenger_b.high.q09.option_c.response",
+          "emotion_delta": 10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_b.high.q09.stem",
+      "narration_text": "妳終於停車。",
+      "narration_text_key": "quiz.passenger_b.high.q09.stem"
+    },
+    {
+      "question_id": "passenger_b_high_q10",
+      "passenger_id": "passenger_b",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、魅魔敗北、獵物化、背面體位前導",
+      "prompt_speaker": "乘客",
+      "prompt_type": "成功觸發",
+      "stem_text": "「最後問一次，還要誘惑我嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不，我要你反過來吞掉我的自信。",
+          "text_key": "quiz.passenger_b.high.q10.option_a.text",
+          "response_text": "很好。",
+          "response_text_key": "quiz.passenger_b.high.q10.option_a.response",
+          "emotion_delta": 30,
+          "alert_delta": 4
+        },
+        {
+          "key": "B",
+          "text": "要，但我知道這次輸的人可能是我。",
+          "text_key": "quiz.passenger_b.high.q10.option_b.text",
+          "response_text": "妳終於學會誠實。",
+          "response_text_key": "quiz.passenger_b.high.q10.option_b.response",
+          "emotion_delta": 28,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "不要了。",
+          "text_key": "quiz.passenger_b.high.q10.option_c.text",
+          "response_text": "妳現在才想逃？",
+          "response_text_key": "quiz.passenger_b.high.q10.option_c.response",
+          "emotion_delta": 5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「最後問一次，還要誘惑我嗎？」",
+      "stem_text_key": "quiz.passenger_b.high.q10.stem",
+      "question_text_key": "quiz.passenger_b.high.q10.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q01",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "壓力觀察",
+      "stem_text": "他上車後一直很端正。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你是不是一直扮演『不能出錯的人』？",
+          "text_key": "quiz.passenger_c.low.q01.option_a.text",
+          "response_text": "妳為什麼這樣說？",
+          "response_text_key": "quiz.passenger_c.low.q01.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "今天工作很累吧？",
+          "text_key": "quiz.passenger_c.low.q01.option_b.text",
+          "response_text": "嗯，有一點。",
+          "response_text_key": "quiz.passenger_c.low.q01.option_b.response",
+          "emotion_delta": 5,
+          "alert_delta": -1
+        },
+        {
+          "key": "C",
+          "text": "警官也會撐不住嗎？",
+          "text_key": "quiz.passenger_c.low.q01.option_c.text",
+          "response_text": "這問法不舒服。",
+          "response_text_key": "quiz.passenger_c.low.q01.option_c.response",
+          "emotion_delta": -3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q01.stem",
+      "description_text": "他上車後一直很端正。",
+      "description_text_key": "quiz.passenger_c.low.q01.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q02",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "試探",
+      "stem_text": "「妳是不是很習慣讓人說真心話？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我只是讓人不用一直藏著。",
+          "text_key": "quiz.passenger_c.low.q02.option_a.text",
+          "response_text": "這樣比較容易接受。",
+          "response_text_key": "quiz.passenger_c.low.q02.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "尤其是像你這種太會忍的人。",
+          "text_key": "quiz.passenger_c.low.q02.option_b.text",
+          "response_text": "妳看得很細。",
+          "response_text_key": "quiz.passenger_c.low.q02.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "我很擅長打開防線。",
+          "text_key": "quiz.passenger_c.low.q02.option_c.text",
+          "response_text": "聽起來危險。",
+          "response_text_key": "quiz.passenger_c.low.q02.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳是不是很習慣讓人說真心話？」",
+      "stem_text_key": "quiz.passenger_c.low.q02.stem",
+      "question_text_key": "quiz.passenger_c.low.q02.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q03",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "職業觀察",
+      "stem_text": "他手放在膝上，姿勢僵硬。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "下班了，身體還像在值勤。",
+          "text_key": "quiz.passenger_c.low.q03.option_a.text",
+          "response_text": "習慣了。",
+          "response_text_key": "quiz.passenger_c.low.q03.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "你連坐車都像在接受檢查。",
+          "text_key": "quiz.passenger_c.low.q03.option_b.text",
+          "response_text": "有那麼明顯嗎？",
+          "response_text_key": "quiz.passenger_c.low.q03.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 0
+        },
+        {
+          "key": "C",
+          "text": "你太緊繃了。",
+          "text_key": "quiz.passenger_c.low.q03.option_c.text",
+          "response_text": "我知道，不用提醒。",
+          "response_text_key": "quiz.passenger_c.low.q03.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q03.stem",
+      "description_text": "他手放在膝上，姿勢僵硬。",
+      "description_text_key": "quiz.passenger_c.low.q03.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q04",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "溫柔破冰",
+      "stem_text": "他看起來不想主動說話。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不用聊天也可以，我只是會慢慢開。",
+          "text_key": "quiz.passenger_c.low.q04.option_a.text",
+          "response_text": "謝謝。",
+          "response_text_key": "quiz.passenger_c.low.q04.option_a.response",
+          "emotion_delta": 6,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "我不急著問你任何事。",
+          "text_key": "quiz.passenger_c.low.q04.option_b.text",
+          "response_text": "這樣反而安心。",
+          "response_text_key": "quiz.passenger_c.low.q04.option_b.response",
+          "emotion_delta": 8,
+          "alert_delta": -5
+        },
+        {
+          "key": "C",
+          "text": "你不說話很難攻略。",
+          "text_key": "quiz.passenger_c.low.q04.option_c.text",
+          "response_text": "攻略？",
+          "response_text_key": "quiz.passenger_c.low.q04.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q04.stem",
+      "description_text": "他看起來不想主動說話。",
+      "description_text_key": "quiz.passenger_c.low.q04.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q05",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "自我防衛",
+      "stem_text": "「我看起來很奇怪嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不奇怪，只是太努力維持正常。",
+          "text_key": "quiz.passenger_c.low.q05.option_a.text",
+          "response_text": "……這樣說很溫柔。",
+          "response_text_key": "quiz.passenger_c.low.q05.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -3
+        },
+        {
+          "key": "B",
+          "text": "看起來很累，但很漂亮。",
+          "text_key": "quiz.passenger_c.low.q05.option_b.text",
+          "response_text": "不要這樣形容我。",
+          "response_text_key": "quiz.passenger_c.low.q05.option_b.response",
+          "emotion_delta": 4,
+          "alert_delta": 3
+        },
+        {
+          "key": "C",
+          "text": "有一點。",
+          "text_key": "quiz.passenger_c.low.q05.option_c.text",
+          "response_text": "我明白了。",
+          "response_text_key": "quiz.passenger_c.low.q05.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我看起來很奇怪嗎？」",
+      "stem_text_key": "quiz.passenger_c.low.q05.stem",
+      "question_text_key": "quiz.passenger_c.low.q05.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q06",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "規矩試探",
+      "stem_text": "他提醒妳按路線行駛。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你很習慣照規矩走。",
+          "text_key": "quiz.passenger_c.low.q06.option_a.text",
+          "response_text": "這樣比較安全。",
+          "response_text_key": "quiz.passenger_c.low.q06.option_a.response",
+          "emotion_delta": 6,
+          "alert_delta": -1
+        },
+        {
+          "key": "B",
+          "text": "如果今晚稍微繞路，你會不安嗎？",
+          "text_key": "quiz.passenger_c.low.q06.option_b.text",
+          "response_text": "會。",
+          "response_text_key": "quiz.passenger_c.low.q06.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "規矩很無聊。",
+          "text_key": "quiz.passenger_c.low.q06.option_c.text",
+          "response_text": "不，我需要它。",
+          "response_text_key": "quiz.passenger_c.low.q06.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q06.stem",
+      "description_text": "他提醒妳按路線行駛。",
+      "description_text_key": "quiz.passenger_c.low.q06.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q07",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "安全感",
+      "stem_text": "他閉眼休息。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你可以放心，我不會突然越線。",
+          "text_key": "quiz.passenger_c.low.q07.option_a.text",
+          "response_text": "謝謝，這很重要。",
+          "response_text_key": "quiz.passenger_c.low.q07.option_a.response",
+          "emotion_delta": 8,
+          "alert_delta": -5
+        },
+        {
+          "key": "B",
+          "text": "要是累了，可以把防備放下一點。",
+          "text_key": "quiz.passenger_c.low.q07.option_b.text",
+          "response_text": "我試試。",
+          "response_text_key": "quiz.passenger_c.low.q07.option_b.response",
+          "emotion_delta": 10,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "睡著的話我就惡作劇。",
+          "text_key": "quiz.passenger_c.low.q07.option_c.text",
+          "response_text": "請不要。",
+          "response_text_key": "quiz.passenger_c.low.q07.option_c.response",
+          "emotion_delta": -6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q07.stem",
+      "description_text": "他閉眼休息。",
+      "description_text_key": "quiz.passenger_c.low.q07.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q08",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "乘客",
+      "prompt_type": "好奇",
+      "stem_text": "「妳為什麼一直用那種語氣說話？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "因為你需要有人慢慢靠近，而不是闖進去。",
+          "text_key": "quiz.passenger_c.low.q08.option_a.text",
+          "response_text": "……妳說得很準。",
+          "response_text_key": "quiz.passenger_c.low.q08.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -3
+        },
+        {
+          "key": "B",
+          "text": "因為你反應很可愛。",
+          "text_key": "quiz.passenger_c.low.q08.option_b.text",
+          "response_text": "別這樣說。",
+          "response_text_key": "quiz.passenger_c.low.q08.option_b.response",
+          "emotion_delta": 5,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "職業習慣。",
+          "text_key": "quiz.passenger_c.low.q08.option_c.text",
+          "response_text": "妳也是職業病嗎？",
+          "response_text_key": "quiz.passenger_c.low.q08.option_c.response",
+          "emotion_delta": 3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「妳為什麼一直用那種語氣說話？」",
+      "stem_text_key": "quiz.passenger_c.low.q08.stem",
+      "question_text_key": "quiz.passenger_c.low.q08.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q09",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "身分反差",
+      "stem_text": "他整理衣領。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你穿得很中性，但氣質比很多人更銳利。",
+          "text_key": "quiz.passenger_c.low.q09.option_a.text",
+          "response_text": "這算稱讚嗎？",
+          "response_text_key": "quiz.passenger_c.low.q09.option_a.response",
+          "emotion_delta": 10,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "你很適合被慢慢看穿。",
+          "text_key": "quiz.passenger_c.low.q09.option_b.text",
+          "response_text": "這句話很危險。",
+          "response_text_key": "quiz.passenger_c.low.q09.option_b.response",
+          "emotion_delta": 12,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "你這樣打扮是為了什麼？",
+          "text_key": "quiz.passenger_c.low.q09.option_c.text",
+          "response_text": "我不想解釋。",
+          "response_text_key": "quiz.passenger_c.low.q09.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q09.stem",
+      "description_text": "他整理衣領。",
+      "description_text_key": "quiz.passenger_c.low.q09.stem"
+    },
+    {
+      "question_id": "passenger_c_low_q10",
+      "passenger_id": "passenger_c",
+      "stage": 1,
+      "stage_title": "第一階段：情緒 0～39",
+      "emotion_min": 0,
+      "emotion_max": 39,
+      "direction": "壓力、規矩、自我壓抑、溫柔觀察",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "階段推進",
+      "stem_text": "氣氛開始柔和。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "status_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你今晚不用一直保持完美。",
+          "text_key": "quiz.passenger_c.low.q10.option_a.text",
+          "response_text": "我可以嗎？",
+          "response_text_key": "quiz.passenger_c.low.q10.option_a.response",
+          "emotion_delta": 12,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "如果你想放鬆，我會慢慢帶你。",
+          "text_key": "quiz.passenger_c.low.q10.option_b.text",
+          "response_text": "……慢慢的話，可以。",
+          "response_text_key": "quiz.passenger_c.low.q10.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "快點放鬆吧。",
+          "text_key": "quiz.passenger_c.low.q10.option_c.text",
+          "response_text": "我做不到。",
+          "response_text_key": "quiz.passenger_c.low.q10.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.low.q10.stem",
+      "status_text": "氣氛開始柔和。",
+      "status_text_key": "quiz.passenger_c.low.q10.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q01",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "規矩鬆動",
+      "stem_text": "他開始願意回話。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "今晚不照規矩一次，會讓你害怕嗎？",
+          "text_key": "quiz.passenger_c.mid.q01.option_a.text",
+          "response_text": "會，但也想知道。",
+          "response_text_key": "quiz.passenger_c.mid.q01.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你不用馬上回答，只要照感覺。",
+          "text_key": "quiz.passenger_c.mid.q01.option_b.text",
+          "response_text": "比較能呼吸。",
+          "response_text_key": "quiz.passenger_c.mid.q01.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": -5
+        },
+        {
+          "key": "C",
+          "text": "你一直這麼壓抑，不累嗎？",
+          "text_key": "quiz.passenger_c.mid.q01.option_c.text",
+          "response_text": "我不喜歡這樣被說。",
+          "response_text_key": "quiz.passenger_c.mid.q01.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q01.stem",
+      "description_text": "他開始願意回話。",
+      "description_text_key": "quiz.passenger_c.mid.q01.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q02",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "乘客",
+      "prompt_type": "溫柔反問",
+      "stem_text": "「如果我真的放鬆，妳會怎麼看我？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我會覺得你終於把自己還給自己。",
+          "text_key": "quiz.passenger_c.mid.q02.option_a.text",
+          "response_text": "這句犯規。",
+          "response_text_key": "quiz.passenger_c.mid.q02.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "我會覺得你更真實。",
+          "text_key": "quiz.passenger_c.mid.q02.option_b.text",
+          "response_text": "真實……很久沒想過。",
+          "response_text_key": "quiz.passenger_c.mid.q02.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": -2
+        },
+        {
+          "key": "C",
+          "text": "我會覺得你終於輸了。",
+          "text_key": "quiz.passenger_c.mid.q02.option_c.text",
+          "response_text": "我不想被這樣定義。",
+          "response_text_key": "quiz.passenger_c.mid.q02.option_c.response",
+          "emotion_delta": -4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我真的放鬆，妳會怎麼看我？」",
+      "stem_text_key": "quiz.passenger_c.mid.q02.stem",
+      "question_text_key": "quiz.passenger_c.mid.q02.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q03",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "探索許可",
+      "stem_text": "他明顯想問卻不敢問。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你可以好奇，不代表你壞掉了。",
+          "text_key": "quiz.passenger_c.mid.q03.option_a.text",
+          "response_text": "……真的嗎？",
+          "response_text_key": "quiz.passenger_c.mid.q03.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": -5
+        },
+        {
+          "key": "B",
+          "text": "你想試試看，但怕承認，對嗎？",
+          "text_key": "quiz.passenger_c.mid.q03.option_b.text",
+          "response_text": "妳太直接了。",
+          "response_text_key": "quiz.passenger_c.mid.q03.option_b.response",
+          "emotion_delta": 14,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "你其實很想要吧？",
+          "text_key": "quiz.passenger_c.mid.q03.option_c.text",
+          "response_text": "請不要逼我。",
+          "response_text_key": "quiz.passenger_c.mid.q03.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q03.stem",
+      "description_text": "他明顯想問卻不敢問。",
+      "description_text_key": "quiz.passenger_c.mid.q03.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q04",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "壓力釋放",
+      "stem_text": "他開始鬆開肩膀。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你背了太多不屬於今晚的重量。",
+          "text_key": "quiz.passenger_c.mid.q04.option_a.text",
+          "response_text": "聽起來很想哭。",
+          "response_text_key": "quiz.passenger_c.mid.q04.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "我可以幫你把那些規矩一條一條放下。",
+          "text_key": "quiz.passenger_c.mid.q04.option_b.text",
+          "response_text": "慢慢來的話……",
+          "response_text_key": "quiz.passenger_c.mid.q04.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "全部丟掉就好。",
+          "text_key": "quiz.passenger_c.mid.q04.option_c.text",
+          "response_text": "我做不到。",
+          "response_text_key": "quiz.passenger_c.mid.q04.option_c.response",
+          "emotion_delta": 1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q04.stem",
+      "description_text": "他開始鬆開肩膀。",
+      "description_text_key": "quiz.passenger_c.mid.q04.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q05",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "乘客",
+      "prompt_type": "身分焦慮",
+      "stem_text": "「如果我不像平常的自己，會很奇怪嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "不會，那可能才是你真正喘氣的樣子。",
+          "text_key": "quiz.passenger_c.mid.q05.option_a.text",
+          "response_text": "妳真的很會說。",
+          "response_text_key": "quiz.passenger_c.mid.q05.option_a.response",
+          "emotion_delta": 16,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "我會陪你確認哪裡舒服、哪裡不行。",
+          "text_key": "quiz.passenger_c.mid.q05.option_b.text",
+          "response_text": "這樣我比較安心。",
+          "response_text_key": "quiz.passenger_c.mid.q05.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": -5
+        },
+        {
+          "key": "C",
+          "text": "奇怪也沒關係，很刺激。",
+          "text_key": "quiz.passenger_c.mid.q05.option_c.text",
+          "response_text": "我不想被當成刺激。",
+          "response_text_key": "quiz.passenger_c.mid.q05.option_c.response",
+          "emotion_delta": -3,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我不像平常的自己，會很奇怪嗎？」",
+      "stem_text_key": "quiz.passenger_c.mid.q05.stem",
+      "question_text_key": "quiz.passenger_c.mid.q05.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q06",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "中性魅力",
+      "stem_text": "他有點害羞。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你不需要符合任何一種樣子，今晚只要像你自己。",
+          "text_key": "quiz.passenger_c.mid.q06.option_a.text",
+          "response_text": "這很難，但我想試。",
+          "response_text_key": "quiz.passenger_c.mid.q06.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": -5
+        },
+        {
+          "key": "B",
+          "text": "你這種乾淨又緊繃的樣子，真的很適合被慢慢弄亂。",
+          "text_key": "quiz.passenger_c.mid.q06.option_b.text",
+          "response_text": "妳別說得那麼……",
+          "response_text_key": "quiz.passenger_c.mid.q06.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": 2
+        },
+        {
+          "key": "C",
+          "text": "你應該更像男人一點。",
+          "text_key": "quiz.passenger_c.mid.q06.option_c.text",
+          "response_text": "請停。",
+          "response_text_key": "quiz.passenger_c.mid.q06.option_c.response",
+          "emotion_delta": -12,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q06.stem",
+      "description_text": "他有點害羞。",
+      "description_text_key": "quiz.passenger_c.mid.q06.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q07",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "玩具伏筆",
+      "stem_text": "他看見車內某個小盒子。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "別緊張，那是用來讓人放鬆的道具。",
+          "text_key": "quiz.passenger_c.mid.q07.option_a.text",
+          "response_text": "道具……？",
+          "response_text_key": "quiz.passenger_c.mid.q07.option_a.response",
+          "emotion_delta": 14,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "你如果好奇，我會一步一步說明。",
+          "text_key": "quiz.passenger_c.mid.q07.option_b.text",
+          "response_text": "一步一步的話，可以聽。",
+          "response_text_key": "quiz.passenger_c.mid.q07.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": -4
+        },
+        {
+          "key": "C",
+          "text": "想試嗎？",
+          "text_key": "quiz.passenger_c.mid.q07.option_c.text",
+          "response_text": "太突然了。",
+          "response_text_key": "quiz.passenger_c.mid.q07.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q07.stem",
+      "scene_text": "他看見車內某個小盒子。",
+      "scene_text_key": "quiz.passenger_c.mid.q07.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q08",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "乘客",
+      "prompt_type": "控制權",
+      "stem_text": "「我可以中途說停嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "當然，你說停就停。",
+          "text_key": "quiz.passenger_c.mid.q08.option_a.text",
+          "response_text": "那我比較敢繼續。",
+          "response_text_key": "quiz.passenger_c.mid.q08.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": -8
+        },
+        {
+          "key": "B",
+          "text": "你也可以只說慢一點。",
+          "text_key": "quiz.passenger_c.mid.q08.option_b.text",
+          "response_text": "這樣更容易開口。",
+          "response_text_key": "quiz.passenger_c.mid.q08.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": -6
+        },
+        {
+          "key": "C",
+          "text": "都到這裡了，不要停吧。",
+          "text_key": "quiz.passenger_c.mid.q08.option_c.text",
+          "response_text": "不行，這會讓我害怕。",
+          "response_text_key": "quiz.passenger_c.mid.q08.option_c.response",
+          "emotion_delta": -8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我可以中途說停嗎？」",
+      "stem_text_key": "quiz.passenger_c.mid.q08.stem",
+      "question_text_key": "quiz.passenger_c.mid.q08.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q09",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "情緒承認",
+      "stem_text": "他開始主動看妳。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你剛剛的眼神不像警戒，比較像期待。",
+          "text_key": "quiz.passenger_c.mid.q09.option_a.text",
+          "response_text": "……被妳看出來了。",
+          "response_text_key": "quiz.passenger_c.mid.q09.option_a.response",
+          "emotion_delta": 18,
+          "alert_delta": 1
+        },
+        {
+          "key": "B",
+          "text": "不用急著承認，我看得見就好。",
+          "text_key": "quiz.passenger_c.mid.q09.option_b.text",
+          "response_text": "這樣更害羞。",
+          "response_text_key": "quiz.passenger_c.mid.q09.option_b.response",
+          "emotion_delta": 16,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "承認吧。",
+          "text_key": "quiz.passenger_c.mid.q09.option_c.text",
+          "response_text": "不要逼我。",
+          "response_text_key": "quiz.passenger_c.mid.q09.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.mid.q09.stem",
+      "description_text": "他開始主動看妳。",
+      "description_text_key": "quiz.passenger_c.mid.q09.stem"
+    },
+    {
+      "question_id": "passenger_c_mid_q10",
+      "passenger_id": "passenger_c",
+      "stage": 2,
+      "stage_title": "第二階段：情緒 40～69",
+      "emotion_min": 40,
+      "emotion_max": 69,
+      "direction": "規矩鬆動、探索許可、溫柔引導、身分反差",
+      "prompt_speaker": "乘客",
+      "prompt_type": "階段推進",
+      "stem_text": "「如果我想再往前一點，妳會帶我嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "會，而且會讓你知道每一步都可以回頭。",
+          "text_key": "quiz.passenger_c.mid.q10.option_a.text",
+          "response_text": "那我想試。",
+          "response_text_key": "quiz.passenger_c.mid.q10.option_a.response",
+          "emotion_delta": 20,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "會，但你要自己說願意。",
+          "text_key": "quiz.passenger_c.mid.q10.option_b.text",
+          "response_text": "我……願意。",
+          "response_text_key": "quiz.passenger_c.mid.q10.option_b.response",
+          "emotion_delta": 18,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "你確定自己可以？",
+          "text_key": "quiz.passenger_c.mid.q10.option_c.text",
+          "response_text": "我又不確定了。",
+          "response_text_key": "quiz.passenger_c.mid.q10.option_c.response",
+          "emotion_delta": -1,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我想再往前一點，妳會帶我嗎？」",
+      "stem_text_key": "quiz.passenger_c.mid.q10.stem",
+      "question_text_key": "quiz.passenger_c.mid.q10.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q01",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "玩具前導",
+      "stem_text": "他已經願意繼續。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "如果我用小玩具慢慢教你放鬆，你願意把身體交給感覺嗎？",
+          "text_key": "quiz.passenger_c.high.q01.option_a.text",
+          "response_text": "慢慢的話……我願意。",
+          "response_text_key": "quiz.passenger_c.high.q01.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "今晚不用守規矩，只要聽我和自己的反應。",
+          "text_key": "quiz.passenger_c.high.q01.option_b.text",
+          "response_text": "這樣太誘人了。",
+          "response_text_key": "quiz.passenger_c.high.q01.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": -3
+        },
+        {
+          "key": "C",
+          "text": "直接開始吧。",
+          "text_key": "quiz.passenger_c.high.q01.option_c.text",
+          "response_text": "等等，我會緊張。",
+          "response_text_key": "quiz.passenger_c.high.q01.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q01.stem",
+      "description_text": "他已經願意繼續。",
+      "description_text_key": "quiz.passenger_c.high.q01.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q02",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "乘客",
+      "prompt_type": "害怕與期待",
+      "stem_text": "「如果我說想繼續，但又有點害怕，可以嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "可以，害怕也能一起帶著走。",
+          "text_key": "quiz.passenger_c.high.q02.option_a.text",
+          "response_text": "妳真的很會讓人安心。",
+          "response_text_key": "quiz.passenger_c.high.q02.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "你只要告訴我哪裡停，我就停。",
+          "text_key": "quiz.passenger_c.high.q02.option_b.text",
+          "response_text": "那我想再往前。",
+          "response_text_key": "quiz.passenger_c.high.q02.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": -8
+        },
+        {
+          "key": "C",
+          "text": "怕就代表還沒準備好。",
+          "text_key": "quiz.passenger_c.high.q02.option_c.text",
+          "response_text": "也許吧，但有點失落。",
+          "response_text_key": "quiz.passenger_c.high.q02.option_c.response",
+          "emotion_delta": -2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「如果我說想繼續，但又有點害怕，可以嗎？」",
+      "stem_text_key": "quiz.passenger_c.high.q02.stem",
+      "question_text_key": "quiz.passenger_c.high.q02.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q03",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "露骨溫柔",
+      "stem_text": "他呼吸變軟。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我想看你被一點點弄亂，卻知道自己一直是安全的。",
+          "text_key": "quiz.passenger_c.high.q03.option_a.text",
+          "response_text": "這句話太犯規了。",
+          "response_text_key": "quiz.passenger_c.high.q03.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "我會讓你知道，失控不一定可怕，也可以很舒服。",
+          "text_key": "quiz.passenger_c.high.q03.option_b.text",
+          "response_text": "妳說得我更想試了。",
+          "response_text_key": "quiz.passenger_c.high.q03.option_b.response",
+          "emotion_delta": 26,
+          "alert_delta": -5
+        },
+        {
+          "key": "C",
+          "text": "你失控的樣子一定很好看。",
+          "text_key": "quiz.passenger_c.high.q03.option_c.text",
+          "response_text": "這樣說有點壓力。",
+          "response_text_key": "quiz.passenger_c.high.q03.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q03.stem",
+      "description_text": "他呼吸變軟。",
+      "description_text_key": "quiz.passenger_c.high.q03.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q04",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "玩具操作暗示",
+      "stem_text": "小玩具開關在妳手中。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "scene_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "我會從最輕的開始，讓你自己告訴我要不要加深。",
+          "text_key": "quiz.passenger_c.high.q04.option_a.text",
+          "response_text": "我可以說慢一點嗎？",
+          "response_text_key": "quiz.passenger_c.high.q04.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -8
+        },
+        {
+          "key": "B",
+          "text": "你只要看著我，其他交給這個小東西。",
+          "text_key": "quiz.passenger_c.high.q04.option_b.text",
+          "response_text": "這樣太羞恥了……",
+          "response_text_key": "quiz.passenger_c.high.q04.option_b.response",
+          "emotion_delta": 22,
+          "alert_delta": -2
+        },
+        {
+          "key": "C",
+          "text": "不准躲。",
+          "text_key": "quiz.passenger_c.high.q04.option_c.text",
+          "response_text": "我會害怕。",
+          "response_text_key": "quiz.passenger_c.high.q04.option_c.response",
+          "emotion_delta": -5,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q04.stem",
+      "scene_text": "小玩具開關在妳手中。",
+      "scene_text_key": "quiz.passenger_c.high.q04.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q05",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "乘客",
+      "prompt_type": "羞恥確認",
+      "stem_text": "「我這樣是不是很不像警官？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "現在不用像警官，只要像一個會感覺的人。",
+          "text_key": "quiz.passenger_c.high.q05.option_a.text",
+          "response_text": "我好像快相信了。",
+          "response_text_key": "quiz.passenger_c.high.q05.option_a.response",
+          "emotion_delta": 24,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "你比平常更真實，也更可愛。",
+          "text_key": "quiz.passenger_c.high.q05.option_b.text",
+          "response_text": "不要說可愛……",
+          "response_text_key": "quiz.passenger_c.high.q05.option_b.response",
+          "emotion_delta": 20,
+          "alert_delta": 1
+        },
+        {
+          "key": "C",
+          "text": "對，很不像。",
+          "text_key": "quiz.passenger_c.high.q05.option_c.text",
+          "response_text": "……我不喜歡。",
+          "response_text_key": "quiz.passenger_c.high.q05.option_c.response",
+          "emotion_delta": -8,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我這樣是不是很不像警官？」",
+      "stem_text_key": "quiz.passenger_c.high.q05.stem",
+      "question_text_key": "quiz.passenger_c.high.q05.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q06",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "開發新世界",
+      "stem_text": "他開始主動靠近。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你一直照規矩活，今晚讓我教你另一種答案。",
+          "text_key": "quiz.passenger_c.high.q06.option_a.text",
+          "response_text": "我想知道。",
+          "response_text_key": "quiz.passenger_c.high.q06.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "你的新世界不用一次打開，我只撬開一點縫。",
+          "text_key": "quiz.passenger_c.high.q06.option_b.text",
+          "response_text": "這樣我敢看。",
+          "response_text_key": "quiz.passenger_c.high.q06.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": -6
+        },
+        {
+          "key": "C",
+          "text": "我會把你整個打開。",
+          "text_key": "quiz.passenger_c.high.q06.option_c.text",
+          "response_text": "太快了。",
+          "response_text_key": "quiz.passenger_c.high.q06.option_c.response",
+          "emotion_delta": 2,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q06.stem",
+      "description_text": "他開始主動靠近。",
+      "description_text_key": "quiz.passenger_c.high.q06.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q07",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "露骨但保護",
+      "stem_text": "他不再退縮。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "description_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "等一下舒服到說不出話，也不用逞強，我會看著你。",
+          "text_key": "quiz.passenger_c.high.q07.option_a.text",
+          "response_text": "妳真的什麼都看得出來。",
+          "response_text_key": "quiz.passenger_c.high.q07.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": -4
+        },
+        {
+          "key": "B",
+          "text": "想出聲就出聲，今晚沒有勤務報告。",
+          "text_key": "quiz.passenger_c.high.q07.option_b.text",
+          "response_text": "這句讓我好想放鬆。",
+          "response_text_key": "quiz.passenger_c.high.q07.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": -5
+        },
+        {
+          "key": "C",
+          "text": "忍住才有趣。",
+          "text_key": "quiz.passenger_c.high.q07.option_c.text",
+          "response_text": "我不想再忍了。",
+          "response_text_key": "quiz.passenger_c.high.q07.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q07.stem",
+      "description_text": "他不再退縮。",
+      "description_text_key": "quiz.passenger_c.high.q07.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q08",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "乘客",
+      "prompt_type": "主動請求",
+      "stem_text": "「可以……再多一點嗎？」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "可以，但你要親口告訴我是哪一種多一點。",
+          "text_key": "quiz.passenger_c.high.q08.option_a.text",
+          "response_text": "妳好壞……",
+          "response_text_key": "quiz.passenger_c.high.q08.option_a.response",
+          "emotion_delta": 26,
+          "alert_delta": -2
+        },
+        {
+          "key": "B",
+          "text": "可以，我會慢慢加，不讓你掉下去。",
+          "text_key": "quiz.passenger_c.high.q08.option_b.text",
+          "response_text": "我相信妳。",
+          "response_text_key": "quiz.passenger_c.high.q08.option_b.response",
+          "emotion_delta": 24,
+          "alert_delta": -7
+        },
+        {
+          "key": "C",
+          "text": "你終於承認了。",
+          "text_key": "quiz.passenger_c.high.q08.option_c.text",
+          "response_text": "別笑我。",
+          "response_text_key": "quiz.passenger_c.high.q08.option_c.response",
+          "emotion_delta": 10,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「可以……再多一點嗎？」",
+      "stem_text_key": "quiz.passenger_c.high.q08.stem",
+      "question_text_key": "quiz.passenger_c.high.q08.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q09",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "駕駛",
+      "prompt_type": "事件前導",
+      "stem_text": "車停下，燈光昏暗。",
+      "stem_display_target": "main_dialogue_window",
+      "stem_text_type": "status_text",
+      "answers": [
+        {
+          "key": "A",
+          "text": "現在不是勤務時間，我可以把你交給感覺嗎？",
+          "text_key": "quiz.passenger_c.high.q09.option_a.text",
+          "response_text": "可以……請慢一點。",
+          "response_text_key": "quiz.passenger_c.high.q09.option_a.response",
+          "emotion_delta": 28,
+          "alert_delta": -6
+        },
+        {
+          "key": "B",
+          "text": "你只要抓著我，其他讓我來。",
+          "text_key": "quiz.passenger_c.high.q09.option_b.text",
+          "response_text": "我會抓很緊。",
+          "response_text_key": "quiz.passenger_c.high.q09.option_b.response",
+          "emotion_delta": 26,
+          "alert_delta": -4
+        },
+        {
+          "key": "C",
+          "text": "準備好了吧？",
+          "text_key": "quiz.passenger_c.high.q09.option_c.text",
+          "response_text": "還要再問我一次。",
+          "response_text_key": "quiz.passenger_c.high.q09.option_c.response",
+          "emotion_delta": 4,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "",
+      "stem_text_key": "quiz.passenger_c.high.q09.stem",
+      "status_text": "車停下，燈光昏暗。",
+      "status_text_key": "quiz.passenger_c.high.q09.stem"
+    },
+    {
+      "question_id": "passenger_c_high_q10",
+      "passenger_id": "passenger_c",
+      "stage": 3,
+      "stage_title": "第三階段：情緒 70～100",
+      "emotion_min": 70,
+      "emotion_max": 100,
+      "direction": "更露骨色誘、玩具引導、探索許可、溫柔失控",
+      "prompt_speaker": "乘客",
+      "prompt_type": "成功觸發",
+      "stem_text": "「我想繼續，但我想聽妳說我可以。」",
+      "stem_display_target": "passenger_dialogue_box",
+      "stem_text_type": "passenger_dialogue",
+      "answers": [
+        {
+          "key": "A",
+          "text": "你可以。今晚你不用完美，只要誠實。",
+          "text_key": "quiz.passenger_c.high.q10.option_a.text",
+          "response_text": "……那我想要。",
+          "response_text_key": "quiz.passenger_c.high.q10.option_a.response",
+          "emotion_delta": 30,
+          "alert_delta": -8
+        },
+        {
+          "key": "B",
+          "text": "可以，而且你不是被逼，是自己走過來的。",
+          "text_key": "quiz.passenger_c.high.q10.option_b.text",
+          "response_text": "對，是我自己想的。",
+          "response_text_key": "quiz.passenger_c.high.q10.option_b.response",
+          "emotion_delta": 28,
+          "alert_delta": -6
+        },
+        {
+          "key": "C",
+          "text": "你早就可以了。",
+          "text_key": "quiz.passenger_c.high.q10.option_c.text",
+          "response_text": "這樣太輕描淡寫了。",
+          "response_text_key": "quiz.passenger_c.high.q10.option_c.response",
+          "emotion_delta": 6,
+          "alert_delta": 100
+        }
+      ],
+      "question_text": "「我想繼續，但我想聽妳說我可以。」",
+      "stem_text_key": "quiz.passenger_c.high.q10.stem",
+      "question_text_key": "quiz.passenger_c.high.q10.stem"
+    }
+  ]
+}

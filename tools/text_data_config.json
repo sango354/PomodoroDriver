@@ -1,0 +1,15 @@
+{
+  "spreadsheet_id": "1CsOeFcc_RfdCcwwekC1o7Qihf35OA42mbdwORR-mKIU",
+  "sheets": {
+    "passenger_defs": 1845349879,
+    "passenger_quiz_defs": 1605831022,
+    "passenger_state_lines": 1425178859,
+    "localization_texts": "localization_texts"
+  },
+  "outputs": {
+    "passenger_defs": "game/data/passenger_defs.json",
+    "passenger_quiz_defs": "game/data/passenger_quiz_defs.json",
+    "localization_texts": "game/data/localization.csv"
+  },
+  "backup_dir": "tools/downloads/text_data_backups"
+}

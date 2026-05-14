@@ -44,8 +44,7 @@ func show_break_interaction(bond_level: int = 1, context: Dictionary = {}, histo
 		current_context,
 		interaction_history
 	)
-	var text_key := str(current_dialogue.get("text_key", ""))
-	companion_dialogue_label.text = _tr(text_key) if text_key != "" else str(current_dialogue.get("text", ""))
+	companion_dialogue_label.text = _dialogue_text(current_dialogue)
 	companion_panel.visible = true
 	break_interaction_viewed.emit(str(current_dialogue.get("dialogue_id", "")))
 
@@ -74,8 +73,7 @@ func show_ambient_prompt(bond_level: int = 1, context: Dictionary = {}, history:
 		str(current_ambient_dialogue.get("dialogue_id", ""))
 	)
 	ambient_dialogue_index += 1
-	var text_key := str(current_ambient_dialogue.get("text_key", ""))
-	ambient_dialogue_label.text = _tr(text_key) if text_key != "" else str(current_ambient_dialogue.get("text", ""))
+	ambient_dialogue_label.text = _dialogue_text(current_ambient_dialogue)
 	ambient_panel.visible = true
 	ambient_prompt_shown.emit(str(current_ambient_dialogue.get("dialogue_id", "")))
 
@@ -102,8 +100,7 @@ func _show_next_break_dialogue() -> void:
 		interaction_history,
 		from_id
 	)
-	var text_key := str(current_dialogue.get("text_key", ""))
-	companion_dialogue_label.text = _tr(text_key) if text_key != "" else str(current_dialogue.get("text", ""))
+	companion_dialogue_label.text = _dialogue_text(current_dialogue)
 	companion_panel.visible = true
 	break_interaction_viewed.emit(str(current_dialogue.get("dialogue_id", "")))
 	break_interaction_advanced.emit(from_id, str(current_dialogue.get("dialogue_id", "")))
@@ -122,8 +119,7 @@ func set_localizer(localization_service) -> void:
 	if companion_panel != null and companion_panel.visible:
 		show_break_interaction(current_bond_level, current_context, interaction_history)
 	if ambient_panel != null and ambient_panel.visible:
-		var text_key := str(current_ambient_dialogue.get("text_key", ""))
-		ambient_dialogue_label.text = _tr(text_key) if text_key != "" else str(current_ambient_dialogue.get("text", ""))
+		ambient_dialogue_label.text = _dialogue_text(current_ambient_dialogue)
 
 
 func _build_companion_panel(parent: Control) -> void:
@@ -272,3 +268,14 @@ func _tr(key: String) -> String:
 	if localizer != null:
 		return localizer.translate(key)
 	return key
+
+
+func _dialogue_text(dialogue: Dictionary) -> String:
+	var fallback := str(dialogue.get("text", ""))
+	var key := str(dialogue.get("text_key", ""))
+	if key == "":
+		return fallback
+	if localizer != null and localizer.has_method("translate_or_fallback"):
+		return str(localizer.translate_or_fallback(key, fallback))
+	var translated: String = _tr(key)
+	return fallback if translated == key and fallback != "" else translated

@@ -1,0 +1,520 @@
+{
+  "passengers": [
+    {
+      "passenger_id": "passenger_a",
+      "display_name": "溫吞的年輕人",
+      "personality": "",
+      "gallery_sequence": [
+        {
+          "event_id": "passenger_a_event_01",
+          "dialogue_id": "hcg_001",
+          "unlock_cost_fp": 100,
+          "initial_emotion": 20,
+          "initial_alert": 0
+        },
+        {
+          "event_id": "passenger_a_event_02",
+          "dialogue_id": "hcg_002",
+          "unlock_cost_fp": 150,
+          "initial_emotion": 25,
+          "initial_alert": 5
+        },
+        {
+          "event_id": "passenger_a_event_03",
+          "dialogue_id": "hcg_003",
+          "unlock_cost_fp": 200,
+          "initial_emotion": 30,
+          "initial_alert": 10
+        }
+      ],
+      "first_boarding_lines": [
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "不好意思，我還在跟公司通話……請、請直接開到目的地就好。",
+          "text_key": "passenger.passenger_a.first_boarding.01"
+        }
+      ],
+      "repeat_boarding_lines": [
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "又是妳啊……拜託，今天讓我安靜一點到家就好。",
+          "text_key": "passenger.passenger_a.repeat_boarding.01"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "我現在真的不能分心，電話那邊還沒結束。",
+          "text_key": "passenger.passenger_a.repeat_boarding.02"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "看到妳開車，我反而有點不安了……上次那種感覺還沒忘掉。",
+          "text_key": "passenger.passenger_a.repeat_boarding.03"
+        }
+      ],
+      "parking_lines": [
+        {
+          "speaker": "Night Driver",
+          "text": "Let us stop here for a moment. It is quiet enough."
+        },
+        {
+          "speaker": "Passenger A",
+          "text": "Since we stopped, may I ask you a few questions?"
+        }
+      ],
+      "normal_end_lines": [
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "總算到了……今天這趟車，比我想像中還累。",
+          "text_key": "passenger.passenger_a.normal_end.01"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "謝謝。雖然有點分心，但至少沒有出事。",
+          "text_key": "passenger.passenger_a.normal_end.02"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "下次如果又是妳……我會考慮先掛電話再上車。",
+          "text_key": "passenger.passenger_a.normal_end.03"
+        }
+      ],
+      "failed_lines": [
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "夠了，我真的還在工作，不要再繼續了。",
+          "text_key": "passenger.passenger_a.failed.01"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "妳這樣太危險了，我沒辦法再坐下去。",
+          "text_key": "passenger.passenger_a.failed.02"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "停車。我現在需要下車冷靜一下。",
+          "text_key": "passenger.passenger_a.failed.03"
+        }
+      ],
+      "success_lines": [
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "不行……我剛剛差點在電話裡露出破綻。",
+          "text_key": "passenger.passenger_a.success.01"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "妳到底是怎麼做到的……我明明一直在忍。",
+          "text_key": "passenger.passenger_a.success.02"
+        },
+        {
+          "speaker": "溫吞的年輕人",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "拜託，先別讓我下車……我現在還沒辦法像平常一樣說話。",
+          "text_key": "passenger.passenger_a.success.03"
+        }
+      ],
+      "display_name_key": "passenger.passenger_a.name",
+      "short_label": "乘客A",
+      "short_label_key": "passenger.passenger_a.short_label"
+    },
+    {
+      "passenger_id": "passenger_b",
+      "display_name": "看起來霸氣的人",
+      "personality": "",
+      "gallery_sequence": [
+        {
+          "event_id": "passenger_b_event_01",
+          "dialogue_id": "hcg_004",
+          "unlock_cost_fp": 100,
+          "initial_emotion": 20,
+          "initial_alert": 0
+        },
+        {
+          "event_id": "passenger_b_event_02",
+          "dialogue_id": "hcg_005",
+          "unlock_cost_fp": 150,
+          "initial_emotion": 25,
+          "initial_alert": 5
+        }
+      ],
+      "first_boarding_lines": [
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "開車。路線我會看著，別試圖用那些廉價話術取悅我。",
+          "text_key": "passenger.passenger_b.first_boarding.01"
+        }
+      ],
+      "repeat_boarding_lines": [
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "又是妳？看來今晚的路程不會太無聊。",
+          "text_key": "passenger.passenger_b.repeat_boarding.01"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "上次妳以為自己掌控了局面，結果如何，還記得嗎？",
+          "text_key": "passenger.passenger_b.repeat_boarding.02"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "我今天心情不錯。妳可以試著再挑釁我一次。",
+          "text_key": "passenger.passenger_b.repeat_boarding.03"
+        }
+      ],
+      "parking_lines": [
+        {
+          "speaker": "Night Driver",
+          "text": "Let us stop here for a moment. It is quiet enough."
+        },
+        {
+          "speaker": "Passenger B",
+          "text": "Since we stopped, may I ask you a few questions?"
+        }
+      ],
+      "normal_end_lines": [
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "今晚算妳沒失分，但也沒有讓我盡興。",
+          "text_key": "passenger.passenger_b.normal_end.01"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "妳的眼神有趣，可惜膽子還不夠。",
+          "text_key": "passenger.passenger_b.normal_end.02"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "下次再見時，希望妳準備好被反咬一口。",
+          "text_key": "passenger.passenger_b.normal_end.03"
+        }
+      ],
+      "failed_lines": [
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "無趣。妳的挑釁只有表面，沒有牙齒。",
+          "text_key": "passenger.passenger_b.failed.01"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "我不喜歡被浪費時間。停車。",
+          "text_key": "passenger.passenger_b.failed.02"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "妳還沒資格碰我的本性。",
+          "text_key": "passenger.passenger_b.failed.03"
+        }
+      ],
+      "success_lines": [
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "很好，妳終於把真正的我引出來了。",
+          "text_key": "passenger.passenger_b.success.01"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "獵人和獵物的位置，現在該重新分配了。",
+          "text_key": "passenger.passenger_b.success.02"
+        },
+        {
+          "speaker": "看起來霸氣的人",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "別急著求饒。這不是妳想要的結果嗎？",
+          "text_key": "passenger.passenger_b.success.03"
+        }
+      ],
+      "display_name_key": "passenger.passenger_b.name",
+      "short_label": "乘客B",
+      "short_label_key": "passenger.passenger_b.short_label"
+    },
+    {
+      "passenger_id": "passenger_c",
+      "display_name": "中性打扮的警官",
+      "personality": "",
+      "gallery_sequence": [
+        {
+          "event_id": "passenger_c_event_01",
+          "dialogue_id": "hcg_006",
+          "unlock_cost_fp": 100,
+          "initial_emotion": 20,
+          "initial_alert": 0
+        },
+        {
+          "event_id": "passenger_c_event_02",
+          "dialogue_id": "hcg_007",
+          "unlock_cost_fp": 150,
+          "initial_emotion": 25,
+          "initial_alert": 5
+        },
+        {
+          "event_id": "passenger_c_event_03",
+          "dialogue_id": "hcg_008",
+          "unlock_cost_fp": 200,
+          "initial_emotion": 30,
+          "initial_alert": 10
+        }
+      ],
+      "first_boarding_lines": [
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "麻煩送我到這個地址。今天值勤有點久，我想安靜一下。",
+          "text_key": "passenger.passenger_c.first_boarding.01"
+        }
+      ],
+      "repeat_boarding_lines": [
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "又見面了。上次那趟車……我回去後有點睡不著。",
+          "text_key": "passenger.passenger_c.repeat_boarding.01"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "妳總是能看出我不想讓人看見的地方。",
+          "text_key": "passenger.passenger_c.repeat_boarding.02"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "今天如果我又太緊繃，妳會提醒我嗎？",
+          "text_key": "passenger.passenger_c.repeat_boarding.03"
+        }
+      ],
+      "parking_lines": [
+        {
+          "speaker": "Night Driver",
+          "text": "Let us stop here for a moment. It is quiet enough."
+        },
+        {
+          "speaker": "Passenger C",
+          "text": "Since we stopped, may I ask you a few questions?"
+        }
+      ],
+      "normal_end_lines": [
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "謝謝。至少這趟路讓我稍微喘過氣了。",
+          "text_key": "passenger.passenger_c.normal_end.01"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "妳很會讓人放鬆，但我還需要一點時間。",
+          "text_key": "passenger.passenger_c.normal_end.02"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "如果還有下次……我希望自己能更坦率一點。",
+          "text_key": "passenger.passenger_c.normal_end.03"
+        }
+      ],
+      "failed_lines": [
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "抱歉，這讓我不舒服。我需要停在這裡。",
+          "text_key": "passenger.passenger_c.failed.01"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "我還沒準備好，請不要再推進了。",
+          "text_key": "passenger.passenger_c.failed.02"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "妳看穿我，和逼我承認，是兩回事。",
+          "text_key": "passenger.passenger_c.failed.03"
+        }
+      ],
+      "success_lines": [
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "原來……不用一直撐著，也不會壞掉。",
+          "text_key": "passenger.passenger_c.success.01"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "妳沒有逼我，是我自己想再靠近一點。",
+          "text_key": "passenger.passenger_c.success.02"
+        },
+        {
+          "speaker": "中性打扮的警官",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "我好像第一次知道，放鬆也可以這麼讓人害怕。",
+          "text_key": "passenger.passenger_c.success.03"
+        }
+      ],
+      "display_name_key": "passenger.passenger_c.name",
+      "short_label": "乘客C",
+      "short_label_key": "passenger.passenger_c.short_label"
+    },
+    {
+      "passenger_id": "passenger_d",
+      "display_name": "健碩的男子",
+      "personality": "",
+      "gallery_sequence": [
+        {
+          "event_id": "passenger_d_event_01",
+          "dialogue_id": "hcg_009",
+          "unlock_cost_fp": 100,
+          "initial_emotion": 20,
+          "initial_alert": 0
+        },
+        {
+          "event_id": "passenger_d_event_02",
+          "dialogue_id": "hcg_010",
+          "unlock_cost_fp": 150,
+          "initial_emotion": 25,
+          "initial_alert": 5
+        },
+        {
+          "event_id": "passenger_d_event_03",
+          "dialogue_id": "hcg_011",
+          "unlock_cost_fp": 200,
+          "initial_emotion": 30,
+          "initial_alert": 10
+        },
+        {
+          "event_id": "passenger_d_event_04",
+          "dialogue_id": "hcg_012",
+          "unlock_cost_fp": 250,
+          "initial_emotion": 35,
+          "initial_alert": 15
+        }
+      ],
+      "first_boarding_lines": [
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "麻煩開穩一點。我太太在家等我，我不想耽誤太久。",
+          "text_key": "passenger.passenger_d.first_boarding.01"
+        }
+      ],
+      "repeat_boarding_lines": [
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "又是妳……上次那趟車，我回去後想了很久。",
+          "text_key": "passenger.passenger_d.repeat_boarding.01"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "我先說好，今天我只是搭車，其他什麼都不會發生。",
+          "text_key": "passenger.passenger_d.repeat_boarding.02"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "妳別用那種眼神看我。我不是那種會輕易動搖的人。",
+          "text_key": "passenger.passenger_d.repeat_boarding.03"
+        }
+      ],
+      "parking_lines": [
+        {
+          "speaker": "Night Driver",
+          "text": "Let us stop here for a moment. It is quiet enough."
+        },
+        {
+          "speaker": "Passenger D",
+          "text": "Since we stopped, may I ask you a few questions?"
+        }
+      ],
+      "normal_end_lines": [
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "到了就好。雖然有點危險，但我還清醒。",
+          "text_key": "passenger.passenger_d.normal_end.01"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "妳很會說話，不過我不會每次都被影響。",
+          "text_key": "passenger.passenger_d.normal_end.02"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "下次……算了，最好不要再有下次。",
+          "text_key": "passenger.passenger_d.normal_end.03"
+        }
+      ],
+      "failed_lines": [
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "夠了。妳再說下去，就是不尊重我和我的家庭。",
+          "text_key": "passenger.passenger_d.failed.01"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "我不該上這台車。停車吧。",
+          "text_key": "passenger.passenger_d.failed.02"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "妳把誘惑當遊戲，但我不是可以隨便測試的人。",
+          "text_key": "passenger.passenger_d.failed.03"
+        }
+      ],
+      "success_lines": [
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "我明明一直提醒自己不能越線……為什麼還是輸了？",
+          "text_key": "passenger.passenger_d.success.01"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "妳不是靠力氣贏的，是讓我自己先動搖了。",
+          "text_key": "passenger.passenger_d.success.02"
+        },
+        {
+          "speaker": "健碩的男子",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "別再問我忠不忠誠了……我現在回答不出來。",
+          "text_key": "passenger.passenger_d.success.03"
+        }
+      ],
+      "display_name_key": "passenger.passenger_d.name",
+      "short_label": "乘客D",
+      "short_label_key": "passenger.passenger_d.short_label"
+    }
+  ]
+}

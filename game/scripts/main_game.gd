@@ -19,6 +19,8 @@ const StorePanelController = preload("res://scripts/store_panel_controller.gd")
 const AVGDialogueService = preload("res://scripts/avg_dialogue_service.gd")
 const AVGDialogueController = preload("res://scripts/avg_dialogue_controller.gd")
 const AVGGalleryController = preload("res://scripts/avg_gallery_controller.gd")
+const PassengerFlowService = preload("res://scripts/passenger_flow_service.gd")
+const PassengerQuizController = preload("res://scripts/passenger_quiz_controller.gd")
 
 const SAVE_PATH := "user://save.json"
 const ALARM_SOUND_PATH := "res://assets/sfx/alarm_placeholder.wav"
@@ -45,6 +47,8 @@ const BACKGROUND_LOFI_AUTO := "lofi_auto"
 const FIRST_ENTRY_DIALOGUE_ID := "first_entry_welcome"
 const H_EVENT_PREVIEW_DIALOGUE_ID := "h_event_preview"
 const H_EVENT_DIALOGUE_COUNT := 2
+const PASSENGER_QUIZ_ROUNDS := 10
+const PASSENGER_MIN_REWARDABLE_SESSION_SEC := 300
 const QUIT_VIEWPORT_SHUTDOWN_FRAMES := 2
 const ICON_TUTORIAL_PATH := "res://assets/Arts/UI/ICON_tutorial.png"
 const ICON_MEMORY_PATH := "res://assets/Arts/UI/ICON_memory.png"
@@ -107,6 +111,7 @@ var break_media_controller: Node
 var store_controller: Node
 var avg_dialogue_controller: Node
 var avg_gallery_controller: Node
+var passenger_quiz_controller: Node
 
 var root_2d: Node2D
 var ui_layer: CanvasLayer
@@ -164,9 +169,24 @@ var manual_time_state := "day"
 var selected_background_id := BACKGROUND_LOFI_AUTO
 var h_event_active := false
 var h_event_queue: Array = []
+var h_event_pending_unlock := {}
 var h_event_music_state := {}
 var avg_dialogue_music_state := {}
 var avg_dialogue_music_suspended := false
+var passenger_quiz_active := false
+var passenger_quiz_music_state := {}
+var passenger_defs: Array = []
+var passenger_questions: Array = []
+var passenger_progress := {}
+var current_passenger_id := ""
+var current_passenger := {}
+var current_passenger_complete_bonus := false
+var threshold_warning_dialog: ConfirmationDialog
+var completed_passenger_dialog: ConfirmationDialog
+var gallery_unlock_confirm_dialog: ConfirmationDialog
+var pending_gallery_unlock := {}
+var pending_passenger_success_event := {}
+var quiz_state := {}
 var quit_requested := false
 var previous_window_mode := DisplayServer.WINDOW_MODE_WINDOWED
 var has_previous_window_mode := false
@@ -178,13 +198,16 @@ func _ready() -> void:
 	_load_save()
 	_ensure_currency_defaults()
 	background_defs = ContentUnlockService.load_background_defs()
+	passenger_defs = PassengerFlowService.load_passengers()
+	passenger_questions = PassengerFlowService.load_questions()
+	passenger_progress = PassengerFlowService.normalize_progress(passenger_progress, passenger_defs)
 	localizer = LocalizationService.new(language_code)
 	_apply_time_context()
 	manual_time_state = _time_state_from_context()
 	_build_scene()
 	drive_scene.load_selected_background()
 	_refresh_all()
-	call_deferred("_show_first_entry_dialogue_if_needed")
+	call_deferred("_begin_next_passenger")
 
 
 func _process(delta: float) -> void:
@@ -218,6 +241,10 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F3:
 		if drive_scene != null and drive_scene.has_method("trigger_sky_transition"):
 			drive_scene.trigger_sky_transition()
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F4:
+		_reset_debug_data()
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F5:
+		_debug_start_passenger_quiz()
 
 
 func _handle_top_bar_popup_pointer(event: InputEvent) -> bool:
@@ -352,6 +379,13 @@ func _build_scene() -> void:
 	add_child(avg_gallery_controller)
 	avg_gallery_controller.setup(layers, localizer)
 	avg_gallery_controller.dialogue_selected.connect(_on_avg_gallery_dialogue_selected)
+	avg_gallery_controller.unlock_requested.connect(_on_avg_gallery_unlock_requested)
+	passenger_quiz_controller = PassengerQuizController.new()
+	add_child(passenger_quiz_controller)
+	passenger_quiz_controller.setup(layers, localizer)
+	passenger_quiz_controller.answer_selected.connect(_on_passenger_quiz_answer_selected)
+	passenger_quiz_controller.answer_response_finished.connect(_on_passenger_quiz_answer_response_finished)
+	passenger_quiz_controller.quiz_dismissed.connect(_on_passenger_quiz_dismissed)
 	task_controller = TaskPanelController.new()
 	add_child(task_controller)
 	task_controller.setup(layers, tasks, localizer)
@@ -406,6 +440,7 @@ func _build_scene() -> void:
 	music_controller.setup(layers, saved_music_path, music_loop, music_volume, localizer)
 	_build_bottom_mode_controls(layers)
 	_build_alarm_player()
+	_build_flow_dialogs()
 
 
 func _build_top_bar(parent: Control) -> void:
@@ -796,8 +831,8 @@ func _build_tutorial_overlay(parent: Control) -> void:
 	tutorial_panel.anchor_bottom = 0.0
 	tutorial_panel.offset_left = 342
 	tutorial_panel.offset_top = 54
-	tutorial_panel.offset_right = 702
-	tutorial_panel.offset_bottom = 286
+	tutorial_panel.offset_right = 862
+	tutorial_panel.offset_bottom = 438
 	parent.add_child(tutorial_panel)
 
 	var box := _panel_box(tutorial_panel)
@@ -805,22 +840,35 @@ func _build_tutorial_overlay(parent: Control) -> void:
 	title.add_theme_font_size_override("font_size", 18)
 	box.add_child(title)
 
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(470, 300)
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	box.add_child(scroll)
+
 	var body := _new_muted_label(
-		"獲得金代幣的方法\n" +
-		"- 完成專注會累積 XP。\n" +
-		"- XP 滿時會獲得 1 枚金代幣。\n" +
-		"- 擁有金代幣時，可點擊右上金代幣 UI 觸發事件。\n\n" +
-		"完成一次專注的回饋\n" +
-		"- 依完成狀態獲得專注點數與 XP。\n" +
-		"- 完成任務可取得額外獎勵。\n" +
-		"- 專注點數與羈絆等級可在右上角查看。\n\n" +
+		"目前流程\n" +
+		"- 乘客上車後會先播放問候，接著由玩家選擇專注時間並開始。\n" +
+		"- 少於 5 分鐘會跳提醒；繼續開始也不會取得專注點數，且會跳過停車休息與問答。\n" +
+		"- 達 5 分鐘以上完成車程後，會進入停車對話，再進入 10 回合問答小遊戲。\n\n" +
+		"問答小遊戲\n" +
+		"- 回答會改變 Emotion 與 Alert。\n" +
+		"- Emotion 滿 100 會直接進入目前乘客的下一個 H 事件，播放完後解鎖圖鑑。\n" +
+		"- Alert 滿 100 則小遊戲失敗；10 回合結束仍未達成則普通結束。\n\n" +
+		"圖鑑與專注點數\n" +
+		"- 圖鑑依乘客 A-D 分組，所有項目預設上鎖。\n" +
+		"- 每位乘客只能解鎖目前最前面尚未解鎖的項目。\n" +
+		"- 可用專注點數直接解鎖，會先跳確認視窗，並播放事件後才解鎖。\n\n" +
 		"金手指按鈕\n" +
 		"- F1：增加 100 專注點數。\n" +
-		"- F2：增加 1 枚金代幣。\n" +
-		"- F3：立即切換下一段天色漸變。"
+		"- F3：立即切換下一段天色漸變。\n" +
+		"- F4：清空所有遊戲進度並回到預設值。\n" +
+		"- F5：直接進入目前乘客的問答小遊戲。"
 	)
+	body.custom_minimum_size = Vector2(440, 0)
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.add_theme_font_size_override("font_size", 15)
-	box.add_child(body)
+	scroll.add_child(body)
 
 
 func _new_panel() -> PanelContainer:
@@ -1008,6 +1056,34 @@ func _build_alarm_player() -> void:
 	add_child(alarm_player)
 
 
+func _build_flow_dialogs() -> void:
+	threshold_warning_dialog = ConfirmationDialog.new()
+	threshold_warning_dialog.title = "No Reward"
+	threshold_warning_dialog.dialog_text = "This ride is shorter than the reward threshold. Continue without rewards?"
+	threshold_warning_dialog.ok_button_text = "Continue"
+	threshold_warning_dialog.cancel_button_text = "Adjust"
+	threshold_warning_dialog.confirmed.connect(_start_focus_session_after_warning)
+	ui_layer.add_child(threshold_warning_dialog)
+
+	completed_passenger_dialog = ConfirmationDialog.new()
+	completed_passenger_dialog.title = "Passenger Complete"
+	completed_passenger_dialog.dialog_text = "This passenger has no locked gallery events left. Continue for double Focus Points?"
+	completed_passenger_dialog.ok_button_text = "Continue"
+	completed_passenger_dialog.cancel_button_text = "Change Passenger"
+	completed_passenger_dialog.confirmed.connect(_continue_completed_passenger)
+	completed_passenger_dialog.canceled.connect(_change_completed_passenger)
+	ui_layer.add_child(completed_passenger_dialog)
+
+	gallery_unlock_confirm_dialog = ConfirmationDialog.new()
+	gallery_unlock_confirm_dialog.title = "Unlock Gallery"
+	gallery_unlock_confirm_dialog.dialog_text = "Spend Focus Points to unlock this gallery event?"
+	gallery_unlock_confirm_dialog.ok_button_text = "Unlock"
+	gallery_unlock_confirm_dialog.cancel_button_text = "Cancel"
+	gallery_unlock_confirm_dialog.confirmed.connect(_confirm_gallery_unlock)
+	gallery_unlock_confirm_dialog.canceled.connect(func(): pending_gallery_unlock = {})
+	ui_layer.add_child(gallery_unlock_confirm_dialog)
+
+
 func _new_silent_alarm_stream() -> AudioStreamWAV:
 	var stream := AudioStreamWAV.new()
 	stream.format = AudioStreamWAV.FORMAT_16_BITS
@@ -1030,6 +1106,14 @@ func _on_primary_timer_pressed() -> void:
 
 
 func _start_focus_session() -> void:
+	if duration_minutes * 60 < PASSENGER_MIN_REWARDABLE_SESSION_SEC:
+		if threshold_warning_dialog != null:
+			threshold_warning_dialog.popup_centered()
+		return
+	_start_focus_session_after_warning()
+
+
+func _start_focus_session_after_warning() -> void:
 	if app_state == "running":
 		return
 	_dismiss_result_panel()
@@ -1102,6 +1186,8 @@ func _hide_break_interaction() -> void:
 
 
 func _show_ambient_prompt() -> void:
+	if passenger_quiz_active:
+		return
 	if companion_controller == null or not companion_controller.has_method("show_ambient_prompt"):
 		return
 	companion_controller.show_ambient_prompt(
@@ -1119,6 +1205,10 @@ func _hide_ambient_prompt(emit_dismissed: bool = false) -> void:
 
 
 func _update_ambient_prompt(delta: float) -> void:
+	if passenger_quiz_active:
+		_hide_ambient_prompt()
+		ambient_prompt_elapsed_sec = 0.0
+		return
 	if _is_ambient_prompt_visible():
 		ambient_prompt_visible_sec += delta
 		if ambient_prompt_visible_sec >= AMBIENT_PROMPT_VISIBLE_SEC:
@@ -1138,6 +1228,8 @@ func _update_ambient_prompt(delta: float) -> void:
 
 
 func _ambient_prompt_allowed() -> bool:
+	if passenger_quiz_active:
+		return false
 	if ambient_prompt_frequency == AMBIENT_PROMPT_OFF:
 		return false
 	if session_mode == "short_break":
@@ -1202,13 +1294,20 @@ func _apply_timer_state(next_state: Dictionary) -> void:
 
 func _finish_session(status: String, start_break_after: bool = false) -> void:
 	var actual_sec := int(round(elapsed_sec))
-	var previous_bond_level := int(bond_progress.get("bond_level", 1))
-	var rewards := _grant_rewards(status, actual_sec)
-	var current_bond_level := int(bond_progress.get("bond_level", 1))
-	var bond_level_up_text := ""
-	if current_bond_level > previous_bond_level:
-		bond_level_up_text = _bond_level_up_summary(current_bond_level)
-		_record_interaction_event("bond_level_up", "bond_level_%d" % current_bond_level)
+	var focus_points_reward := 0
+	if status == "completed" and session_mode == "focus":
+		focus_points_reward = PassengerFlowService.reward_for_seconds(
+			actual_sec,
+			PASSENGER_MIN_REWARDABLE_SESSION_SEC,
+			current_passenger_complete_bonus
+		)
+		currencies.focus_points = int(currencies.get("focus_points", 0)) + focus_points_reward
+	var rewards := {
+		"rewardable": focus_points_reward > 0,
+		"focus_points": focus_points_reward,
+		"xp": 0,
+		"bond": 0
+	}
 	var session := {
 		"session_id": "session_%s" % Time.get_unix_time_from_system(),
 		"user_id": "local_user",
@@ -1228,12 +1327,16 @@ func _finish_session(status: String, start_break_after: bool = false) -> void:
 	drive_scene.load_selected_background()
 	_save_game()
 	_play_alarm()
-	_show_result_panel(status, actual_sec, rewards, bond_level_up_text, not start_break_after)
-	if start_break_after:
-		_start_break_countdown()
+	_apply_timer_state(TimerSessionService.reset_focus(duration_minutes))
+	if status != "completed" or actual_sec < PASSENGER_MIN_REWARDABLE_SESSION_SEC:
+		_begin_next_passenger()
+		_refresh_all()
 		return
-	app_state = status
-	message_label.text = localizer.translate("timer.message_session_logged")
+	if current_passenger_complete_bonus:
+		_begin_next_passenger()
+		_refresh_all()
+		return
+	_show_parking_dialogue()
 	_refresh_all()
 
 
@@ -1251,6 +1354,168 @@ func _grant_rewards(status: String, actual_sec: int) -> Dictionary:
 		BASE_BOND,
 		BASE_XP
 	)
+
+
+func _show_parking_dialogue() -> void:
+	if avg_dialogue_controller == null or current_passenger.is_empty():
+		_start_passenger_quiz()
+		return
+	var dialogue := PassengerFlowService.parking_dialogue(current_passenger)
+	avg_dialogue_controller.show_dialogue(dialogue)
+
+
+func _start_passenger_quiz() -> void:
+	var event := PassengerFlowService.next_event(current_passenger, passenger_progress)
+	if event.is_empty():
+		_begin_next_passenger()
+		return
+	quiz_state = {
+		"round": 0,
+		"emotion": int(event.get("initial_emotion", 0)),
+		"alert": int(event.get("initial_alert", 0)),
+		"used_question_ids": [],
+		"event": event
+	}
+	passenger_quiz_active = true
+	_hide_top_bar_popups()
+	_hide_ambient_prompt()
+	_restore_music_after_avg_dialogue()
+	_suspend_music_for_passenger_quiz()
+	timer_ui_visible = false
+	tasks_ui_visible = false
+	_apply_ui_visibility()
+	_show_next_quiz_question()
+
+
+func _show_next_quiz_question() -> void:
+	if quiz_state.is_empty():
+		return
+	if int(quiz_state.get("emotion", 0)) >= PassengerFlowService.EMOTION_MAX:
+		_finish_quiz_success()
+		return
+	if int(quiz_state.get("alert", 0)) >= PassengerFlowService.ALERT_MAX:
+		_finish_quiz_failed()
+		return
+	if int(quiz_state.get("round", 0)) >= PASSENGER_QUIZ_ROUNDS:
+		_finish_quiz_normal()
+		return
+	var candidates := PassengerFlowService.questions_for_round(
+		passenger_questions,
+		current_passenger_id,
+		int(quiz_state.get("emotion", 0)),
+		quiz_state.get("used_question_ids", [])
+	)
+	if candidates.is_empty():
+		_finish_quiz_normal()
+		return
+	var question = candidates[randi() % candidates.size()]
+	var used: Array = quiz_state.get("used_question_ids", [])
+	used.append(str(question.get("question_id", "")))
+	quiz_state.used_question_ids = used
+	quiz_state.round = int(quiz_state.get("round", 0)) + 1
+	passenger_quiz_controller.show_question(
+		_passenger_display_name(current_passenger),
+		question,
+		int(quiz_state.round),
+		PASSENGER_QUIZ_ROUNDS,
+		int(quiz_state.emotion),
+		int(quiz_state.alert)
+	)
+
+
+func _on_passenger_quiz_answer_selected(answer: Dictionary) -> void:
+	if quiz_state.is_empty():
+		return
+	quiz_state.emotion = clamp(int(quiz_state.get("emotion", 0)) + int(answer.get("emotion_delta", 0)), 0, 100)
+	quiz_state.alert = clamp(int(quiz_state.get("alert", 0)) + int(answer.get("alert_delta", 0)), 0, 100)
+	_record_interaction_event("passenger_quiz_answered", "%s:%d" % [current_passenger_id, int(quiz_state.get("round", 0))])
+
+
+func _on_passenger_quiz_answer_response_finished() -> void:
+	if quiz_state.is_empty():
+		return
+	_show_next_quiz_question()
+
+
+func _on_passenger_quiz_dismissed() -> void:
+	_finish_quiz_normal()
+
+
+func _finish_quiz_success() -> void:
+	if passenger_quiz_controller != null:
+		passenger_quiz_controller.hide_quiz()
+	var event: Dictionary = quiz_state.get("event", {})
+	pending_passenger_success_event = event
+	quiz_state = {}
+	_restore_main_ride_ui()
+	_show_passenger_ending_dialogue("success")
+
+
+func _finish_quiz_failed() -> void:
+	if passenger_quiz_controller != null:
+		passenger_quiz_controller.hide_quiz()
+	quiz_state = {}
+	_restore_main_ride_ui()
+	_show_passenger_ending_dialogue("failed")
+
+
+func _finish_quiz_normal() -> void:
+	if passenger_quiz_controller != null:
+		passenger_quiz_controller.hide_quiz()
+	quiz_state = {}
+	_restore_main_ride_ui()
+	_show_passenger_ending_dialogue("normal")
+
+
+func _debug_start_passenger_quiz() -> void:
+	_ensure_quiz_passenger()
+	if current_passenger_id == "":
+		return
+	if avg_dialogue_controller != null and avg_dialogue_controller.has_method("hide_dialogue"):
+		avg_dialogue_controller.hide_dialogue()
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	if result_controller != null and result_controller.has_method("hide_result"):
+		result_controller.hide_result()
+	_stop_break_media()
+	_hide_break_interaction()
+	_hide_ambient_prompt()
+	_apply_timer_state(TimerSessionService.reset_focus(duration_minutes))
+	_show_parking_dialogue()
+
+
+func _ensure_quiz_passenger() -> void:
+	if not current_passenger.is_empty() and not PassengerFlowService.is_passenger_complete(current_passenger, passenger_progress):
+		return
+	for passenger in passenger_defs:
+		if typeof(passenger) != TYPE_DICTIONARY:
+			continue
+		if PassengerFlowService.is_passenger_complete(passenger, passenger_progress):
+			continue
+		current_passenger = passenger
+		current_passenger_id = str(passenger.get("passenger_id", ""))
+		current_passenger_complete_bonus = false
+		if drive_scene != null and drive_scene.has_method("set_passenger"):
+			drive_scene.set_passenger(current_passenger_id)
+		return
+	current_passenger = {}
+	current_passenger_id = ""
+
+
+func _show_passenger_ending_dialogue(ending_type: String) -> void:
+	if avg_dialogue_controller == null:
+		_begin_next_passenger()
+		return
+	var dialogue := PassengerFlowService.ending_dialogue(current_passenger, ending_type)
+	avg_dialogue_controller.show_dialogue(dialogue)
+
+
+func _restore_main_ride_ui() -> void:
+	passenger_quiz_active = false
+	_restore_music_after_passenger_quiz()
+	timer_ui_visible = true
+	tasks_ui_visible = true
+	_apply_ui_visibility()
 
 
 func _show_result_panel(status: String, actual_sec: int, rewards: Dictionary, bond_level_up_text: String, can_start_break: bool) -> void:
@@ -1458,6 +1723,8 @@ func _refresh_localized_text() -> void:
 		avg_dialogue_controller.set_localizer(localizer)
 	if avg_gallery_controller != null and avg_gallery_controller.has_method("set_localizer"):
 		avg_gallery_controller.set_localizer(localizer)
+	if passenger_quiz_controller != null and passenger_quiz_controller.has_method("set_localizer"):
+		passenger_quiz_controller.set_localizer(localizer)
 	_refresh_fullscreen_button()
 	_refresh_background_menu()
 	_refresh_all()
@@ -1577,48 +1844,51 @@ func _toggle_timer_ui() -> void:
 
 
 func _apply_ui_visibility() -> void:
+	var hide_main_ui := simple_mode_enabled or passenger_quiz_active
 	if top_bar != null:
-		top_bar.visible = not simple_mode_enabled
+		top_bar.visible = not hide_main_ui
+	if bottom_mode_controls != null:
+		bottom_mode_controls.visible = not passenger_quiz_active
 	if simple_mode_button != null:
-		simple_mode_button.visible = true
+		simple_mode_button.visible = not passenger_quiz_active
 	if ambience_toggle_button != null:
-		ambience_toggle_button.visible = not simple_mode_enabled
+		ambience_toggle_button.visible = not hide_main_ui
 	if tasks_toggle_button != null:
-		tasks_toggle_button.visible = not simple_mode_enabled
+		tasks_toggle_button.visible = not hide_main_ui
 	if timer_toggle_button != null:
-		timer_toggle_button.visible = not simple_mode_enabled
+		timer_toggle_button.visible = not hide_main_ui
 	if stats_panel != null:
-		stats_panel.visible = false if simple_mode_enabled else stats_panel.visible
+		stats_panel.visible = false if hide_main_ui else stats_panel.visible
 	if tutorial_panel != null:
-		tutorial_panel.visible = false if simple_mode_enabled else tutorial_panel.visible
-	if option_controller != null and simple_mode_enabled and option_controller.has_method("hide"):
+		tutorial_panel.visible = false if hide_main_ui else tutorial_panel.visible
+	if option_controller != null and hide_main_ui and option_controller.has_method("hide"):
 		option_controller.hide()
-	if store_controller != null and simple_mode_enabled and store_controller.has_method("hide_store"):
+	if store_controller != null and hide_main_ui and store_controller.has_method("hide_store"):
 		store_controller.hide_store()
-	if avg_gallery_controller != null and simple_mode_enabled and avg_gallery_controller.has_method("hide_gallery"):
+	if avg_gallery_controller != null and hide_main_ui and avg_gallery_controller.has_method("hide_gallery"):
 		avg_gallery_controller.hide_gallery()
-	if avg_dialogue_controller != null and simple_mode_enabled and avg_dialogue_controller.has_method("hide_dialogue"):
+	if avg_dialogue_controller != null and hide_main_ui and avg_dialogue_controller.has_method("hide_dialogue"):
 		avg_dialogue_controller.hide_dialogue()
-		if not h_event_active:
+		if not h_event_active and not passenger_quiz_active:
 			_restore_music_after_avg_dialogue()
-	if result_controller != null and simple_mode_enabled and result_controller.has_method("hide_result"):
+	if result_controller != null and hide_main_ui and result_controller.has_method("hide_result"):
 		result_controller.hide_result()
 	if music_controller != null and music_controller.has_method("set_ui_visible"):
-		music_controller.set_ui_visible(not simple_mode_enabled)
+		music_controller.set_ui_visible(not hide_main_ui)
 	if task_controller != null and task_controller.has_method("set_panel_visible"):
-		task_controller.set_panel_visible(not simple_mode_enabled and tasks_ui_visible)
+		task_controller.set_panel_visible(not hide_main_ui and tasks_ui_visible)
 	if focus_progress_hud != null:
-		focus_progress_hud.visible = not simple_mode_enabled and tasks_ui_visible
+		focus_progress_hud.visible = not hide_main_ui and tasks_ui_visible
 	if timer_rail != null and timer_rail.has_method("set_panel_visible"):
-		timer_rail.set_panel_visible(not simple_mode_enabled and timer_ui_visible)
-	if timer_settings != null and timer_settings.has_method("hide") and (simple_mode_enabled or not timer_ui_visible):
+		timer_rail.set_panel_visible(not hide_main_ui and timer_ui_visible)
+	if timer_settings != null and timer_settings.has_method("hide") and (hide_main_ui or not timer_ui_visible):
 		timer_settings.hide()
-	if companion_controller != null and simple_mode_enabled:
+	if companion_controller != null and hide_main_ui:
 		_hide_break_interaction()
 		_hide_ambient_prompt()
-	if break_media_controller != null and simple_mode_enabled:
+	if break_media_controller != null and hide_main_ui:
 		_stop_break_media()
-	if background_menu_panel != null and simple_mode_enabled:
+	if background_menu_panel != null and hide_main_ui:
 		background_menu_panel.visible = false
 	_refresh_bottom_mode_icons()
 
@@ -1689,7 +1959,11 @@ func _toggle_avg_gallery() -> void:
 	_hide_top_bar_popups("gallery")
 	avg_gallery_controller.show_gallery(
 		AVGDialogueService.dialogues_by_type("main"),
-		AVGDialogueService.gallery_unlocked_dialogue_ids(interaction_history)
+		AVGDialogueService.viewed_dialogue_ids(interaction_history),
+		PassengerFlowService.next_unlockable_dialogue_ids(passenger_defs, passenger_progress),
+		PassengerFlowService.unlock_costs_by_dialogue(passenger_defs, passenger_progress),
+		int(currencies.get("focus_points", 0)),
+		passenger_defs
 	)
 
 
@@ -1697,6 +1971,73 @@ func _on_avg_gallery_dialogue_selected(dialogue_id: String) -> void:
 	if avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
 		avg_gallery_controller.hide_gallery()
 	_start_avg_dialogue(dialogue_id)
+
+
+func _on_avg_gallery_unlock_requested(dialogue_id: String) -> void:
+	var passenger_id := PassengerFlowService.passenger_id_for_dialogue(passenger_defs, dialogue_id)
+	if passenger_id == "":
+		return
+	var costs := PassengerFlowService.unlock_costs_by_dialogue(passenger_defs, passenger_progress)
+	var cost := int(costs.get(dialogue_id, 0))
+	if int(currencies.get("focus_points", 0)) < cost:
+		return
+	var passenger := PassengerFlowService.find_passenger(passenger_defs, passenger_id)
+	var dialogue := AVGDialogueService.find_dialogue(dialogue_id)
+	pending_gallery_unlock = {
+		"dialogue_id": dialogue_id,
+		"passenger_id": passenger_id,
+		"cost": cost
+	}
+	if gallery_unlock_confirm_dialog != null:
+		gallery_unlock_confirm_dialog.dialog_text = "Spend %d Focus Points to unlock %s for %s?" % [
+			cost,
+			_dialogue_display_name(dialogue),
+			_passenger_display_name(passenger)
+		]
+		gallery_unlock_confirm_dialog.popup_centered()
+
+
+func _confirm_gallery_unlock() -> void:
+	if pending_gallery_unlock.is_empty():
+		return
+	var dialogue_id := str(pending_gallery_unlock.get("dialogue_id", ""))
+	var passenger_id := str(pending_gallery_unlock.get("passenger_id", ""))
+	var cost := int(pending_gallery_unlock.get("cost", 0))
+	pending_gallery_unlock = {}
+	if int(currencies.get("focus_points", 0)) < cost:
+		return
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	currencies.focus_points = int(currencies.get("focus_points", 0)) - cost
+	_save_game()
+	_refresh_progress_ui()
+	_start_h_event_for_dialogue(dialogue_id, passenger_id, true)
+
+
+func _dialogue_display_name(dialogue: Dictionary) -> String:
+	var key := str(dialogue.get("display_name_key", ""))
+	if key != "":
+		return _localized_value(key, str(dialogue.get("display_name", "")))
+	var display_name := str(dialogue.get("display_name", ""))
+	if display_name != "":
+		return display_name
+	return str(dialogue.get("dialogue_id", "Gallery Event"))
+
+
+func _passenger_display_name(passenger: Dictionary) -> String:
+	var fallback := str(passenger.get("display_name", passenger.get("passenger_id", "Passenger")))
+	return _localized_value(str(passenger.get("display_name_key", "")), fallback)
+
+
+func _localized_value(key: String, fallback: String) -> String:
+	if key == "":
+		return fallback
+	if localizer != null and localizer.has_method("translate_or_fallback"):
+		return str(localizer.translate_or_fallback(key, fallback))
+	if localizer != null:
+		var translated: String = localizer.translate(key)
+		return fallback if translated == key and fallback != "" else translated
+	return fallback
 
 
 func _start_avg_dialogue(dialogue_id: String) -> bool:
@@ -1746,6 +2087,44 @@ func _show_first_entry_dialogue_if_needed() -> void:
 	avg_dialogue_controller.show_dialogue(dialogue)
 
 
+func _begin_next_passenger(force_change: bool = false) -> void:
+	if passenger_defs.is_empty():
+		return
+	if force_change and current_passenger_id != "":
+		passenger_progress.last_passenger_id = current_passenger_id
+	current_passenger = PassengerFlowService.choose_next_passenger(passenger_defs, passenger_progress)
+	current_passenger_id = str(current_passenger.get("passenger_id", ""))
+	current_passenger_complete_bonus = false
+	if drive_scene != null and drive_scene.has_method("set_passenger"):
+		drive_scene.set_passenger(current_passenger_id)
+	if current_passenger_id == "":
+		return
+	if PassengerFlowService.is_passenger_complete(current_passenger, passenger_progress):
+		if completed_passenger_dialog != null:
+			completed_passenger_dialog.dialog_text = "%s has no locked gallery events left. Continue for double Focus Points?" % _passenger_display_name(current_passenger)
+			completed_passenger_dialog.popup_centered()
+		return
+	_show_passenger_boarding_dialogue()
+
+
+func _show_passenger_boarding_dialogue() -> void:
+	if avg_dialogue_controller == null or current_passenger.is_empty():
+		return
+	var dialogue := PassengerFlowService.boarding_dialogue(current_passenger, passenger_progress)
+	PassengerFlowService.mark_boarding_seen(passenger_progress, current_passenger_id)
+	_save_game()
+	avg_dialogue_controller.show_dialogue(dialogue)
+
+
+func _continue_completed_passenger() -> void:
+	current_passenger_complete_bonus = true
+	_show_passenger_boarding_dialogue()
+
+
+func _change_completed_passenger() -> void:
+	_begin_next_passenger(true)
+
+
 func _on_gold_token_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_start_h_event_from_gold_token()
@@ -1769,6 +2148,25 @@ func _start_h_event_from_gold_token() -> void:
 			_unlock_avg_dialogue(str(dialogue.get("dialogue_id", "")))
 	_save_game()
 	_refresh_progress_ui()
+	_show_h_event_preview_dialogue()
+
+
+func _start_h_event_for_dialogue(dialogue_id: String, passenger_id: String, advance_after_playback: bool) -> void:
+	if h_event_active or avg_dialogue_controller == null:
+		return
+	var dialogue := AVGDialogueService.find_dialogue(dialogue_id)
+	if dialogue.is_empty():
+		_restore_main_ride_ui()
+		_begin_next_passenger()
+		return
+	h_event_active = true
+	h_event_queue = [dialogue]
+	h_event_pending_unlock = {
+		"dialogue_id": dialogue_id,
+		"passenger_id": passenger_id,
+		"advance_after_playback": advance_after_playback
+	}
+	_suspend_music_for_h_event()
 	_show_h_event_preview_dialogue()
 
 
@@ -1801,16 +2199,35 @@ func _pick_h_event_dialogues() -> Array:
 
 func _play_next_h_event_dialogue(transition_background: bool) -> void:
 	if h_event_queue.is_empty():
+		var should_resume_passenger_flow := not h_event_pending_unlock.is_empty()
+		_finish_h_event_unlock()
 		h_event_active = false
 		_restore_music_after_h_event()
 		_save_game()
 		_refresh_progress_ui()
+		if should_resume_passenger_flow:
+			_restore_main_ride_ui()
+			_begin_next_passenger()
 		return
 	var dialogue = h_event_queue.pop_front()
 	if typeof(dialogue) != TYPE_DICTIONARY:
 		_play_next_h_event_dialogue(transition_background)
 		return
 	avg_dialogue_controller.show_dialogue(dialogue, transition_background, 2.0)
+
+
+func _finish_h_event_unlock() -> void:
+	if h_event_pending_unlock.is_empty():
+		return
+	var dialogue_id := str(h_event_pending_unlock.get("dialogue_id", ""))
+	var passenger_id := str(h_event_pending_unlock.get("passenger_id", ""))
+	_unlock_avg_dialogue(dialogue_id)
+	if bool(h_event_pending_unlock.get("advance_after_playback", false)) and passenger_id != "":
+		var passenger := PassengerFlowService.find_passenger(passenger_defs, passenger_id)
+		var next_event := PassengerFlowService.next_event(passenger, passenger_progress)
+		if str(next_event.get("dialogue_id", "")) == dialogue_id:
+			PassengerFlowService.advance_gallery(passenger_progress, passenger_id)
+	h_event_pending_unlock = {}
 
 
 func _suspend_music_for_h_event() -> void:
@@ -1823,6 +2240,21 @@ func _restore_music_after_h_event() -> void:
 	if music_controller != null and music_controller.has_method("restore_after_event"):
 		music_controller.restore_after_event(h_event_music_state)
 	h_event_music_state = {}
+
+
+func _suspend_music_for_passenger_quiz() -> void:
+	if not passenger_quiz_music_state.is_empty():
+		return
+	if music_controller != null and music_controller.has_method("suspend_for_event"):
+		passenger_quiz_music_state = music_controller.suspend_for_event()
+
+
+func _restore_music_after_passenger_quiz() -> void:
+	if passenger_quiz_music_state.is_empty():
+		return
+	if music_controller != null and music_controller.has_method("restore_after_event"):
+		music_controller.restore_after_event(passenger_quiz_music_state)
+	passenger_quiz_music_state = {}
 
 
 func _suspend_music_for_avg_dialogue() -> void:
@@ -1870,6 +2302,17 @@ func _on_avg_dialogue_finished(dialogue_id: String) -> void:
 	if h_event_active:
 		_play_next_h_event_dialogue(true)
 		return
+	if dialogue_id == "%s_parking" % current_passenger_id:
+		_start_passenger_quiz()
+		return
+	if dialogue_id == "%s_success" % current_passenger_id:
+		var event: Dictionary = pending_passenger_success_event
+		pending_passenger_success_event = {}
+		_start_h_event_for_dialogue(str(event.get("dialogue_id", "")), current_passenger_id, true)
+		return
+	if dialogue_id == "%s_normal" % current_passenger_id or dialogue_id == "%s_failed" % current_passenger_id:
+		_begin_next_passenger()
+		return
 	_restore_music_after_avg_dialogue()
 	if AVGDialogueService.is_viewed(dialogue_id, interaction_history):
 		return
@@ -1916,20 +2359,25 @@ func _refresh_progress_ui() -> void:
 	if focus_points_value_label != null:
 		focus_points_value_label.text = _format_compact_number(int(currencies.get("focus_points", 0)))
 	if level_label != null:
+		level_label.visible = false
 		var tokens := int(currencies.get("gold_tokens", 0))
 		level_label.tooltip_text = "%s: %d  XP %d / %d" % [localizer.translate("top.gold_tokens"), tokens, level_progress.focus_xp, _xp_required_for_next_level()]
 		level_label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if tokens > 0 else Control.CURSOR_ARROW
 	if focus_level_badge_label != null:
+		focus_level_badge_label.visible = false
 		focus_level_badge_label.text = str(int(currencies.get("gold_tokens", 0)))
 	if focus_level_progress != null:
+		focus_level_progress.visible = false
 		var required := _xp_required_for_next_level()
 		focus_level_progress.max_value = max(required, 1)
 		focus_level_progress.value = clamp(int(level_progress.get("focus_xp", 0)), 0, required)
 	var bond_tooltip := "%s Lv.%d  %d / %d" % [localizer.translate("top.bond"), bond_progress.bond_level, bond_progress.bond_points_current, _bond_required_for_next_level()]
 	if bond_level_label != null:
+		bond_level_label.visible = false
 		bond_level_label.text = "LV %d" % int(bond_progress.get("bond_level", 1))
 		bond_level_label.tooltip_text = bond_tooltip
 	if bond_label != null:
+		bond_label.visible = false
 		bond_label.text = ""
 		bond_label.tooltip_text = ""
 	if unlocks_label != null:
@@ -2046,6 +2494,7 @@ func _load_save() -> void:
 	daily_stats = parsed.get("daily_stats", daily_stats)
 	interaction_history = parsed.get("interaction_history", interaction_history)
 	unlocked_content = parsed.get("unlocked_content", unlocked_content)
+	passenger_progress = parsed.get("passenger_progress", passenger_progress)
 	var timer_settings = parsed.get("timer_settings", {})
 	if typeof(timer_settings) == TYPE_DICTIONARY:
 		duration_minutes = int(timer_settings.get("focus_minutes", duration_minutes))
@@ -2080,6 +2529,94 @@ func _ensure_currency_defaults() -> void:
 		currencies.gold_tokens = 0
 
 
+func _reset_debug_data() -> void:
+	tasks = []
+	sessions = []
+	currencies = {
+		"focus_points": 0,
+		"bond_points_total": 0,
+		"gold_tokens": 0
+	}
+	level_progress = {
+		"focus_level": 1,
+		"focus_xp": 0,
+		"focus_xp_lifetime": 0
+	}
+	bond_progress = {
+		"character_id": "companion_01",
+		"bond_level": 1,
+		"bond_points_current": 0,
+		"bond_points_lifetime": 0
+	}
+	daily_stats = {
+		"focus_minutes_completed": 0,
+		"focus_minutes_partial": 0,
+		"completed_sessions": 0,
+		"partial_sessions": 0,
+		"tasks_completed": 0
+	}
+	interaction_history = []
+	unlocked_content = []
+	passenger_progress = PassengerFlowService.default_progress(passenger_defs)
+	current_passenger_id = ""
+	current_passenger = {}
+	current_passenger_complete_bonus = false
+	pending_gallery_unlock = {}
+	pending_passenger_success_event = {}
+	quiz_state = {}
+	passenger_quiz_active = false
+	h_event_active = false
+	h_event_queue = []
+	h_event_pending_unlock = {}
+	result_dismissed = true
+	duration_minutes = DEFAULT_FOCUS_MINUTES
+	break_duration_minutes = DEFAULT_BREAK_MINUTES
+	auto_restart_enabled = false
+	alarm_enabled = false
+	active_task_id = ""
+	session_started_at = ""
+	elapsed_sec = 0.0
+	_apply_timer_state(TimerSessionService.reset_focus(duration_minutes))
+	selected_background_id = BACKGROUND_LOFI_AUTO
+	_apply_time_context()
+	manual_time_state = _time_state_from_context()
+	tasks_ui_visible = true
+	timer_ui_visible = true
+	simple_mode_enabled = false
+	if passenger_quiz_controller != null and passenger_quiz_controller.has_method("hide_quiz"):
+		passenger_quiz_controller.hide_quiz()
+	if avg_dialogue_controller != null and avg_dialogue_controller.has_method("hide_dialogue"):
+		avg_dialogue_controller.hide_dialogue()
+	if avg_gallery_controller != null and avg_gallery_controller.has_method("hide_gallery"):
+		avg_gallery_controller.hide_gallery()
+	if result_controller != null and result_controller.has_method("hide_result"):
+		result_controller.hide_result()
+	if store_controller != null and store_controller.has_method("hide_store"):
+		store_controller.hide_store()
+	if option_controller != null and option_controller.has_method("hide"):
+		option_controller.hide()
+	if timer_settings != null and timer_settings.has_method("hide"):
+		timer_settings.hide()
+	_hide_break_interaction()
+	_hide_ambient_prompt()
+	_stop_break_media()
+	_restore_music_after_h_event()
+	_restore_music_after_passenger_quiz()
+	_restore_music_after_avg_dialogue()
+	if drive_scene != null:
+		if drive_scene.has_method("set_passenger"):
+			drive_scene.set_passenger("")
+		if drive_scene.has_method("set_content_state"):
+			drive_scene.set_content_state(background_defs, unlocked_content)
+		if drive_scene.has_method("set_selected_background"):
+			drive_scene.set_selected_background(selected_background_id)
+		if drive_scene.has_method("load_selected_background"):
+			drive_scene.load_selected_background()
+	_save_game()
+	_refresh_all()
+	call_deferred("_begin_next_passenger")
+
+
 func _save_game() -> void:
 	var current_music_state := {
 		"current_path": saved_music_path,
@@ -2097,6 +2634,7 @@ func _save_game() -> void:
 		"daily_stats": daily_stats,
 		"interaction_history": interaction_history,
 		"unlocked_content": unlocked_content,
+		"passenger_progress": passenger_progress,
 		"timer_settings": {
 			"focus_minutes": duration_minutes,
 			"break_minutes": break_duration_minutes,

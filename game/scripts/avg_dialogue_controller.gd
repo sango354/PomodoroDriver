@@ -131,8 +131,8 @@ func _show_current_line() -> void:
 	var text_key := str(line.get("text_key", ""))
 	var background_path := str(line.get("background_path", current_dialogue.get("background_path", "")))
 	_apply_overlay_backdrop(background_path)
-	speaker_label.text = _tr(speaker_key) if speaker_key != "" else str(line.get("speaker", ""))
-	dialogue_label.text = _tr(text_key) if text_key != "" else str(line.get("text", ""))
+	speaker_label.text = _tr_or(speaker_key, str(line.get("speaker", "")))
+	dialogue_label.text = _tr_or(text_key, str(line.get("text", "")))
 	_set_background(background_path)
 
 
@@ -184,7 +184,9 @@ func _set_background(path: String) -> void:
 func _apply_overlay_backdrop(background_path: String) -> void:
 	if dim_rect == null:
 		return
-	if bool(current_dialogue.get("transparent_overlay", false)) or background_path == "":
+	if bool(current_dialogue.get("black_overlay", false)):
+		dim_rect.color = Color(0, 0, 0, 1.0)
+	elif bool(current_dialogue.get("transparent_overlay", false)) or background_path == "":
 		dim_rect.color = Color(0, 0, 0, 0.0)
 	else:
 		dim_rect.color = Color(0, 0, 0, 1.0)
@@ -229,3 +231,12 @@ func _tr(key: String) -> String:
 	if localizer != null:
 		return localizer.translate(key)
 	return key
+
+
+func _tr_or(key: String, fallback: String) -> String:
+	if key == "":
+		return fallback
+	if localizer != null and localizer.has_method("translate_or_fallback"):
+		return str(localizer.translate_or_fallback(key, fallback))
+	var translated: String = _tr(key)
+	return fallback if translated == key and fallback != "" else translated
