@@ -89,3 +89,23 @@
 - 成長與回饋系統
 - 角色互動系統
 - 任務與成就系統
+
+## 12. 目前實作狀態
+
+Last synced: 2026-05-13
+
+- 解鎖內容目前以背景內容骨架為主，runtime 定義在
+  `game/data/background_defs.json`，文件表格副本在
+  `docs/product-spec/data/csv/background_defs.csv`。
+- Store 面板已可列出背景內容、顯示已解鎖狀態、以 Focus Points 購買鎖定項目，並將購買結果存入
+  `user://save.json` 的 `unlocked_content`。
+- Room Background 01 與 Room Background 02 目前預設解鎖，並可從底部 `BG` 選單切換。
+- Lo-fi/Room Spine 背景控制仍保留，但目前主畫面實際視覺背景已切到 Taxi 介面與 3D 街景 exterior。
+- Taxi 3D exterior 目前不是內容表驅動，而是由
+  `game/scripts/taxi_street_world_controller.gd` 內的 `MAP_LAYOUTS`、
+  `HOUSE_MODELS`、`STREET_PROPS` 和 sky panorama 常數定義。
+- Taxi 3D exterior 使用的 runtime GLB/貼圖子集位於
+  `game/assets/Generated/JapaneseStreet3D/`；原始 Unity 資產
+  `game/assets/Japanese_Street/` 仍視為未追蹤來源素材。
+- 接下來若要讓街景、地圖、天空循環或 exterior 主題成為可解鎖內容，需要把目前的 code-defined map/art
+  selection 抽到內容定義表，並補上 `content_equipped` / `context_switched` 類事件。

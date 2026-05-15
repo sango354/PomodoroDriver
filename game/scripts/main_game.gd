@@ -2201,12 +2201,14 @@ func _play_next_h_event_dialogue(transition_background: bool) -> void:
 	if h_event_queue.is_empty():
 		var should_resume_passenger_flow := not h_event_pending_unlock.is_empty()
 		_finish_h_event_unlock()
+		if avg_dialogue_controller != null and avg_dialogue_controller.has_method("hide_dialogue"):
+			avg_dialogue_controller.hide_dialogue()
 		h_event_active = false
 		_restore_music_after_h_event()
 		_save_game()
 		_refresh_progress_ui()
+		_restore_main_ride_ui()
 		if should_resume_passenger_flow:
-			_restore_main_ride_ui()
 			_begin_next_passenger()
 		return
 	var dialogue = h_event_queue.pop_front()

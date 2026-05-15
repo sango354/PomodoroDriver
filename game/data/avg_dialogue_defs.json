@@ -1,319 +1,424 @@
 {
-	"dialogues": [
-		{
-			"dialogue_id": "hcg_001",
-			"type": "main",
-			"display_name": "女上騎乘位",
-			"thumbnail_path": "res://assets/Arts/HIcon/女上騎乘位.png",
-			"background_path": "res://assets/Arts/HCG/女上騎乘位.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：女上騎乘位。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/女上騎乘位.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/女上騎乘位.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_002",
-			"type": "main",
-			"display_name": "後座仰角-掰屁眼00",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼00.png",
-			"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座仰角-掰屁眼00。HCG 目前沒有 00 檔，先對應同系列 01。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：之後補正式 00 CG 時可直接替換背景路徑。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_003",
-			"type": "main",
-			"display_name": "後座仰角-掰屁眼01",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼01.jpg",
-			"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座仰角-掰屁眼01。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_004",
-			"type": "main",
-			"display_name": "後座仰角-掰屁眼02",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼02.jpg",
-			"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座仰角-掰屁眼02。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_005",
-			"type": "main",
-			"display_name": "後座向前視角-口交",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-口交.png",
-			"background_path": "res://assets/Arts/HCG/後座向前視角-口交.png",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座向前視角-口交。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-口交.png"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-口交.png"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_006",
-			"type": "main",
-			"display_name": "後座向前視角-口交+乳交",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-口交+乳交.png",
-			"background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座向前視角-口交+乳交。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_007",
-			"type": "main",
-			"display_name": "後座向前視角-乳交",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-乳交.png",
-			"background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座向前視角-乳交。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_008",
-			"type": "main",
-			"display_name": "後座俯角-後入體位",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座俯角-後入體位.png",
-			"background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": true,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座俯角-後入體位。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_009",
-			"type": "main",
-			"display_name": "後座俯角-傳教士",
-			"thumbnail_path": "res://assets/Arts/HIcon/後座俯角-傳教士.jpg",
-			"background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：後座俯角-傳教士。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_010",
-			"type": "main",
-			"display_name": "計程車窗戶-1",
-			"thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-1.jpg",
-			"background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：計程車窗戶-1。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_011",
-			"type": "main",
-			"display_name": "計程車窗戶-1-1",
-			"thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-1-1.jpg",
-			"background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：計程車窗戶-1-1。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_012",
-			"type": "main",
-			"display_name": "計程車窗戶-2",
-			"thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-2.jpg",
-			"background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：計程車窗戶-2。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_013",
-			"type": "main",
-			"display_name": "計程車窗戶-2-1",
-			"thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-2-1.png",
-			"background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：計程車窗戶-2-1。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_014",
-			"type": "main",
-			"display_name": "副駕往後正面視角-火車便當",
-			"thumbnail_path": "res://assets/Arts/HIcon/副駕往後正面視角-火車便當.png",
-			"background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：副駕往後正面視角-火車便當。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png"
-				}
-			]
-		},
-		{
-			"dialogue_id": "hcg_015",
-			"type": "main",
-			"display_name": "副駕往後正面視角-背後騎乘位",
-			"thumbnail_path": "res://assets/Arts/HIcon/副駕往後正面視角-背後騎乘位.png",
-			"background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png",
-			"trigger_key": "tbd",
-			"default_unlocked": false,
-			"lines": [
-				{
-					"speaker": "夜班司機",
-					"text": "暫代對話：副駕往後正面視角-背後騎乘位。這段之後會接正式劇情文本。",
-					"background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png"
-				},
-				{
-					"speaker": "乘客",
-					"text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
-					"background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png"
-				}
-			]
-		}
-	]
+  "dialogues": [
+    {
+      "dialogue_id": "hcg_001",
+      "type": "main",
+      "display_name": "女上騎乘位",
+      "display_name_key": "avg.hcg_001.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/女上騎乘位.png",
+      "background_path": "res://assets/Arts/HCG/女上騎乘位.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：女上騎乘位。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_001.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/女上騎乘位.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_001.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/女上騎乘位.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_002",
+      "type": "main",
+      "display_name": "後座仰角-掰屁眼00",
+      "display_name_key": "avg.hcg_002.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼00.png",
+      "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座仰角-掰屁眼00。HCG 目前沒有 00 檔，先對應同系列 01。",
+          "text_key": "avg.hcg_002.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "暫代回應：之後補正式 00 CG 時可直接替換背景路徑。",
+          "text_key": "avg.hcg_002.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_003",
+      "type": "main",
+      "display_name": "後座仰角-掰屁眼01",
+      "display_name_key": "avg.hcg_003.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼01.jpg",
+      "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座仰角-掰屁眼01。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_003.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_a.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_003.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼01.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_004",
+      "type": "main",
+      "display_name": "後座仰角-掰屁眼02",
+      "display_name_key": "avg.hcg_004.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座仰角-掰屁眼02.jpg",
+      "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座仰角-掰屁眼02。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_004.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_004.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座仰角-掰屁眼02.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_005",
+      "type": "main",
+      "display_name": "後座向前視角-口交",
+      "display_name_key": "avg.hcg_005.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-口交.png",
+      "background_path": "res://assets/Arts/HCG/後座向前視角-口交.png",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座向前視角-口交。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_005.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-口交.png"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_b.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_005.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-口交.png"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_006",
+      "type": "main",
+      "display_name": "後座向前視角-口交+乳交",
+      "display_name_key": "avg.hcg_006.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-口交+乳交.png",
+      "background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座向前視角-口交+乳交。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_006.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_006.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-口交+乳交.png"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_007",
+      "type": "main",
+      "display_name": "後座向前視角-乳交",
+      "display_name_key": "avg.hcg_007.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座向前視角-乳交.png",
+      "background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座向前視角-乳交。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_007.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_007.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座向前視角-乳交.png"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_008",
+      "type": "main",
+      "display_name": "後座俯角-後入體位",
+      "display_name_key": "avg.hcg_008.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座俯角-後入體位.png",
+      "background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座俯角-後入體位。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_008.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_c.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_008.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座俯角-後入體位.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_009",
+      "type": "main",
+      "display_name": "後座俯角-傳教士",
+      "display_name_key": "avg.hcg_009.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/後座俯角-傳教士.jpg",
+      "background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：後座俯角-傳教士。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_009.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_009.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/後座俯角-傳教士.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_010",
+      "type": "main",
+      "display_name": "計程車窗戶-1",
+      "display_name_key": "avg.hcg_010.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-1.jpg",
+      "background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：計程車窗戶-1。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_010.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_010.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-1.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_011",
+      "type": "main",
+      "display_name": "計程車窗戶-1-1",
+      "display_name_key": "avg.hcg_011.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-1-1.jpg",
+      "background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：計程車窗戶-1-1。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_011.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_011.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-1-1.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_012",
+      "type": "main",
+      "display_name": "計程車窗戶-2",
+      "display_name_key": "avg.hcg_012.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-2.jpg",
+      "background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：計程車窗戶-2。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_012.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "passenger.passenger_d.name",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_012.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-2.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_013",
+      "type": "main",
+      "display_name": "計程車窗戶-2-1",
+      "display_name_key": "avg.hcg_013.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/計程車窗戶-2-1.png",
+      "background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：計程車窗戶-2-1。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_013.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_013.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/計程車窗戶-2-1.jpg"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_014",
+      "type": "main",
+      "display_name": "副駕往後正面視角-火車便當",
+      "display_name_key": "avg.hcg_014.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/副駕往後正面視角-火車便當.png",
+      "background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：副駕往後正面視角-火車便當。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_014.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_014.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/副駕往後正面視角-火車便當.png"
+        }
+      ]
+    },
+    {
+      "dialogue_id": "hcg_015",
+      "type": "main",
+      "display_name": "副駕往後正面視角-背後騎乘位",
+      "display_name_key": "avg.hcg_015.name",
+      "thumbnail_path": "res://assets/Arts/HIcon/副駕往後正面視角-背後騎乘位.png",
+      "background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png",
+      "trigger_key": "tbd",
+      "default_unlocked": false,
+      "lines": [
+        {
+          "speaker": "夜班司機",
+          "speaker_key": "avg.speaker.driver",
+          "text": "暫代對話：副駕往後正面視角-背後騎乘位。這段之後會接正式劇情文本。",
+          "text_key": "avg.hcg_015.line_001",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png"
+        },
+        {
+          "speaker": "乘客",
+          "speaker_key": "",
+          "text": "暫代回應：依照這張 CG 的檔名與圖鑑縮圖先建立對應。",
+          "text_key": "avg.hcg_015.line_002",
+          "visual_mode": "bg",
+          "background_path": "res://assets/Arts/HCG/副駕往後正面視角-背後騎乘位.png"
+        }
+      ]
+    }
+  ]
 }

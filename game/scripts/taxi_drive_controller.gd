@@ -17,6 +17,14 @@ const LAYERS := [
 	{"name": "CharmDown", "path": "前景_御守_down.png", "z": 32, "amp": Vector2(13.0, 9.0), "phase": 2.1},
 	{"name": "CarFrame", "path": "車框.png", "z": 40, "amp": Vector2(6.0, 4.5), "phase": 0.2}
 ]
+const PASSENGER_PORTRAIT_PATHS := {
+	"passenger_a": "中後景_乘客A.png",
+	"passenger_b": "中後景_乘客B.png",
+	"passenger_c": "中後景_乘客C.png",
+	"passenger_d": "中後景_乘客D.png"
+}
+const PASSENGER_PORTRAIT_OFFSET := Vector2(0.0, 400.0)
+const PASSENGER_PORTRAIT_SCALE := 1.2
 
 var root_2d: Node2D
 var selected_context := {}
@@ -26,6 +34,8 @@ var sky_rect: ColorRect
 var street_viewport: SubViewport
 var street_world_controller: Node
 var street_sprite: Sprite2D
+var passenger_sprite: Sprite2D
+var selected_passenger_id := ""
 var elapsed := 0.0
 var viewport_size := TARGET_VIEWPORT_SIZE
 var fit_scale := 1.0
@@ -54,6 +64,11 @@ func set_content_state(_content_defs: Array, _content_unlocks: Array) -> void:
 
 func set_selected_background(background_id: String) -> void:
 	selected_background_id = background_id
+
+
+func set_passenger(passenger_id: String) -> void:
+	selected_passenger_id = passenger_id
+	_refresh_passenger_sprite()
 
 
 func load_selected_background() -> void:
@@ -99,8 +114,10 @@ func fit_to_viewport() -> void:
 		var sprite: Sprite2D = entry.get("node")
 		if sprite == null:
 			continue
-		sprite.scale = Vector2.ONE * fit_scale
-		sprite.position = fit_origin
+		var offset: Vector2 = entry.get("offset", Vector2.ZERO) * fit_scale
+		var scale_multiplier := float(entry.get("scale_multiplier", 1.0))
+		sprite.scale = Vector2.ONE * fit_scale * scale_multiplier
+		sprite.position = fit_origin + offset
 
 
 func _process(delta: float) -> void:
@@ -115,17 +132,22 @@ func _process(delta: float) -> void:
 		if sprite == null:
 			continue
 		var breath: float = _get_breath_amount() if bool(entry.get("breathing", false)) else 0.0
+		var scale_multiplier := float(entry.get("scale_multiplier", 1.0))
+		var breath_x_factor := float(entry.get("breath_x_factor", 0.32))
+		var breath_y_factor := float(entry.get("breath_y_factor", 1.0))
 		sprite.scale = Vector2(
-			fit_scale * (1.0 + breath * 0.32),
-			fit_scale * (1.0 + breath)
+			fit_scale * scale_multiplier * (1.0 + breath * breath_x_factor),
+			fit_scale * scale_multiplier * (1.0 + breath * breath_y_factor)
 		)
 		if bool(entry.get("fixed", false)):
-			sprite.position = fit_origin
+			var fixed_offset: Vector2 = entry.get("offset", Vector2.ZERO) * fit_scale
+			sprite.position = fit_origin + fixed_offset
 			sprite.rotation = 0.0
 			continue
 		var amp: Vector2 = entry.get("amp", Vector2.ZERO) * fit_scale
+		var offset: Vector2 = entry.get("offset", Vector2.ZERO) * fit_scale
 		var phase := float(entry.get("phase", 0.0))
-		sprite.position = fit_origin + Vector2(
+		sprite.position = fit_origin + offset + Vector2(
 			amp.x * 0.105 * sin(elapsed * 1.8 + phase) + road_hum.x,
 			amp.y * 0.08 * sin(elapsed * 2.1 + phase) + road_hum.y + bump
 		)
@@ -176,6 +198,7 @@ func _build_scene() -> void:
 	street_sprite = null
 	_build_sky()
 	_build_exterior()
+	_build_passenger_layer()
 	for definition in LAYERS:
 		var path := str(definition.get("path", ""))
 		if path == "":
@@ -192,10 +215,48 @@ func _build_scene() -> void:
 			"node": sprite,
 			"name": sprite.name,
 			"amp": definition.get("amp", Vector2.ZERO),
+			"offset": definition.get("offset", Vector2.ZERO),
+			"scale_multiplier": definition.get("scale_multiplier", 1.0),
 			"phase": definition.get("phase", 0.0),
 			"fixed": sprite.name == "FrontSeat",
-			"breathing": sprite.name == "Fox" or sprite.name == "FoxAlt"
+			"breathing": sprite.name == "Fox" or sprite.name == "FoxAlt",
+			"breath_x_factor": 0.32,
+			"breath_y_factor": 1.0
 		})
+	_refresh_passenger_sprite()
+
+
+func _build_passenger_layer() -> void:
+	passenger_sprite = Sprite2D.new()
+	passenger_sprite.name = "PassengerPortrait"
+	passenger_sprite.centered = true
+	passenger_sprite.z_index = 5
+	passenger_sprite.visible = false
+	root_2d.add_child(passenger_sprite)
+	layer_nodes.append({
+		"node": passenger_sprite,
+		"name": passenger_sprite.name,
+		"amp": Vector2(6.0, 5.0),
+		"offset": PASSENGER_PORTRAIT_OFFSET,
+		"scale_multiplier": PASSENGER_PORTRAIT_SCALE,
+		"phase": 0.35,
+		"fixed": false,
+		"breathing": true,
+		"breath_x_factor": 0.10,
+		"breath_y_factor": 0.34
+	})
+
+
+func _refresh_passenger_sprite() -> void:
+	if passenger_sprite == null:
+		return
+	var path := str(PASSENGER_PORTRAIT_PATHS.get(selected_passenger_id, ""))
+	if path == "":
+		passenger_sprite.texture = null
+		passenger_sprite.visible = false
+		return
+	passenger_sprite.texture = _load_texture("%s/%s" % [ASSET_ROOT, path])
+	passenger_sprite.visible = passenger_sprite.texture != null
 
 
 func _build_sky() -> void:
