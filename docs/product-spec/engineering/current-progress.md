@@ -1,6 +1,6 @@
 # Current Development Progress
 
-Last updated: 2026-05-13
+Last updated: 2026-05-15
 
 This document records the current implementation state so work can continue
 from another machine without relying on chat history.
@@ -22,32 +22,32 @@ Project root paths differ between development machines. The current checkout
 used for this sync is:
 
 ```text
-E:\PomodoroDriver
+E:\Pomodoro-copy
 ```
 
 Use the same relative paths under the repository root when moving between
 machines. The helper scripts now resolve paths relative to the repository root.
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe
 ```
 
 Open project:
 
 ```powershell
-E:\PomodoroDriver\scripts\open-godot-spine.ps1
+E:\Pomodoro-copy\scripts\open-godot-spine.ps1
 ```
 
 Headless validation:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
 ```
 
 Windows build:
 
 ```powershell
-E:\PomodoroDriver\build-windows.cmd
+E:\Pomodoro-copy\build-windows.cmd
 ```
 
 The build script regenerates runtime manifests for localization and music,
@@ -62,12 +62,40 @@ Headless validation passed locally with the Spine-enabled Godot
 `4.1.3.stable.custom_build` editor:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game res://scenes/spine_background_probe.tscn --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game res://scenes/spine_background_probe.tscn --quit
 ```
 
 Implemented:
 
+- 2026-05-15 Google Sheet text pipeline and H/AVG event update:
+  - Google Sheet source tabs now include `passenger_defs`,
+    `passenger_quiz_defs`, `passenger_state_lines`, `localization_texts`,
+    `h_event_defs`, and `h_event_lines`.
+  - `tools/google_apps_script_h_events.gs` creates or updates the H event tabs
+    and pre-fills the currently known H event data. It preserves existing sheet
+    values and only fills missing cells/rows.
+  - `tools/import_google_sheet_text.py` downloads those tabs and generates
+    `game/data/passenger_defs.json`, `game/data/passenger_quiz_defs.json`,
+    `game/data/avg_dialogue_defs.json`, and `game/data/localization.csv`.
+  - `localization_texts` is the formal text source. Passenger, quiz, state,
+    and H/AVG JSON fields keep Traditional Chinese fallback/source text.
+  - `h_event_defs` owns each passenger gallery sequence. Active rows with a
+    `passenger_id` are written back into that passenger's `gallery_sequence`.
+  - `h_event_lines` owns AVG line text and per-line visual controls:
+    `visual_mode`, `background_path`, `spine_scene`, `spine_skin`,
+    `spine_animation`, `transition`, `bgm`, `sfx`, and `wait_seconds`.
+  - AVG dialogue UI now supports speaker display, per-line background changes,
+    and embedded Spine display inside the AVG controller.
+  - Supported AVG `visual_mode` values are `keep`, `bg`, `spine`, `bg_spine`,
+    `clear_spine`, and `black`.
+  - H event completion now forcibly hides the AVG overlay, clears CG/BG
+    textures and pending background tweens, clears embedded Spine, restores H
+    event music state, and returns to the driving main UI.
+  - Validation passed with the bundled Spine-enabled Godot 4.1.3 executable:
+    `--check-only --script res://scripts/avg_dialogue_controller.gd`,
+    `--check-only --script res://scripts/main_game.gd`, and headless
+    `--quit-after 3`.
 - 2026-05-13 UI and dialogue handoff update:
   - `game/assets/Arts/UI/` was replaced with the current UI art set. Many old
     unused UI source files were removed from the working tree; keep the new PNG
@@ -440,6 +468,12 @@ re-exported from Spine 4.1.x with premultiplied alpha disabled.
   production video can replace `game/assets/videos/break/video.mp4` or use a
   supported `.mp4` path if the target Godot build supports it.
 - Break media path selection is not exposed in Options yet.
+- Taxi exterior rendering is implemented as a code-defined generated city
+  prototype. Map data, art selection, route tuning, and sky-cycle timing are
+  not yet content-table driven.
+- `game/assets/Japanese_Street/` is a large untracked source-asset folder. The
+  runtime should continue to rely on the tracked generated subset unless a
+  source-asset archival decision is made.
 - Windows export is available through `build-windows.cmd` and
   `scripts/build-windows.ps1`. Build outputs and generated export/manifest
   files are intentionally ignored and regenerated locally.
@@ -510,6 +544,102 @@ Deferred from the 2026-04-29 planning pass:
 - Music metadata table remains future work.
 
 ## Latest Validation
+
+2026-05-13 current sync:
+
+- Current checkout sync on `E:\Pomodoro-copy`:
+  - Active Godot project remains `game/`.
+  - Main scene remains `res://scenes/main.tscn`.
+  - The current implementation uses the taxi main-screen flow as the active
+    visual background path.
+  - `game/scripts/taxi_drive_controller.gd` builds the 2D taxi interior layers
+    and embeds the live 3D exterior via a `SubViewport` named
+    `TaxiStreetViewport`.
+  - `game/scripts/taxi_street_world_controller.gd` owns the generated 3D city
+    scene, road graph, camera movement, sky cycle, street lighting, buildings,
+    props, and map switching hook.
+  - `game/scripts/glb_static_loader.gd` loads the generated GLB street models
+    and applies material/texture remaps. It prefers generated PNG textures
+    under `game/assets/Generated/JapaneseStreet3D/Textures/` and can fall back
+    to source Unity textures under `game/assets/Japanese_Street/Textures/`
+    when that untracked source folder is present locally.
+- Taxi exterior runtime state:
+  - Runtime GLB and generated texture assets under
+    `game/assets/Generated/JapaneseStreet3D/` are tracked project assets.
+  - Runtime sky panorama textures are
+    `game/assets/Taxi/Exterior/sky_panorama.png`,
+    `game/assets/Taxi/Exterior/sky_afternoon.png`, and
+    `game/assets/Taxi/Exterior/sky_night.png`.
+  - Local untracked `game/assets/Taxi/Exterior/sky.png`,
+    `game/assets/Taxi/Exterior/mountain.png`, and
+    `game/assets/Taxi/Exterior/cloud.png` are not referenced by the current 3D
+    street controller.
+  - The raw Unity source folder `game/assets/Japanese_Street/` remains
+    untracked source material. Do not include it in normal commits unless the
+    commit is explicitly for source-asset archival or fallback texture support.
+  - Default active map id is still `downtown_grid`; `countdown_grid` remains as
+    the second code-defined map.
+  - Current drive speed remains `DRIVE_SPEED = 2.6`.
+  - Sky transition cadence is code-defined as `SKY_TRANSITION_INTERVAL = 180.0`
+    seconds and `SKY_TRANSITION_DURATION = 18.0` seconds.
+- Current working tree state before this documentation sync:
+  - Untracked: `game/assets/Japanese_Street/`.
+  - Untracked: `game/assets/Taxi/Exterior/cloud.png`,
+    `game/assets/Taxi/Exterior/cloud.png.import`,
+    `game/assets/Taxi/Exterior/mountain.png`,
+    `game/assets/Taxi/Exterior/mountain.png.import`,
+    `game/assets/Taxi/Exterior/sky.png`, and
+    `game/assets/Taxi/Exterior/sky.png.import`.
+  - These untracked files were not modified by this documentation sync.
+- Validation passed during this documentation sync:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+git diff --check
+```
+
+2026-05-13 passenger gameplay flow update:
+
+- The loop now starts by selecting a passenger and playing a boarding greeting.
+  First boarding uses a first-time line; later rides choose from repeat lines.
+  After the greeting, the player still manually chooses focus time and presses
+  Start.
+- Passenger selection is random but avoids repeating the immediately previous
+  passenger when alternatives exist.
+- Short rides below `PASSENGER_MIN_REWARDABLE_SESSION_SEC = 300` show a Start
+  warning. Continuing is allowed, but completion gives no Focus Points and
+  skips parking/rest quiz.
+- Focus Points are now the only visible progression currency. XP, Gold Token,
+  and Bond UI are hidden for this prototype.
+- Focus Points use `floor(actual_focus_minutes / 5 * 20)`. Completed-passenger
+  continuation applies a `x2` multiplier.
+- If a passenger has no locked gallery events left, a dialog lets the player
+  change passenger or continue for a focus-only double-FP ride.
+- Rewardable completed rides now enter black parking dialogue, then return to
+  the taxi screen with timer/task UI hidden for a 10-round quiz.
+- Passenger quiz data and code:
+  - `game/scripts/passenger_flow_service.gd`
+  - `game/scripts/passenger_quiz_controller.gd`
+  - `game/data/passenger_defs.json`
+  - `game/data/passenger_quiz_defs.json`
+  - 4 passengers with gallery sequence counts `3`, `2`, `3`, and `4`.
+  - 120 placeholder questions: 30 per passenger, 10 per emotion band.
+  - Emotion bands: `0-29`, `30-69`, `70-99`.
+- Quiz outcomes:
+  - `alert >= 100`: failed ending line, no gallery progress.
+  - `emotion >= 100`: immediately plays the passenger's next H/AVG event.
+  - 10 rounds without either threshold: normal ending line, no gallery progress.
+- AVG Gallery direct unlock now exposes only each passenger's next locked event
+  as `Unlock N FP`, with costs `100`, `150`, `200`, and `250` by sequence
+  index. Playback happens before gallery progress advances.
+- Existing `game/data/avg_dialogue_defs.json` entries now rely on passenger
+  progress or interaction history instead of QA `default_unlocked` flags.
+- Validation run for this update:
+
+```powershell
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit-after 2
+```
 
 2026-05-08:
 

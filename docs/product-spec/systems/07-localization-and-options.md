@@ -221,6 +221,94 @@ Current runtime counts:
 - Idle ambient: 7 active lines.
 - Focus ambient: 6 active lines.
 
+## Google Sheet Text Pipeline
+
+Runtime text is managed from Google Sheets and downloaded locally with
+`tools/download-text-data.cmd`.
+
+Managed source tabs:
+
+- `passenger_defs`: passenger names, labels, personality notes, and current
+  passenger metadata.
+- `passenger_quiz_defs`: passenger quiz stems, options, option responses, and
+  Emotion/Alert deltas.
+- `passenger_state_lines`: first boarding, repeat boarding, success, failed,
+  and normal-end passenger lines.
+- `h_event_defs`: H/AVG event metadata and passenger gallery sequence.
+- `h_event_lines`: H/AVG dialogue lines and per-line visual instructions.
+- `localization_texts`: formal multilingual text source.
+
+Runtime generated files:
+
+- `game/data/passenger_defs.json`
+- `game/data/passenger_quiz_defs.json`
+- `game/data/avg_dialogue_defs.json`
+- `game/data/localization.csv`
+
+Localization lookup always prefers the key from `localization_texts`. The
+source JSON fields keep Traditional Chinese fallback text so the game can still
+display readable text if a localization key is missing.
+
+`tools/google_apps_script_h_events.gs` creates or updates `h_event_defs` and
+`h_event_lines` in the active Google Sheet, pre-fills current H event content,
+and syncs H event display names, speakers, and line keys into
+`localization_texts`.
+
+## AVG / H Event Text And Visuals
+
+`h_event_defs` controls event-level data:
+
+- `event_id`
+- `dialogue_id`
+- `passenger_id`
+- `sequence_order`
+- `type`
+- `display_name`
+- `display_name_key`
+- `thumbnail_path`
+- `background_path`
+- `trigger_key`
+- `default_unlocked`
+- `unlock_cost_fp`
+- `initial_emotion`
+- `initial_alert`
+- `is_active`
+
+Rows with `passenger_id` and `is_active=TRUE` are written back into that
+passenger's `gallery_sequence`. Rows without `passenger_id` stay available in
+`avg_dialogue_defs.json` but are not assigned to a passenger gallery.
+
+`h_event_lines` controls line-level data:
+
+- `dialogue_id`
+- `line_index`
+- `speaker`
+- `speaker_key`
+- `text`
+- `text_key`
+- `visual_mode`
+- `background_path`
+- `spine_scene`
+- `spine_skin`
+- `spine_animation`
+- `transition`
+- `bgm`
+- `sfx`
+- `wait_seconds`
+
+Supported `visual_mode` values:
+
+- `keep`: keep the current AVG visual state.
+- `bg`: switch or show a CG/background image.
+- `spine`: show or update the embedded Spine node without changing BG.
+- `bg_spine`: switch BG and show/update embedded Spine together.
+- `clear_spine`: remove the embedded Spine node.
+- `black`: show black overlay and clear active visual content.
+
+H event completion must hide the AVG overlay, clear CG/BG textures, clear
+pending background tweens, remove embedded Spine, restore H-event music state,
+and return to the driving main UI.
+
 ## Known Gaps
 
 - No hot reload for `localization.csv`; restart the game after CSV edits.
@@ -296,7 +384,7 @@ Rules:
 Validation:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --script res://scripts/break_media_probe.gd
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --script res://scripts/break_media_probe.gd
 ```
 
 ## Validation
@@ -304,6 +392,6 @@ E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless 
 Use the Spine-enabled Godot executable:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game res://scenes/spine_background_probe.tscn --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game res://scenes/spine_background_probe.tscn --quit
 ```

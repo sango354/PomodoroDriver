@@ -6,13 +6,13 @@ probe scene is kept at `res://scenes/spine_background_probe.tscn`.
 Use this editor:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --path E:\PomodoroDriver\game
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --path E:\Pomodoro-copy\game
 ```
 
 Or run:
 
 ```powershell
-E:\PomodoroDriver\scripts\open-godot-spine.ps1
+E:\Pomodoro-copy\scripts\open-godot-spine.ps1
 ```
 
 The main scene is:
@@ -51,7 +51,7 @@ disabled for production use in Godot.
 Verification performed:
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
 ```
 
 Expected output includes:
@@ -69,6 +69,8 @@ SpineSprite instantiated: true
 The MVP game scene currently covers the M1 loop from the product spec:
 
 - Start a focus session.
+- Selects a random passenger first, plays a boarding greeting, then waits for
+  the player to choose focus time and press Start.
 - Pause, resume, or end early.
 - Reset the focus timer back to the configured focus duration.
 - Bind one local task to the current session.
@@ -90,6 +92,13 @@ The MVP game scene currently covers the M1 loop from the product spec:
 - Save selected background mode to `user://save.json`.
 - Render the active taxi exterior through a live 3D `SubViewport` using runtime
   art under `res://assets/Generated/JapaneseStreet3D/`.
+- Cycle the 3D taxi sky between panorama textures under
+  `res://assets/Taxi/Exterior/`.
+- For rewardable rides, enter a passenger parking dialogue and a 10-round
+  question/answer quiz. Emotion reaching 100 starts that passenger's next H/AVG
+  event; Alert reaching 100 fails the quiz.
+- Keep Focus Points visible while XP, Gold Token, and Bond UI are hidden for
+  the passenger-flow prototype.
 
 Current UI implementation notes:
 
@@ -138,29 +147,48 @@ Current UI implementation notes:
   settings, music player, companion dialogue, break companion panel,
   localization, option panel, task panel, result panel, session reward, and
   break media controllers.
+- The active taxi exterior path is split across
+  `res://scripts/taxi_drive_controller.gd`,
+  `res://scripts/taxi_street_world_controller.gd`, and
+  `res://scripts/glb_static_loader.gd`.
+- Passenger ride and quiz data lives in `res://data/passenger_defs.json` and
+  `res://data/passenger_quiz_defs.json`. The first placeholder data set has 4
+  passengers and 120 quiz questions.
+- Passenger, quiz, state-line, localization, and H/AVG event text are imported
+  from Google Sheets with `tools/download-text-data.cmd`. The current sheet
+  contract is documented at
+  `docs/product-spec/data/text-data-schema.md`.
+- H/AVG event runtime data lives in `res://data/avg_dialogue_defs.json`.
+  `h_event_defs` controls passenger gallery sequence and `h_event_lines`
+  controls line text plus BG/embedded-Spine visual changes.
+- Passenger flow support lives in `res://scripts/passenger_flow_service.gd` and
+  `res://scripts/passenger_quiz_controller.gd`.
+- The raw `res://assets/Japanese_Street/` Unity source folder is not required
+  for the normal tracked runtime path. Keep it out of normal commits unless
+  source-asset archival is intentional.
 
 For handoff status and current implementation notes, see:
 
 ```text
-E:\PomodoroDriver\docs\product-spec\engineering\current-progress.md
+E:\Pomodoro-copy\docs\product-spec\engineering\current-progress.md
 ```
 
 Localization/options details are documented in:
 
 ```text
-E:\PomodoroDriver\docs\product-spec\systems\07-localization-and-options.md
+E:\Pomodoro-copy\docs\product-spec\systems\07-localization-and-options.md
 ```
 
 Manual QA steps are documented in:
 
 ```text
-E:\PomodoroDriver\docs\product-spec\engineering\manual-qa-checklist.md
+E:\Pomodoro-copy\docs\product-spec\engineering\manual-qa-checklist.md
 ```
 
 Build Windows export:
 
 ```powershell
-E:\PomodoroDriver\build-windows.cmd
+E:\Pomodoro-copy\build-windows.cmd
 ```
 
 The build script regenerates localization/music manifests and writes ignored
@@ -174,10 +202,17 @@ game/data/dialogue_defs.json
 game/data/background_defs.json
 game/data/room_spine_defs.json
 game/data/reward_summary_defs.json
+game/data/passenger_defs.json
+game/data/passenger_quiz_defs.json
+game/data/avg_dialogue_defs.json
 game/assets/spine/backgrounds/Room/Room.skel
 game/assets/spine/backgrounds/Room/Room.atlas
 game/assets/spine/backgrounds/Room/Room.png
 game/assets/Arts/UI/
+game/assets/Generated/JapaneseStreet3D/
+game/assets/Taxi/Exterior/sky_panorama.png
+game/assets/Taxi/Exterior/sky_afternoon.png
+game/assets/Taxi/Exterior/sky_night.png
 game/data/dialogue_defs.json
 game/scripts/localization_service.gd
 game/scripts/option_panel_controller.gd
@@ -189,6 +224,11 @@ game/scripts/break_media_probe.gd
 game/scripts/content_unlock_service.gd
 game/scripts/store_panel_controller.gd
 game/scripts/room_spine_probe.gd
+game/scripts/taxi_drive_controller.gd
+game/scripts/taxi_street_world_controller.gd
+game/scripts/glb_static_loader.gd
+game/scripts/passenger_flow_service.gd
+game/scripts/passenger_quiz_controller.gd
 build-windows.cmd
 scripts/build-windows.ps1
 ```

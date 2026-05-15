@@ -56,6 +56,22 @@
 
 ### 5.1 目前 Godot 原型狀態
 
+- 2026-05-13 起，主循環改為 passenger ride flow：
+  - 先抽選乘客並播放上車問候；
+  - 玩家自行選擇專注時間並按 Start；
+  - 達最低門檻後進停車黑畫面對話；
+  - 回到計程車主畫面進 10 回合問答小遊戲；
+  - 問答以 Emotion / Alert 判定普通結束、失敗或 H/AVG 事件。
+- 乘客資料來源為 `game/data/passenger_defs.json`。
+- 問答題庫資料來源為 `game/data/passenger_quiz_defs.json`。
+- 第一版乘客數為 4 位，圖鑑/H 事件序列數分別為 3、2、3、4。
+- 第一版題庫量為 120 題 placeholder：每位 30 題，每個 Emotion 區間 10 題。
+- Emotion 區間為 `0-29`、`30-69`、`70-99`。
+- `emotion >= 100` 會立即中斷問答並播放該乘客目前下一個 H/AVG event。
+- `alert >= 100` 會讓小遊戲失敗，但不施加額外懲罰。
+- 10 回合結束且未達任何閾值時，播放普通結束台詞且不推進圖鑑。
+- 既有 Break companion panel 和 Break media 原型仍保留，但新乘客流程的
+  rewardable ride 不再自動進入舊 Break countdown。
 - Break countdown 開始時會顯示一個 companion break panel。
 - Panel 目前顯示純文字休息互動台詞。
 - 台詞資料來源為 `game/data/dialogue_defs.json` 的 `break_interaction` 陣列。
@@ -166,3 +182,30 @@ Remote handoff note:
   and placement. Confirm the prompt does not cover Tasks, the timer rail, the
   music bar, Break dialogue, or Break video UI before tuning cadence or adding
   more content.
+
+## Current Passenger Text And H/AVG Rules
+
+Passenger ride text is maintained through Google Sheets and imported locally.
+
+- `passenger_defs` defines passenger identity and generated `gallery_sequence`.
+- `passenger_quiz_defs` defines quiz stems, options, passenger responses, and
+  Emotion/Alert deltas.
+- `passenger_state_lines` defines boarding, repeat boarding, success, failed,
+  and normal-end passenger lines.
+- `h_event_defs` defines H/AVG event metadata and which passenger/gallery slot
+  each active event belongs to.
+- `h_event_lines` defines H/AVG line text plus per-line visual instructions.
+- `localization_texts` is the formal multilingual text source; generated JSON
+  keeps Traditional Chinese fallback/source text.
+
+H/AVG playback uses the AVG dialogue UI. A line can show speaker name, text, a
+full-screen BG/CG image, and optionally an embedded Spine node controlled by
+`spine_scene`, `spine_skin`, and `spine_animation`.
+
+Supported line visual modes: `keep`, `bg`, `spine`, `bg_spine`,
+`clear_spine`, and `black`.
+
+When the H/AVG queue ends, the game must hide the AVG overlay, clear active
+BG/CG texture, stop pending BG transition tweens, clear embedded Spine, restore
+music state, and return to the driving main UI before continuing passenger
+flow.

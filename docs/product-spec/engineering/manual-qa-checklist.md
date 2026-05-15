@@ -8,11 +8,11 @@ changes. Run the headless checks first, then verify the windowed game manually.
 ## Headless Validation
 
 ```powershell
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --quit
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game res://scenes/spine_background_probe.tscn --quit
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --script res://scripts/break_media_probe.gd
-E:\PomodoroDriver\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\PomodoroDriver\game --script res://scripts/room_spine_probe.gd
-E:\PomodoroDriver\build-windows.cmd
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game res://scenes/spine_background_probe.tscn --quit
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --script res://scripts/break_media_probe.gd
+E:\Pomodoro-copy\tools\godot-spine-4.1.3\godot-4.1-4.1.3-stable.exe --headless --path E:\Pomodoro-copy\game --script res://scripts/room_spine_probe.gd
+E:\Pomodoro-copy\build-windows.cmd
 ```
 
 ## Result Panel
@@ -67,6 +67,11 @@ E:\PomodoroDriver\build-windows.cmd
   without exposing blank background or obvious model clipping.
 - Resize the window and confirm the 3D viewport still fills the taxi exterior
   area behind the interior layers.
+- Wait at least one sky-cycle interval or call the `trigger_sky_transition`
+  hook during development and confirm the sky cross-fades between the tracked
+  panorama textures without flashing blank.
+- Confirm the scene does not depend on untracked `cloud.png`, `mountain.png`,
+  or `sky.png` files in `game/assets/Taxi/Exterior/`.
 
 ## Debug UI Controls
 
@@ -102,6 +107,14 @@ E:\PomodoroDriver\build-windows.cmd
 
 ## Timer
 
+- On fresh launch, confirm a passenger boarding greeting appears before the
+  player starts focus.
+- After dismissing the boarding greeting, confirm focus does not auto-start;
+  the player must choose time and press Start.
+- Set focus below 5 minutes, press Start, and confirm the warning dialog allows
+  Adjust or Continue.
+- Continue a below-threshold ride, let it finish, and confirm it gives no Focus
+  Points and skips parking dialogue and quiz.
 - New or cleared save starts with 5:00 focus time.
 - Timer Settings focus duration and right-side timer rail show the same value.
 - Start closes Timer Settings if it is open.
@@ -114,6 +127,28 @@ E:\PomodoroDriver\build-windows.cmd
   down.
 - Break completion returns to focus idle when Auto restart is off.
 - Break completion starts the next focus session when Auto restart is on.
+
+## Passenger Quiz Flow
+
+- Complete a ride at 5 minutes or more and confirm a black parking dialogue
+  plays before the quiz.
+- Confirm the quiz returns to the taxi main screen and hides the timer/task UI.
+- Confirm the quiz shows passenger name, round count, question text, Emotion,
+  Alert, and answer choices.
+- Answer questions and confirm values change according to the answer tooltip.
+- Confirm questions do not repeat during the same 10-round quiz.
+- Force Alert to 100 and confirm the failed ending line plays with no gallery
+  progress.
+- Force Emotion to 100 and confirm the quiz stops immediately and plays the
+  current passenger's next H/AVG event.
+- Finish 10 rounds without either threshold and confirm the normal ending line
+  plays with no gallery progress.
+- After an H/AVG event finishes, confirm the passenger's next gallery index has
+  advanced and the next passenger is selected.
+- Complete all events for a passenger, then confirm drawing that passenger
+  opens the Continue / Change Passenger dialog.
+- Choose Continue for a completed passenger and confirm the ride is focus-only
+  and pays double Focus Points.
 
 ## Timer Settings
 
@@ -200,14 +235,16 @@ E:\PomodoroDriver\build-windows.cmd
 
 ## AVG Gallery / H Event
 
-- Startup welcome dialogue appears every game launch.
-- Startup welcome dialogue randomly chooses one text-only line and leaves the
-  main screen visible.
+- Passenger boarding dialogue appears when a new passenger is selected.
 - Memory/Gallery image button opens the gallery and shows 15 dialogue entries from
   `game/assets/Arts/HIcon/`.
-- First 8 entries are unlocked by default for QA; locked entries are grayscale
-  and disabled.
-- Clicking a Gold Token when count is greater than zero starts the H event.
+- Locked entries are grayscale.
+- Each passenger's current next locked entry shows an `Unlock N FP` button when
+  Focus Points are sufficient.
+- Direct unlock spends Focus Points, plays the selected H/AVG event, then
+  unlocks it after playback completes.
+- Gold Token entry is hidden in the current passenger-flow prototype; H events
+  should be reached through quiz success or Focus Point direct unlock.
 - H event first shows the text-only preview line:
   `嘻嘻，似乎有好事要發生囉！`
 - Preview dialogue leaves the main screen visible.
@@ -220,6 +257,21 @@ E:\PomodoroDriver\build-windows.cmd
   black fade.
 - The selected dialogues become unlocked in the gallery after the H event
   starts.
+- When the final H/AVG line is advanced, the AVG text box and CG/BG disappear,
+  embedded Spine is cleared, and the taxi driving main screen is visible again.
 - If music is playing when the H event begins, it pauses during the event and
   resumes only after returning to the main screen.
 - If music was already paused before the H event, it remains paused afterward.
+
+## Text Import Pipeline
+
+- In Google Sheets, run `setupHEventTextTables()` from
+  `tools/google_apps_script_h_events.gs` and confirm the following tabs exist:
+  `h_event_defs`, `h_event_lines`, and `localization_texts`.
+- Confirm `h_event_defs` keeps existing H event rows and active passenger rows
+  include `passenger_id`, `sequence_order`, and `is_active=TRUE`.
+- Confirm `h_event_lines` includes `speaker_key`, `text_key`, `visual_mode`,
+  and BG/Spine columns.
+- Run `tools\download-text-data.cmd --dry-run` after the H event tabs exist.
+- Confirm the dry run reports generated passengers, quiz questions, H event
+  dialogues, H event lines, and localization keys.
